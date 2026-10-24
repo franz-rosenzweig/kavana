@@ -1,0 +1,72 @@
+/* The extension's pages, in Kavana's colors (web/style.css). */
+:root {
+  --tint: #2c8a7e; --tint-ink: #fff; --tint-soft: rgba(44, 138, 126, .14);
+  --bg: #f2f2f7; --cell: #fff; --label: #000; --label2: rgba(60, 60, 67, .6); --sep: rgba(60, 60, 67, .2);
+  --fill: rgba(120, 120, 128, .12); --red: #ff3b30;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tint: #5fd0c0; --tint-ink: #04201c; --tint-soft: rgba(95, 208, 192, .18);
+    --bg: #000; --cell: #1c1c1e; --label: #fff; --label2: rgba(235, 235, 245, .6); --sep: rgba(84, 84, 88, .65);
+    --fill: rgba(120, 120, 128, .24); --red: #ff453a;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--label); font: 15px/1.4 var(--font); -webkit-font-smoothing: antialiased; }
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: var(--tint); }
+.muted { color: var(--label2); }
+
+.btn { display: inline-block; border: 0; border-radius: 999px; padding: 11px 22px; background: var(--tint); color: var(--tint-ink); font-weight: 600; text-decoration: none; }
+.btn.plain { background: var(--fill); color: var(--tint); }
+.btn:disabled { opacity: .4; cursor: default; }
+.links { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* The cat page */
+.boo { min-height: 100vh; display: grid; place-items: center; padding: 32px 20px; text-align: center; }
+.boo .card { max-width: 460px; }
+.boo img { width: 220px; height: 220px; object-fit: contain; animation: peek .6s cubic-bezier(.2, .9, .3, 1.2) both; }
+.boo h1 { font: 700 30px/1.15 var(--round); margin: 8px 0 10px; letter-spacing: -.02em; }
+.boo p { margin: 0 0 6px; }
+.boo .on { margin: 16px auto 22px; padding: 12px 16px; border-radius: 14px; background: var(--cell); max-width: 360px; }
+.boo .on b { display: block; font-size: 17px; }
+.boo .links { justify-content: center; }
+@keyframes peek { from { transform: translateY(40px) scale(.9); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .boo img { animation: none; } }
+
+/* The list and the toolbar popup */
+.page { max-width: 560px; margin: 0 auto; padding: 28px 20px 40px; }
+.head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.head img { width: 40px; height: 40px; border-radius: 10px; }
+.head h1 { font: 700 26px/1.1 var(--round); margin: 0; letter-spacing: -.02em; }
+.status { margin: 14px 0 18px; padding: 12px 14px; border-radius: 12px; background: var(--tint-soft); }
+.ghead { margin: 22px 16px 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .02em; color: var(--label2); }
+.gfoot { margin: 6px 16px 0; font-size: 13px; color: var(--label2); }
+.group { background: var(--cell); border-radius: 12px; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 8px 6px 16px; }
+.row + .row, #sites + .row { border-top: .5px solid var(--sep); }
+.row .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.row button.x { border: 0; background: none; color: var(--red); padding: 6px 10px; border-radius: 8px; }
+.row button.x:disabled { color: var(--label2); opacity: .5; cursor: default; }
+.row input { flex: 1; border: 0; background: none; outline: none; min-width: 0; padding: 6px 0; }
+.row .add { border: 0; background: none; color: var(--tint); font-weight: 600; padding: 6px 10px; }
+.empty { padding: 14px 16px; color: var(--label2); }
+.warn { margin: 14px 0; padding: 12px 14px; border-radius: 12px; background: rgba(255, 59, 48, .12); }
+.err { color: var(--red); min-height: 1.4em; margin: 6px 16px 0; font-size: 13px; }
+.reset { border: 0; background: none; color: var(--tint); padding: 0; margin: 14px 16px 0; font-size: 14px; }
+.foot { margin-top: 26px; }
+
+.popup { width: 320px; padding: 16px; }
+.popup .head img { width: 32px; height: 32px; border-radius: 8px; }
+.popup .head h1 { font-size: 20px; }
+.popup .now { display: flex; align-items: center; gap: 12px; margin: 14px 0; }
+.popup .now img { width: 72px; height: 72px; object-fit: contain; flex: none; }
+.popup .now b { display: block; font-size: 16px; }
+.popup .links { margin-top: 4px; }
+.popup .btn { padding: 9px 16px; font-size: 14px; }

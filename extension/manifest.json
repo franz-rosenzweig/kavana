@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Kavana",
+  "version": "0.1.1",
+  "description": "While a Kavana focus block runs, the sites on your list show a cat instead.",
+  "homepage_url": "https://github.com/franz-rosenzweig/kavana/blob/master/docs/extension.md",
+  "icons": { "16": "icons/icon-16.png", "32": "icons/icon-32.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
+  "action": {
+    "default_title": "Kavana",
+    "default_popup": "popup.html",
+    "default_icon": { "16": "icons/icon-16.png", "32": "icons/icon-32.png" }
+  },
+  "options_ui": { "page": "options.html", "open_in_tab": true },
+  "background": { "service_worker": "background.js", "scripts": ["common.js", "background.js"] },
+  "permissions": ["declarativeNetRequest", "storage", "alarms", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [{
+    "matches": ["https://stuffs.tiresia.xyz/kavana/*", "http://localhost/*", "http://127.0.0.1/*"],
+    "js": ["kavana.js"],
+    "run_at": "document_start"
+  }],
+  "web_accessible_resources": [{ "resources": ["blocked.html"], "matches": ["<all_urls>"] }],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "kavana@tiresia.xyz",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  }
+}

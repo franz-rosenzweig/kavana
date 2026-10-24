@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sites to block · Kavana</title>
+<link rel="icon" href="icons/icon-32.png">
+<link rel="stylesheet" href="style.css">
+<script src="common.js" defer></script>
+<script src="options.js" defer></script>
+</head>
+<body>
+<main class="page">
+  <div class="head"><img src="icons/icon-128.png" alt=""><h1>Sites to block</h1></div>
+  <p id="welcome" hidden>The Kavana extension is on. While a focus block runs in Kavana, the sites below show a cat instead. Edit the list any time.</p>
+  <p class="status" id="status"></p>
+  <div class="warn" id="access" hidden>The extension can't reach the sites on your list right now. <button class="btn plain" id="allow">Allow</button></div>
+
+  <p class="ghead">Blocked during a block</p>
+  <div class="group">
+    <div id="sites"></div>
+    <form class="row" id="add">
+      <input id="site" placeholder="Add a site, like news.ycombinator.com" autocomplete="off" spellcheck="false" aria-label="Site to block">
+      <button class="add" type="submit">Add</button>
+    </form>
+  </div>
+  <p class="err" id="err"></p>
+  <p class="gfoot" id="foot">A site covers its subdomains too, so reddit.com also blocks old.reddit.com.</p>
+  <button class="reset" id="reset">Back to the default list</button>
+
+  <div class="links foot"><a class="btn" id="open" href="https://stuffs.tiresia.xyz/kavana/" target="_blank" rel="noopener">Open Kavana</a></div>
+</main>
+</body>
+</html>

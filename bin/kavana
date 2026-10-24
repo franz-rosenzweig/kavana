@@ -1,0 +1,72 @@
+#!/usr/bin/env node
+'use strict';
+// Kavana's admin CLI. It talks to the running server's /admin API on localhost with the token
+// in the state directory, so the server stays the only thing that writes the state.
+const fs = require('node:fs');
+const path = require('node:path');
+
+const STATE = process.env.KAVANA_STATE || '/srv/docker/kavana';
+const BASE = process.env.KAVANA_ADMIN_URL || `http://127.0.0.1:${process.env.KAVANA_PORT || 8460}`;
+const URL_ = process.env.KAVANA_URL || 'https://stuffs.tiresia.xyz/kavana/';
+const [cmd, a, b] = process.argv.slice(2);
+const die = (m) => { console.error(m); process.exit(1); };
+
+let token;
+try { token = fs.readFileSync(path.join(STATE, 'admin-token'), 'utf8').trim(); } catch { die(`No admin token in ${STATE}. Is the server running there?`); }
+
+async function call(method, route, body) {
+  let res;
+  try {
+    res = await fetch(BASE + route, {
+      method, headers: { 'Content-Type': 'application/json', 'X-Admin-Token': token },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+  } catch { die(`Can't reach the server at ${BASE}. Is it running? (systemctl --user status kavana)`); }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) die({ name: 'Names are 2-24 letters, digits, dots, dashes or underscores.', taken: `${body && body.name} already exists. Use reset-password.`, 'no user': `No user called ${body && body.name}.`, users: 'Both users must exist and be different.' }[data.error] || `Failed: ${data.error || res.status}`);
+  return data;
+}
+
+const printLogin = (r) => console.log(`\n  Link:      ${URL_}\n  Name:      ${r.name}\n  Password:  ${r.password}\n`);
+
+(async () => {
+  switch (cmd) {
+    case 'add-user': printLogin(await call('POST', '/admin/add-user', { name: a })); break;
+    case 'reset-password':
+      printLogin(await call('POST', '/admin/reset-password', { name: a }));
+      console.log('  Their other signed-in devices are signed out.');
+      break;
+    case 'remove-user':
+      await call('POST', '/admin/remove-user', { name: a });
+      console.log(`Removed ${a} and everything of theirs on the server. What's in their browsers stays there.`);
+      break;
+    case 'admin':
+      console.log((await call('POST', '/admin/admin', { name: a, on: b !== 'off' })).admin ? `${a} can open the usage dashboard.` : `${a} is no longer an admin.`);
+      break;
+    case 'friends':
+    case 'unfriend':
+      await call('POST', '/admin/friends', { name: a, other: b, off: cmd === 'unfriend' });
+      console.log(cmd === 'friends' ? `${a} and ${b} are friends now. Each still has to turn on sharing in Settings.` : `${a} and ${b} are no longer friends.`);
+      break;
+    case 'users':
+      for (const u of await call('GET', '/admin/users')) {
+        console.log(`${u.name.padEnd(16)} since ${new Date(u.created).toISOString().slice(0, 10)}  devices ${u.devices}  blocks ${u.blocks}`
+          + `${u.admin ? '  admin' : ''}${u.friends.length ? `  friends: ${u.friends.join(', ')}` : ''}`);
+      }
+      break;
+    case 'test-push': {
+      const r = await call('POST', '/admin/test-push', { name: a });
+      console.log(r.sent || r.failed ? `sent ${r.sent}, failed ${r.failed}` : `${a} hasn't turned on reminders on any signed-in device.`);
+      break;
+    }
+    default:
+      console.log('kavana add-user <name>         make an account, prints the password\n'
+        + 'kavana reset-password <name>   new password, signs out their devices\n'
+        + 'kavana remove-user <name>      delete them and everything of theirs on the server\n'
+        + 'kavana users                   list accounts\n'
+        + 'kavana admin <name> [off]      let them open the usage dashboard\n'
+        + 'kavana friends <a> <b>         make two accounts friends (people can also swap friend codes)\n'
+        + 'kavana unfriend <a> <b>\n'
+        + 'kavana test-push <name>        send a test reminder to their signed-in devices');
+  }
+})();
