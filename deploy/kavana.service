@@ -1,0 +1,15 @@
+[Unit]
+Description=Kavana: focus check-ins with web push (localhost:8460, public at stuffs.tiresia.xyz/kavana/)
+After=network-online.target
+
+[Service]
+WorkingDirectory=/srv/dev/kavana
+ExecStart=%h/.local/node/bin/node server.js
+Environment=KAVANA_STATE=/srv/docker/kavana
+Environment=KAVANA_URL=https://stuffs.tiresia.xyz/kavana/
+Environment=KAVANA_PATH=/kavana/
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,17 @@
+# Only the briefs, the round sheets, the chosen drawing, its generator and the export are kept in
+# git; the drafts, renders and exported sets stay local.
+*
+!*/
+!.gitignore
+!README.md
+!export.py
+!r1/BRIEF.md
+!r1/round1.png
+!r1/round1-big.png
+!r2/BRIEF.md
+!r2/round2.png
+!r2/round2-big.png
+!r2/C/gen.py
+!r2/C/notes.md
+!final/icon.svg
+!final/icon-small.svg

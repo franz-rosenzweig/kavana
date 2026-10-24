@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Kavana</title>
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kavana">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/kavana-favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/kavana-favicon-32.png">
+<link rel="apple-touch-icon" href="icons/kavana-apple-touch.png">
+<link rel="stylesheet" href="style.css">
+<script src="lines.js" defer></script>
+<script src="engine.js" defer></script>
+<script src="cats.js" defer></script>
+<script src="sounds.js" defer></script>
+<script src="warp.js" defer></script>
+<script src="cafe3d.js" defer></script>
+<script src="news.js" defer></script>
+<script src="data.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<!-- Icons, drawn in the spirit of SF Symbols. -->
+<svg width="0" height="0" class="sprite" aria-hidden="true">
+  <symbol id="i-focus" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V9.5M10 3h4M18.5 6.5l1.2-1.2"/></g></symbol>
+  <symbol id="i-later" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M9.5 6.5H20M9.5 12H20M9.5 17.5H20"/></g><g fill="currentColor"><circle cx="5" cy="6.5" r="1.6"/><circle cx="5" cy="12" r="1.6"/><circle cx="5" cy="17.5" r="1.6"/></g></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M3.5 3.8v3.7h3.7"/><path d="M12 8v4.4l3 1.8"/></g></symbol>
+  <symbol id="i-cat" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M4.6 10.2 4 3.8l4.5 3a9.2 9.2 0 0 1 7 0l4.5-3-.6 6.4c.4.9.6 1.9.6 2.9 0 4.4-3.6 7.4-8 7.4s-8-3-8-7.4c0-1 .2-2 .6-2.9Z"/></g><g fill="currentColor"><circle cx="9" cy="12.6" r="1.3"/><circle cx="15" cy="12.6" r="1.3"/></g></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 12h3M11 12h9M4 17h12M20 17h0"/><circle cx="16" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="18" cy="17" r="2"/></g></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.3v13.4c0 .7.8 1.2 1.4.8l10.4-6.7a1 1 0 0 0 0-1.6L9.4 4.5C8.8 4.1 8 4.6 8 5.3Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6.5" y="5" width="4" height="14" rx="1.2" fill="currentColor"/><rect x="13.5" y="5" width="4" height="14" rx="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M6 16.5v-5a6 6 0 1 1 12 0v5l1.6 2H4.4Z"/><path d="M10 21a2.2 2.2 0 0 0 4 0"/></g></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4Z"/><path d="M15.5 9a4 4 0 0 1 0 6M18.2 6.5a7.6 7.6 0 0 1 0 11"/></g></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.8v2M12 19.2v2M2.8 12h2M19.2 12h2M5.5 5.5l1.4 1.4M17.1 17.1l1.4 1.4M5.5 18.5l1.4-1.4M17.1 6.9l1.4-1.4"/></g></symbol>
+  <symbol id="i-disk" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 3.5v8.5h8.5A8.5 8.5 0 0 0 12 3.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-park" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M14 4.5H6.5A2.5 2.5 0 0 0 4 7v10.5A2.5 2.5 0 0 0 6.5 20H17a2.5 2.5 0 0 0 2.5-2.5V10"/><path d="M18.4 3.6a1.9 1.9 0 0 1 2.7 2.7L13 14.4l-3.6.9.9-3.6Z"/></g></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9.5 5.5 6.5 6.5-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 4.5-7.5 7.5 7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20.5c.6-4 4-6.5 8-6.5s7.4 2.5 8 6.5Z"/></g></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 19.5c.5-3.6 3.2-5.6 6.5-5.6s6 2 6.5 5.6Z"/><circle cx="16.5" cy="7.5" r="3" opacity=".75"/><path d="M15.7 13c3.2-.2 5.6 1.8 6 5h-4.2c-.3-1.9-1-3.6-1.8-5Z" opacity=".75"/></g></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></g></symbol>
+  <symbol id="i-wind" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M3 9h11a3 3 0 1 0-3-3M3 15h14a3 3 0 1 1-3 3M3 12h7"/></g></symbol>
+  <symbol id="i-cup" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5Z"/><path d="M16 10.5h1.6a2.4 2.4 0 0 1 0 4.8H16M8.5 3.5v2.5M12 3.5v2.5"/></g></symbol>
+  <symbol id="i-paw" viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="6" cy="10" rx="2.2" ry="2.8"/><ellipse cx="10" cy="6" rx="2.2" ry="2.8"/><ellipse cx="14.5" cy="6" rx="2.2" ry="2.8"/><ellipse cx="18.5" cy="10" rx="2.2" ry="2.8"/><path d="M12.2 11.5c-3 0-6 3.6-6 6 0 1.7 1.4 2.5 2.8 2.5 1.2 0 2-.6 3.2-.6s2 .6 3.2.6c1.4 0 2.8-.8 2.8-2.5 0-2.4-3-6-6-6Z"/></g></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M6 11H5v10h14V11h-1"/></g></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/></g><circle cx="12" cy="12" r="1.5" fill="currentColor"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><g fill="currentColor"><rect x="4" y="12" width="3.5" height="8" rx="1"/><rect x="10.25" y="7" width="3.5" height="13" rx="1"/><rect x="16.5" y="4" width="3.5" height="16" rx="1"/></g></symbol>
+  <symbol id="i-chime" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></g></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></g></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2.5c.6 4.6 2.3 6.9 7 7.5-4.7.6-6.4 2.9-7 7.5-.6-4.6-2.3-6.9-7-7.5 4.7-.6 6.4-2.9 7-7.5ZM19 15.5c.3 2 1 3 3 3.2-2 .3-2.7 1.2-3 3.3-.3-2.1-1-3-3-3.3 2-.2 2.7-1.2 3-3.2Z" fill="currentColor"/></symbol>
+  <symbol id="i-house" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M9.6 20v-4.6a2.4 2.4 0 0 1 4.8 0V20"/><path d="m6.6 6.5-.3-3 2.6 1.3M17.4 6.5l.3-3-2.6 1.3"/></g></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.7 6.7a1.4 1.4 0 0 1-2 0Z"/></g><circle cx="8" cy="8" r="1.6" fill="currentColor"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7 12h10" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M7.5 4h9v5a4.5 4.5 0 0 1-9 0Z"/><path d="M7.5 6H4.5a3 3 0 0 0 3 4M16.5 6h3a3 3 0 0 1-3 4M12 13.5V17M8.5 20h7M9.5 17h5v3h-5Z"/></g></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><circle cx="12" cy="9" r="5.5"/><path d="m8.6 13.2-1.6 7.3 5-2.6 5 2.6-1.6-7.3"/></g></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.3s-7.8-4.6-7.8-10.4A4.4 4.4 0 0 1 12 7.2a4.4 4.4 0 0 1 7.8 2.7c0 5.8-7.8 10.4-7.8 10.4Z" fill="currentColor"/></symbol>
+  <symbol id="i-news" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M5 4.5h11.5v14a1.5 1.5 0 0 0 1.5 1.5H6.5A1.5 1.5 0 0 1 5 18.5Z"/><path d="M16.5 8.5H19v10a1.5 1.5 0 0 1-3 0M8 8h5.5M8 11.5h5.5M8 15h3.5"/></g></symbol>
+  <symbol id="i-stopwatch" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5 15 10.5M10 3h4M12 3v3"/></g></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M5 17.5V13c0-3.3 1.6-5.6 4.6-6.6l.7 1.4C8.6 8.6 7.8 9.9 7.7 11.5H10v6Zm8 0V13c0-3.3 1.6-5.6 4.6-6.6l.7 1.4c-1.7.8-2.5 2.1-2.6 3.7H18v6Z" fill="currentColor"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3.5a8.5 8.5 0 0 0 0 17c1.2 0 1.8-.9 1.4-1.9-.5-1.2.3-2.6 1.7-2.6h1.8a3.6 3.6 0 0 0 3.6-3.6C20.5 7.6 16.7 3.5 12 3.5Z" fill="none" stroke="currentColor" stroke-width="1.9"/><g fill="currentColor"><circle cx="7.6" cy="11.5" r="1.4"/><circle cx="10" cy="7.6" r="1.4"/><circle cx="14.6" cy="7.6" r="1.4"/></g></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" stroke-linecap="round"><path d="M5.5 8.5h13l-1 11h-11Z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></g></symbol>
+</svg>
+
+<div id="shell">
+  <button type="button" id="menu-btn" class="menubtn" aria-label="Menu" aria-controls="sidebar" aria-expanded="false" hidden><svg><use href="#i-menu"/></svg><i class="menu-dot" id="menu-dot" hidden></i></button>
+  <div id="menu-scrim" class="menu-scrim" hidden></div>
+  <nav id="sidebar" class="drawer" aria-label="Kavana">
+    <div class="sb-title"><img src="icons/kavana-192.png" alt="">Kavana</div>
+    <div class="widgets">
+      <div class="widget" id="today-widget">
+        <svg class="activity" viewBox="0 0 64 64" aria-hidden="true"><circle class="track" cx="32" cy="32" r="26"/><circle class="prog" id="goal-ring" cx="32" cy="32" r="26" pathLength="100"/></svg>
+        <div><b id="today-min">0 min</b><span id="today-sub">focused today</span></div>
+      </div>
+      <div class="widget" id="streak-widget">
+        <span class="tile t-pink"><svg><use href="#i-paw"/></svg></span>
+        <div><b id="streak-n">0 days</b><span id="streak-sub">in a row</span></div>
+      </div>
+    </div>
+    <button class="sb-item" data-tab="focus"><span class="sb-ic t-teal"><svg><use href="#i-focus"/></svg></span>Focus</button>
+    <button class="sb-item" data-tab="cafe"><span class="sb-ic t-blue"><svg><use href="#i-house"/></svg></span>Café<span class="sb-count" id="sb-cafe"></span></button>
+    <button class="sb-item" data-tab="cats"><span class="sb-ic t-pink"><svg><use href="#i-cat"/></svg></span>Cats<span class="sb-count" id="sb-cats"></span></button>
+    <button class="sb-item" data-go="missions" id="home-missions-row"><span class="sb-ic t-orange"><svg><use href="#i-target"/></svg></span>Goals<span class="sb-count" id="home-missions"></span></button>
+    <button class="sb-item" data-go="shop"><span class="sb-ic t-green"><svg><use href="#i-bag"/></svg></span>Shop</button>
+    <button class="sb-item" data-tab="later"><span class="sb-ic t-orange"><svg><use href="#i-later"/></svg></span>Later<span class="sb-count" id="sb-later"></span></button>
+    <button class="sb-item" data-go="rankings"><span class="sb-ic t-yellow"><svg><use href="#i-trophy"/></svg></span>Rankings<span class="sb-count" id="home-rank"></span></button>
+    <button class="sb-item" data-go="friends"><span class="sb-ic t-indigo"><svg><use href="#i-people"/></svg></span>Friends</button>
+    <button class="sb-item" data-go="breathe"><span class="sb-ic t-mint"><svg><use href="#i-wind"/></svg></span>A mindful minute</button>
+    <button class="sb-item" data-go="shelter"><span class="sb-ic t-red"><svg><use href="#i-heart"/></svg></span>Shelter cats</button>
+    <button class="sb-item" data-go="news"><span class="sb-ic t-purple"><svg><use href="#i-news"/></svg></span>What's new<span class="tb-badge inline" id="news-count" hidden></span></button>
+    <button class="sb-item" data-tab="settings"><span class="sb-ic t-gray"><svg><use href="#i-settings"/></svg></span>Settings</button>
+    <div class="sb-spacer"></div>
+    <div id="sb-cat" class="sb-cat"></div>
+  </nav>
+
+  <main id="app">
+
+<section id="v-loading" class="view center-screen">
+  <img class="appicon pulse" src="icons/kavana-192.png" alt="">
+</section>
+
+<section id="v-welcome" class="view onboarding" hidden>
+  <div class="ob-art" id="welcome-cat"></div>
+  <h1 class="ob-title">Welcome to Kavana</h1>
+  <ul class="features">
+    <li><span class="tile t-teal"><svg><use href="#i-focus"/></svg></span><div><b>One thing at a time</b><span>Say what you're working on and pick how long.</span></div></li>
+    <li><span class="tile t-orange"><svg><use href="#i-bell"/></svg></span><div><b>Gentle check-ins</b><span>"Still on it?" every so often, even when the app is closed.</span></div></li>
+    <li><span class="tile t-pink"><svg><use href="#i-cat"/></svg></span><div><b>A kitten grows while you focus</b><span>Stay to the end and it comes home to your Cat Café.</span></div></li>
+    <li><span class="tile t-blue"><svg><use href="#i-lock"/></svg></span><div><b>Stays on your device</b><span>No account needed. Make one later to back up and sync.</span></div></li>
+  </ul>
+  <div class="ob-actions">
+    <button class="btn filled big" id="welcome-start">Continue</button>
+    <button class="btn plain" id="welcome-signin">I have an account</button>
+  </div>
+</section>
+
+<section id="v-install" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="focus"><svg><use href="#i-back"/></svg>Focus</button></header>
+  <h1 class="largetitle">Add to Home Screen</h1>
+  <p class="lede">Reminders only work from the Home Screen app.</p>
+  <div class="group">
+    <div class="row step"><span class="num">1</span><span>Tap the Share button <svg class="inline-icon"><use href="#i-share"/></svg> in Safari. On some iPads it's inside the <b>⋯</b> menu.</span></div>
+    <div class="row step"><span class="num">2</span><span>Tap <b>Add to Home Screen</b>. You may need to scroll down to find it.</span></div>
+    <div class="row step"><span class="num">3</span><span>If you see <b>Open as Web App</b>, leave it on. Then tap <b>Add</b>.</span></div>
+    <div class="row step"><span class="num">4</span><span>Open <b>Kavana</b> from your Home Screen.</span></div>
+  </div>
+  <p class="gfoot">The Home Screen app keeps its own data, separate from Safari. If you have an account, sign in again there and everything comes along.</p>
+</section>
+
+<section id="v-remind" class="view onboarding" hidden>
+  <div class="ob-icon tile t-orange huge"><svg><use href="#i-bell"/></svg></div>
+  <h1 class="ob-title">Turn on reminders</h1>
+  <p class="ob-text">Kavana checks in while you work, even when the app is closed. It needs your OK to send notifications.</p>
+  <p class="err" hidden></p>
+  <div class="ob-actions">
+    <button id="remind-on" class="btn filled big">Turn On Reminders</button>
+    <button class="btn plain" id="remind-later">Not Now</button>
+  </div>
+</section>
+
+<!-- Focus tab: the café wall, a round window with the cat who's coming, one button. The rest is in a sheet. -->
+<section id="v-focus" class="view home" hidden>
+  <form id="start" autocomplete="off">
+    <header class="hometop">
+      <span class="menuroom"></span>
+      <button type="button" class="tagpill" id="home-tag"><i class="dot" id="home-tag-dot"></i><span id="home-tag-name">No tag</span><svg><use href="#i-chevron"/></svg></button>
+      <button type="button" class="treats" data-go="shop" id="home-treats" title="Treats to spend in the shop">🐟 0</button>
+    </header>
+    <p class="eyebrow-date" id="today-date"></p>
+    <input name="intention" class="homeintent" maxlength="140" placeholder="What are you working on?" aria-label="What are you working on?">
+    <div class="chips homechips" id="recent" hidden></div>
+    <div class="window" id="home-window" tabindex="0" role="slider" aria-label="How long" aria-valuemin="5" aria-valuemax="120" aria-valuenow="25">
+      <svg class="ring" viewBox="0 0 320 320" aria-hidden="true"><circle class="track" cx="160" cy="160" r="148"/><circle class="prog" id="home-ring" cx="160" cy="160" r="148" pathLength="1000"/><circle class="knob" id="home-knob" cx="160" cy="12" r="11"/></svg>
+      <div class="pane" id="home-pane">
+        <img class="sill" src="cafe/cushion-1.webp" alt="">
+        <div class="homecat" id="home-cat" title="Who's coming. Tap to change."></div>
+      </div>
+    </div>
+    <p class="homeline" id="home-line"></p>
+    <button type="button" class="bigclock" id="home-clock" aria-label="How long, and more">25:00</button>
+    <button class="startpill startbtn" type="submit">Start</button>
+    <div class="quiet" id="quiet">
+      <div id="join-banner" class="callout" hidden>
+        <span class="tile t-indigo"><svg><use href="#i-people"/></svg></span>
+        <span class="grow" id="join-text"></span>
+        <button type="button" class="btn plain small" id="join-cancel">Cancel</button>
+      </div>
+      <div id="break-banner" class="callout" hidden>
+        <span class="tile t-mint"><svg><use href="#i-cup"/></svg></span>
+        <span class="grow">Nice work. Take a break?</span>
+        <button type="button" class="btn tinted small" data-break="5">5 min</button>
+        <button type="button" class="btn tinted small" data-break="10">10 min</button>
+        <button type="button" class="btn plain small" id="break-no">Not Now</button>
+      </div>
+      <div id="install-banner" class="callout" hidden>
+        <span class="tile t-blue"><svg><use href="#i-share"/></svg></span>
+        <span class="grow">Add Kavana to your Home Screen to get reminders.</span>
+        <button type="button" class="btn tinted small" data-go="install">How?</button>
+        <button type="button" class="btn plain small" id="install-no">Not Now</button>
+      </div>
+      <div id="remind-banner" class="callout" hidden>
+        <span class="tile t-orange"><svg><use href="#i-bell"/></svg></span>
+        <span class="grow">Reminders are off on this device.</span>
+        <button type="button" class="btn tinted small" data-go="remind">Turn On</button>
+      </div>
+      <button type="button" id="starter-card" class="callout startercard" data-go="missions" hidden>
+        <span class="tile t-green"><svg><use href="#i-sparkle"/></svg></span>
+        <span class="grow"><b>Starter Challenge</b><span class="sub" id="starter-text"></span></span>
+        <svg class="chev"><use href="#i-chevron"/></svg>
+      </button>
+      <div id="news-banner" class="callout" hidden>
+        <span class="tile t-purple"><svg><use href="#i-news"/></svg></span>
+        <span class="grow" id="news-banner-text"></span>
+        <button type="button" class="btn tinted small" data-go="news">Read</button>
+        <button type="button" class="btn plain small" id="news-no">Not Now</button>
+      </div>
+    </div>
+    <div id="friends-home" hidden>
+      <p class="ghead">Friends</p>
+      <div class="group" id="friends-list"></div>
+    </div>
+    <p id="friends-off" class="gfoot" hidden>Turn on <b>Focus with Friends</b> in Settings to see when your friends are focusing.</p>
+
+    <!-- Tap the clock or the tag: everything else about the block -->
+    <div id="options" class="sheet" hidden>
+      <div class="sheetcard options">
+        <div class="grabber"></div>
+        <div class="sheethead"><span></span><b>This Block</b><button type="button" class="btn plain small strong" id="options-done">Done</button></div>
+        <div id="invite-wrap">
+          <div class="group">
+            <button type="button" class="row link invite" id="invite"><span class="invite-art" id="invite-art"></span>
+              <span class="grow"><b id="invite-name">Miso</b><span class="sub">grows up while you focus</span></span>
+              <span class="value">Change</span><svg class="chev"><use href="#i-chevron"/></svg></button>
+          </div>
+        </div>
+        <p class="ghead">Tag</p>
+        <div class="chips tagchips" id="tags"></div>
+        <p class="ghead">Timer</p>
+        <div class="seg" id="modes">
+          <button type="button" data-mode="timer" class="on">Timer</button>
+          <button type="button" data-mode="stopwatch">Stopwatch</button>
+        </div>
+        <div id="length-field">
+          <p class="ghead">How long</p>
+          <div class="seg" id="lengths" role="tablist">
+            <button type="button" data-min="5">5 min</button>
+            <button type="button" data-min="25" class="on">25 min</button>
+            <button type="button" data-min="50">50 min</button>
+            <button type="button" data-min="custom">Custom</button>
+          </div>
+          <div class="group stepper-row" id="custom-wrap" hidden>
+            <div class="row"><span class="grow">Minutes</span>
+              <span class="stepper"><button type="button" data-step="-5">−</button><input name="custom" type="number" inputmode="numeric" min="1" max="240" value="40"><button type="button" data-step="5">+</button></span>
+            </div>
+          </div>
+        </div>
+        <p class="ghead">Check-ins</p>
+        <div class="seg" id="styles">
+          <button type="button" data-style="ask" class="on">Ask me</button>
+          <button type="button" data-style="nudge">Nudge me</button>
+        </div>
+        <p class="ghead">First step</p>
+        <div class="group"><div class="row" id="step-wrap"><input name="step" class="field" maxlength="140" placeholder="The smallest thing that gets you going (optional)"></div></div>
+        <p class="gfoot" id="start-hint"></p>
+        <button type="button" class="btn plain wide" id="join-code" hidden>Nap in a room with a code</button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<!-- A running block -->
+<section id="v-run" class="view focusmode" hidden>
+  <div class="fm-top">
+    <p class="fm-label" id="run-eyebrow">Focusing</p>
+    <h1 id="run-intention" class="fm-intention"></h1>
+    <p id="run-step" class="fm-step" hidden></p>
+    <p id="run-friends" class="fm-together" hidden></p>
+  </div>
+  <div class="dial" id="dial">
+    <svg class="ring" id="ring" viewBox="0 0 320 320" aria-hidden="true"><circle class="track" cx="160" cy="160" r="148"/><circle class="prog" id="ring-prog" cx="160" cy="160" r="148" pathLength="1000"/></svg>
+    <div id="run-disk" class="disk" hidden></div>
+    <div class="dial-center" id="dial-center"><div id="kitten" class="kitten"></div><div id="mates" class="mates" hidden></div></div>
+  </div>
+  <div class="clockline" id="clockline">
+    <div id="run-clock" class="clock">00:00</div>
+    <div id="run-ends" class="ends"><svg><use href="#i-bell"/></svg><span></span></div>
+  </div>
+  <p id="kitten-says" class="kitten-says" hidden></p>
+  <blockquote id="run-line" class="line" hidden></blockquote>
+  <p id="run-meta" class="fm-meta"></p>
+  <div class="roundbtns">
+    <button id="stop" class="round gray">Stop</button>
+    <button id="t-pause" class="round orange">Pause</button>
+  </div>
+  <div class="toolbar">
+    <button id="t-park"><svg><use href="#i-park"/></svg><span>Park a thought</span></button>
+    <button id="t-sound"><svg><use href="#i-sound"/></svg><span>Sound</span></button>
+    <button id="t-awake" hidden><svg><use href="#i-sun"/></svg><span>Screen on</span></button>
+    <button id="t-face"><svg><use href="#i-disk"/></svg><span>Disk</span></button>
+    <button id="t-room" hidden><svg><use href="#i-people"/></svg><span>Invite</span></button>
+  </div>
+</section>
+
+<section id="v-break" class="view focusmode" hidden>
+  <div class="fm-top">
+    <p class="fm-label">Break</p>
+    <h1 class="fm-intention">Stand up, stretch, get some water.</h1>
+    <p class="fm-step">Look at something far away for a bit.</p>
+  </div>
+  <div class="dial">
+    <svg class="ring mint" viewBox="0 0 320 320" aria-hidden="true"><circle class="track" cx="160" cy="160" r="148"/><circle class="prog" id="break-prog" cx="160" cy="160" r="148" pathLength="1000"/></svg>
+    <div class="dial-center"><div id="break-clock" class="clock">00:00</div></div>
+  </div>
+  <div id="break-cat" class="run-cat"></div>
+  <div class="roundbtns"><button id="break-end" class="round gray">End</button></div>
+</section>
+
+<section id="v-breathe" class="view focusmode" hidden>
+  <div class="fm-top"><p class="fm-label">A mindful minute</p></div>
+  <div class="seg breathlen" id="breath-len">
+    <button type="button" data-len="1" class="on">1 min</button><button type="button" data-len="3">3 min</button><button type="button" data-len="5">5 min</button>
+  </div>
+  <div id="breath-run">
+    <div class="flower" id="flower" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <p id="breath-word" class="breath-word">Breathe in</p>
+    <p class="fm-meta" id="breath-meta">Four seconds in, hold, out, hold.</p>
+    <div class="roundbtns"><button class="round gray" id="breath-done">Leave</button><button class="round green" id="breath-sound">Sound</button></div>
+  </div>
+  <div id="breath-end" class="breathend" hidden>
+    <div class="flower still" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <h2>Do you feel calmer?</h2>
+    <p class="fm-meta">What's next?</p>
+    <button class="btn filled big wide" id="breath-focus">Start Focusing</button>
+    <button class="btn plain wide" data-go="focus">Home</button>
+  </div>
+</section>
+
+<!-- Later tab -->
+<section id="v-later" class="view" hidden>
+  <h1 class="largetitle">Later</h1>
+  <p class="lede">Things to get to, and thoughts you parked during a block.</p>
+  <form id="later-add" class="group">
+    <div class="row"><span class="addcircle"><svg><use href="#i-plus"/></svg></span><input name="text" class="field" maxlength="200" placeholder="New item" autocomplete="off"></div>
+  </form>
+  <div class="group" id="later-list"></div>
+  <div id="later-empty" class="empty" hidden><div class="empty-cat" id="later-cat"></div><p>Nothing here yet.</p></div>
+</section>
+
+<!-- Café tab: the cats that came home, your focus time, your history -->
+<section id="v-cafe" class="view" hidden>
+  <div class="titlebar"><h1 class="largetitle">Café</h1>
+    <span class="titlebtns"><button class="iconbtn" id="cafe-share" title="Share your café" aria-label="Share your café"><svg><use href="#i-share"/></svg></button><button class="iconbtn" data-go="rankings" title="Rankings" aria-label="Rankings"><svg><use href="#i-trophy"/></svg></button><button class="treats" data-go="shop" id="cafe-treats" title="Treats to spend in the shop">🐟 0</button></span></div>
+  <div class="seg" id="cafe-span">
+    <button type="button" data-span="day" class="on">Day</button><button type="button" data-span="week">Week</button><button type="button" data-span="month">Month</button><button type="button" data-span="year">Year</button>
+  </div>
+  <div class="periodnav">
+    <button type="button" id="cafe-prev" class="navbtn" aria-label="Earlier"><svg><use href="#i-back"/></svg></button>
+    <button type="button" id="cafe-now" class="periodlabel"></button>
+    <button type="button" id="cafe-next" class="navbtn" aria-label="Later"><svg><use href="#i-chevron"/></svg></button>
+  </div>
+  <button type="button" class="callout eventcall" id="event-banner" data-go="shop" hidden></button>
+  <div class="cafe3d" id="room"><p class="roomempty" id="roomempty" hidden></p></div>
+  <div class="tiles cafe-tiles" id="cafe-tiles"></div>
+  <div id="cafe-charts">
+    <p class="ghead">Focus time</p>
+    <div class="group pad"><div class="chart" id="chart"></div></div>
+    <p class="gfoot" id="chart-foot" hidden></p>
+    <p class="ghead">By tag</p>
+    <div class="group pad tagsplit"><div class="donut" id="donut"><b id="donut-total"></b></div><div class="taglegend" id="taglegend"></div></div>
+    <div id="hours-box">
+      <p class="ghead">When you focus</p>
+      <div class="group pad"><div class="chart" id="hours"></div></div>
+      <p class="gfoot" id="hours-foot"></p>
+    </div>
+    <p class="ghead">Who came home</p>
+    <div class="group pad"><div class="cattally" id="cattally"></div></div>
+  </div>
+  <div id="hist"></div>
+  <div id="hist-empty" class="empty" hidden><div class="empty-cat" id="hist-cat"></div><p>No blocks yet. Your first one shows up here.</p></div>
+  <div id="habits">
+    <p class="ghead">Habits</p>
+    <div id="hist-stats" class="tiles" hidden></div>
+    <div id="heat" hidden>
+      <p class="ghead">Last 5 weeks</p>
+      <div class="group pad"><div class="heat" id="heat-grid"></div></div>
+    </div>
+  </div>
+  <button id="clear" class="btn destructive-plain wide" hidden>Clear My History</button>
+</section>
+
+<!-- Cats tab -->
+<section id="v-cats" class="view" hidden>
+  <div class="titlebar"><h1 class="largetitle">Cats</h1><button class="treats" data-go="shop" id="cats-treats" title="Treats to spend in the shop">🐟 0</button></div>
+  <div class="seg" id="cats-seg"><button type="button" data-pane="cats" class="on">My Cats</button><button type="button" data-pane="missions">Goals</button><button type="button" data-pane="shop">Shop</button></div>
+  <div id="pane-cats">
+    <p class="lede" id="cats-lede"></p>
+    <div class="catgrid" id="catgrid"></div>
+  </div>
+  <div id="pane-missions" hidden>
+    <p class="lede">Missions, challenges and achievements pay extra 🐟. Only blocks whose kitten comes home count.</p>
+    <div id="starter-box">
+      <p class="ghead">Starter Challenge</p>
+      <div class="group" id="starter-steps"></div>
+      <p class="gfoot" id="starter-foot"></p>
+    </div>
+    <p class="ghead" id="monthly-head">This month</p>
+    <div class="group" id="monthly"></div>
+    <p class="gfoot" id="monthly-foot"></p>
+    <p class="ghead">Today</p>
+    <div class="group" id="missions-day"></div>
+    <p class="gfoot" id="missions-day-foot"></p>
+    <p class="ghead">This week</p>
+    <div class="group" id="missions-week"></div>
+    <p class="gfoot" id="missions-week-foot"></p>
+    <p class="ghead">Achievements <span id="ach-count"></span></p>
+    <div class="achgrid" id="achievements"></div>
+  </div>
+  <div id="pane-shop" hidden>
+    <p class="lede">Every minute of a block whose kitten comes home earns you a 🐟. Spend them here.</p>
+    <div id="shop-event"></div>
+    <p class="ghead">For the café</p>
+    <div class="shopgrid" id="shop-items"></div>
+    <p class="ghead">Adopt a cat</p>
+    <div class="shopgrid" id="shop-cats"></div>
+    <p class="ghead">Café themes</p>
+    <div class="shopgrid" id="shop-themes"></div>
+    <p class="ghead">Sounds</p>
+    <div class="shopgrid" id="shop-sounds"></div>
+    <p class="ghead">Shelter cats</p>
+    <button type="button" class="callout sheltercall" data-go="shelter">
+      <span class="tile t-pink"><svg><use href="#i-heart"/></svg></span>
+      <span class="grow"><b>Sponsor a shelter cat</b><span class="sub">Each one stands for a real cat waiting for a home. See how many everyone has sponsored.</span></span>
+      <svg class="chev"><use href="#i-chevron"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- Rankings (like Forest's): a weekly round, friends and worldwide -->
+<section id="v-rankings" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="cafe"><svg><use href="#i-back"/></svg>Café</button></header>
+  <h1 class="largetitle">Rankings</h1>
+  <div id="rank-anon" hidden>
+    <p class="lede">Rankings need an account, so your week can be counted next to your friends'.</p>
+    <button class="btn filled wide" data-account="signup">Create Account</button>
+  </div>
+  <div id="rank-in" hidden>
+    <div class="seg" id="rank-seg"><button type="button" data-rank="friends" class="on">Friends</button><button type="button" data-rank="world">Worldwide</button></div>
+    <p class="roundleft" id="rank-left"></p>
+    <div class="group" id="rank-list"></div>
+    <p class="gfoot" id="rank-foot"></p>
+    <p class="ghead">You</p>
+    <div class="group">
+      <label class="row"><span class="tile t-yellow"><svg><use href="#i-trophy"/></svg></span><span class="grow">Be in the rankings</span><input type="checkbox" id="rank-on" class="switch"></label>
+      <label class="row"><span class="tile t-blue"><svg><use href="#i-people"/></svg></span><span class="grow">Worldwide too</span><input type="checkbox" id="rank-global" class="switch"></label>
+      <label class="row" id="rank-name-row"><span class="grow indent">Nickname</span><input id="rank-name" class="field right" maxlength="20" placeholder="Pick one" autocomplete="off"></label>
+    </div>
+    <p class="gfoot">A round is a week, Monday to Sunday (UTC). What counts is the minutes of blocks whose kitten came home. Your friends see your name; the worldwide list only shows your nickname, your minutes and your kittens.</p>
+  </div>
+</section>
+
+<!-- Shelter cats: the cat version of Forest's real trees -->
+<section id="v-shelter" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="shop"><svg><use href="#i-back"/></svg>Shop</button></header>
+  <h1 class="largetitle">Shelter Cats</h1>
+  <p class="lede">Forest plants real trees. Kavana's version is shelter cats: each one you sponsor with treats stands for a real cat waiting for a home, and moves into your café.</p>
+  <div class="tiles sheltertiles"><div><b id="shelter-you">0</b><span>by you</span></div><div><b id="shelter-friends">–</b><span>by friends</span></div><div><b id="shelter-all">–</b><span>by everyone</span></div></div>
+  <div class="shopgrid" id="shelter-cats"></div>
+  <a class="callout donatecall" id="shelter-link" target="_blank" rel="noopener">
+    <span class="tile t-pink"><svg><use href="#i-heart"/></svg></span>
+    <span class="grow"><b>Help a real cat</b><span class="sub" id="shelter-org"></span></span>
+    <svg class="chev"><use href="#i-chevron"/></svg>
+  </a>
+  <p class="gfoot">Treats can't buy cat food, so this part is up to you. The link goes straight to the shelter's own donation page; no money goes through Kavana.</p>
+</section>
+
+<!-- What's new -->
+<section id="v-news" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="focus"><svg><use href="#i-back"/></svg>Focus</button></header>
+  <h1 class="largetitle">What's New</h1>
+  <div id="news-list"></div>
+</section>
+
+<!-- Settings › Your own lines -->
+<section id="v-lines" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="settings"><svg><use href="#i-back"/></svg>Settings</button></header>
+  <h1 class="largetitle">Your Own Lines</h1>
+  <p class="lede">Things you want to hear while you work. "Nudge me" blocks use them every other time, mixed with Kavana's.</p>
+  <div class="group" id="line-list"></div>
+  <form id="line-add" class="group">
+    <div class="row"><span class="addcircle"><svg><use href="#i-plus"/></svg></span><input name="text" class="field" maxlength="120" placeholder="New line" autocomplete="off"></div>
+  </form>
+  <p class="gfoot">Up to 20.</p>
+</section>
+
+<!-- Settings › Café theme -->
+<section id="v-themes" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="settings"><svg><use href="#i-back"/></svg>Settings</button></header>
+  <h1 class="largetitle">Café Theme</h1>
+  <p class="lede">The walls and floor of your café. New ones are in the shop.</p>
+  <div class="themegrid" id="theme-grid"></div>
+</section>
+
+<!-- Settings › Tags -->
+<section id="v-tags" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="settings"><svg><use href="#i-back"/></svg>Settings</button></header>
+  <h1 class="largetitle">Tags</h1>
+  <p class="lede">Tag a block before you start it. The Café shows your time by tag.</p>
+  <div class="group" id="tag-list"></div>
+  <form id="tag-add" class="group">
+    <div class="row"><span class="addcircle"><svg><use href="#i-plus"/></svg></span><input name="text" class="field" maxlength="20" placeholder="New tag" autocomplete="off"></div>
+  </form>
+  <p class="gfoot">Up to 12. Removing a tag keeps it on the blocks that have it.</p>
+</section>
+
+<!-- Settings tab -->
+<section id="v-settings" class="view" hidden>
+  <h1 class="largetitle">Settings</h1>
+  <div class="group">
+    <button class="row link account-row" data-go="account">
+      <span class="avatar" id="acct-avatar"><svg><use href="#i-person"/></svg></span>
+      <span class="grow"><b id="acct-title">Sign in</b><span class="sub" id="acct-sub">Back up your history and focus with friends</span></span>
+      <svg class="chev"><use href="#i-chevron"/></svg>
+    </button>
+  </div>
+
+  <p class="ghead">Focus</p>
+  <div class="group">
+    <label class="row"><span class="tile t-teal"><svg><use href="#i-target"/></svg></span><span class="grow">Daily goal</span>
+      <select id="goal-select" class="menu"><option value="0">Off</option><option value="30">30 min</option><option value="60">1 hour</option><option value="90">1½ hours</option><option value="120">2 hours</option><option value="180">3 hours</option></select></label>
+    <label class="row"><span class="tile t-orange"><svg><use href="#i-bell"/></svg></span><span class="grow">Check in every</span>
+      <select id="interval" class="menu"><option value="10">10 min</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option><option value="45">45 min</option><option value="60">60 min</option><option value="0">Only at the end</option></select></label>
+    <label class="row"><span class="tile t-pink"><svg><use href="#i-cat"/></svg></span><span class="grow">Cat mode</span><input type="checkbox" id="cat-on" class="switch"></label>
+    <button class="row link" data-go="cats"><span class="tile t-pink"><svg><use href="#i-paw"/></svg></span><span class="grow">Next kitten</span><span class="value" id="companion-name"></span><svg class="chev"><use href="#i-chevron"/></svg></button>
+    <button class="row link" data-go="tags"><span class="tile t-blue"><svg><use href="#i-tag"/></svg></span><span class="grow">Tags</span><span class="value" id="tags-value"></span><svg class="chev"><use href="#i-chevron"/></svg></button>
+    <label class="row"><span class="tile t-orange"><svg><use href="#i-pause"/></svg></span><span class="grow">Pausing</span>
+      <select id="pause-select" class="menu"><option value="five">Up to 5 min</option><option value="off">Off</option></select></label>
+    <label class="row"><span class="tile t-green"><svg><use href="#i-stopwatch"/></svg></span><span class="grow">Count extra time</span><input type="checkbox" id="overtime" class="switch"></label>
+    <label class="row"><span class="tile t-red"><svg><use href="#i-cat"/></svg></span><span class="grow">Closing Kavana counts as leaving</span><input type="checkbox" id="close-counts" class="switch"></label>
+    <a class="row link" id="ext-row" href="https://github.com/franz-rosenzweig/kavana/blob/master/docs/extension.md" target="_blank" rel="noopener"><span class="tile t-gray"><svg><use href="#i-lock"/></svg></span><span class="grow">Block sites while you focus</span><span class="value" id="ext-value"></span><svg class="chev"><use href="#i-chevron"/></svg></a>
+    <button class="row link" data-go="lines"><span class="tile t-indigo"><svg><use href="#i-quote"/></svg></span><span class="grow">Your own lines</span><span class="value" id="lines-value"></span><svg class="chev"><use href="#i-chevron"/></svg></button>
+    <button class="row link" data-go="themes"><span class="tile t-purple"><svg><use href="#i-palette"/></svg></span><span class="grow">Café theme</span><span class="value" id="theme-value"></span><svg class="chev"><use href="#i-chevron"/></svg></button>
+  </div>
+  <p class="gfoot">Your kitten grows while you focus. Stop early, or leave Kavana for more than a few seconds, and it wanders off. A pause lasts 5 minutes at most. "Count extra time" keeps a block going past its end until you tap Done.</p>
+
+  <p class="ghead">Daily reminder</p>
+  <div class="group">
+    <label class="row"><span class="tile t-indigo"><svg><use href="#i-history"/></svg></span><span class="grow">Remind me to start a block</span><input type="checkbox" id="daily-on" class="switch"></label>
+    <div id="daily-opts">
+      <label class="row"><span class="grow indent">Time</span><input type="time" id="daily-time" class="timefield" value="09:00"></label>
+      <div class="row days" id="daily-days">
+        <button type="button" data-day="0">S</button><button type="button" data-day="1">M</button><button type="button" data-day="2">T</button><button type="button" data-day="3">W</button><button type="button" data-day="4">T</button><button type="button" data-day="5">F</button><button type="button" data-day="6">S</button>
+      </div>
+    </div>
+  </div>
+  <p class="gfoot">It won't ping you if you're already in a block.</p>
+
+  <p class="ghead">Focus with friends</p>
+  <div class="group">
+    <button class="row link" data-go="friends"><span class="tile t-indigo"><svg><use href="#i-people"/></svg></span><span class="grow">Friends</span><span class="value" id="friends-value"></span><svg class="chev"><use href="#i-chevron"/></svg></button>
+  </div>
+
+  <p class="ghead">Notifications</p>
+  <div class="group">
+    <div class="row"><span class="tile t-red"><svg><use href="#i-bell"/></svg></span><span class="grow" id="push-status"></span>
+      <button id="push-on" class="btn tinted small" data-go="remind">Turn On</button>
+      <button id="push-test" class="btn tinted small">Test</button></div>
+    <label class="row"><span class="tile t-purple"><svg><use href="#i-chime"/></svg></span><span class="grow">Chime when Kavana is open</span><input type="checkbox" id="chime" class="switch"></label>
+  </div>
+  <p class="gfoot">Using a Focus mode like Do Not Disturb? Add Kavana to its allowed apps (Settings app → Focus) so check-ins still come through.</p>
+
+  <p class="ghead">Privacy</p>
+  <div class="group">
+    <label class="row"><span class="tile t-blue"><svg><use href="#i-chart"/></svg></span><span class="grow">Share anonymous usage counts</span><input type="checkbox" id="counting" class="switch"></label>
+    <button class="row link" data-go="admin" id="admin-link" hidden><span class="tile t-gray"><svg><use href="#i-chart"/></svg></span><span class="grow">Usage dashboard</span><svg class="chev"><use href="#i-chevron"/></svg></button>
+  </div>
+  <p class="gfoot">Without an account, everything stays in this browser. To send reminders while Kavana is closed, the server holds this device's next few pings and deletes each one once it's sent. Usage counts are which features get used, never what you type.</p>
+
+  <div class="group">
+    <a class="row link" href="https://github.com/franz-rosenzweig/kavana" target="_blank" rel="noopener"><span class="tile t-gray"><svg><use href="#i-code"/></svg></span><span class="grow">Kavana is open source</span><svg class="chev"><use href="#i-chevron"/></svg></a>
+  </div>
+</section>
+
+<!-- Settings › Friends -->
+<section id="v-friends" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="settings"><svg><use href="#i-back"/></svg>Settings</button></header>
+  <h1 class="largetitle">Friends</h1>
+  <div id="friends-anon">
+    <p class="lede">See when your friends are focusing and join them. You need an account for this.</p>
+    <button class="btn filled big wide" data-account="signup">Create an Account</button>
+  </div>
+  <div id="friends-in" hidden>
+    <div class="group">
+      <label class="row"><span class="grow">Show my friends</span>
+        <select id="share" class="menu"><option value="off">Nothing</option><option value="status">That I'm focusing</option><option value="all">What I'm working on</option></select></label>
+      <div id="share-opts">
+        <label class="row"><span class="grow">Name they see</span><input id="share-name" class="field right" maxlength="30" autocomplete="off"></label>
+        <label class="row"><span class="grow">Ping me when a friend starts</span><input type="checkbox" id="friend-pings" class="switch"></label>
+      </div>
+    </div>
+    <p class="gfoot">You see your friends when you share too. They never see your history, parked thoughts or check-ins.</p>
+    <div class="codecard">
+      <span class="sub">Your friend code</span>
+      <b id="my-code" class="code">······</b>
+      <button class="btn tinted small" id="copy-code">Copy</button>
+    </div>
+    <form id="add-friend" class="group">
+      <div class="row"><span class="addcircle"><svg><use href="#i-plus"/></svg></span><input name="code" class="field" placeholder="Add a friend's code" autocapitalize="characters" autocomplete="off" maxlength="8"><button class="btn tinted small" type="submit">Add</button></div>
+    </form>
+    <p class="ghead">Your friends</p>
+    <div class="group" id="friends-settings"></div>
+  </div>
+</section>
+
+<!-- Settings › Account -->
+<section id="v-account" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="settings"><svg><use href="#i-back"/></svg>Settings</button></header>
+  <h1 class="largetitle" id="account-title">Account</h1>
+  <div id="account-out">
+    <div class="seg" id="account-tabs">
+      <button type="button" class="on" data-tab-acct="login">Sign In</button>
+      <button type="button" data-tab-acct="signup">Create Account</button>
+    </div>
+    <form id="account-form" autocomplete="on">
+      <div class="group">
+        <label class="row"><span class="rowlabel">Name</span><input name="name" class="field" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required maxlength="24" placeholder="Required"></label>
+        <label class="row"><span class="rowlabel">Password</span><input name="password" class="field" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required placeholder="Required"><button type="button" class="btn plain small" id="pw-show">Show</button></label>
+      </div>
+      <p class="gfoot" id="account-why"></p>
+      <p class="err" hidden></p>
+      <button class="btn filled big wide" type="submit" id="account-go">Sign In</button>
+    </form>
+  </div>
+  <div id="account-in" hidden>
+    <div class="group">
+      <div class="row"><span class="avatar big" id="acct-avatar2"></span><span class="grow"><b id="who"></b><span class="sub" id="who-sub">Your history is backed up and syncs.</span></span></div>
+    </div>
+    <div class="group">
+      <button class="row link" id="signout"><span class="grow tint">Sign Out</span></button>
+      <button class="row link" id="delete-account"><span class="grow danger">Delete My Account</span></button>
+    </div>
+  </div>
+</section>
+
+<section id="v-admin" class="view" hidden>
+  <header class="nav"><button class="navback" data-go="settings"><svg><use href="#i-back"/></svg>Settings</button></header>
+  <h1 class="largetitle">Usage</h1>
+  <div id="admin-body"></div>
+</section>
+
+  </main>
+
+</div>
+
+<!-- The sky behind a running block (and the window you dive into when it starts) -->
+<div id="sky" class="skybg" hidden><i class="stars"></i><i class="motes"></i></div>
+
+<!-- Live Activity: the block keeps running while you look at other tabs -->
+<button id="live" class="live" hidden><span class="live-dot"></span><span class="live-text" id="live-text"></span><span class="live-time" id="live-time"></span></button>
+
+<!-- Sheets -->
+<div id="checkin" class="sheet" hidden>
+  <div class="sheetcard" id="ask-pane">
+    <div class="sheet-cat" id="checkin-cat"></div>
+    <p class="fm-label">Check-in</p>
+    <h2>Still on: <span id="checkin-text"></span>?</h2>
+    <div class="bigchoices two">
+      <button class="choice yes" data-ans="yes"><span>👍</span>Yes</button>
+      <button class="choice drift" data-ans="drifted"><span>🌀</span>Drifted</button>
+    </div>
+  </div>
+  <div class="sheetcard" id="why-pane" hidden>
+    <p class="fm-label">No worries</p>
+    <h2>What pulled you away?</h2>
+    <div class="whys" id="whys">
+      <button data-why="phone"><span>📱</span>Phone</button>
+      <button data-why="messages"><span>💬</span>Messages</button>
+      <button data-why="email"><span>✉️</span>Email</button>
+      <button data-why="web"><span>🌐</span>The web</button>
+      <button data-why="thoughts"><span>💭</span>Thoughts</button>
+      <button data-why="people"><span>🙋</span>Someone</button>
+      <button data-why="tired"><span>😴</span>Tired</button>
+      <button data-why="hungry"><span>🍎</span>Hungry</button>
+      <button data-why="other"><span>✨</span>Other</button>
+    </div>
+    <button class="btn plain" id="why-skip">Skip</button>
+  </div>
+</div>
+
+<form id="park" class="sheet" hidden>
+  <div class="sheetcard">
+    <div class="grabber"></div>
+    <div class="sheethead"><button type="button" class="btn plain small" id="park-cancel">Cancel</button><b>Park a Thought</b><button class="btn plain small strong" type="submit">Park</button></div>
+    <p class="gfoot">Write it down so it stops pulling at you. It goes on your Later list.</p>
+    <div class="group"><div class="row"><input name="text" class="field" maxlength="200" placeholder="Reply to that email" autocomplete="off"></div></div>
+    <div class="group" id="parked-now" hidden></div>
+  </div>
+</form>
+
+<div id="outcome" class="sheet" hidden>
+  <div class="homecafe" id="homecafe" hidden></div>
+  <div class="sheetcard" data-cat-scope>
+    <div class="sheet-cat" id="outcome-cat"></div>
+    <p class="fm-label" id="outcome-eyebrow">Time's up</p>
+    <h2>How did it go?</h2>
+    <p class="intention-sm" id="outcome-text"></p>
+    <p class="outcome-kitten" id="outcome-kitten" hidden></p>
+    <div class="bigchoices">
+      <button class="choice done" data-out="done"><span>🎉</span>Done</button>
+      <button class="choice partly" data-out="partly"><span>🌗</span>Partly</button>
+      <button class="choice nope" data-out="notreally"><span>🌧️</span>Not really</button>
+    </div>
+    <div class="keep"><span>In the flow?</span><button class="btn tinted small" data-more="5" id="more-a">+5 min</button><button class="btn tinted small" data-more="10" id="more-b">+10 min</button></div>
+    <div id="outcome-parked" hidden>
+      <p class="ghead">You parked</p>
+      <div class="group parkedlist"></div>
+      <button class="btn plain small" id="parked-copy">Copy Them</button>
+    </div>
+    <button class="btn plain small" id="outcome-note">Add a Note</button>
+    <div class="outcome-end"><button class="btn tinted" data-out="">Skip</button><button class="btn filled" id="again">Again</button></div>
+  </div>
+</div>
+
+<div id="invite-sheet" class="sheet" hidden>
+  <div class="sheetcard" data-cat-scope>
+    <div class="grabber"></div>
+    <div class="sheethead"><span></span><b>Who's Coming?</b><button type="button" class="btn plain small strong" id="invite-done">Done</button></div>
+    <div class="invitegrid" id="invitegrid"></div>
+    <p class="gfoot">Meet more cats by focusing, or adopt them in the shop.</p>
+  </div>
+</div>
+
+<div id="meet" class="sheet" hidden>
+  <div class="sheetcard meetcard" data-cat-scope>
+    <div class="meet-art" id="meet-art"></div>
+    <p class="fm-label" id="meet-eyebrow">New friend</p>
+    <h2 id="meet-title">You met Pepper!</h2>
+    <p class="intention-sm" id="meet-about"></p>
+    <button class="btn filled big wide" id="meet-pick">Make Pepper My Companion</button>
+    <button class="btn plain" id="meet-ok">Nice!</button>
+  </div>
+</div>
+
+<div id="sounds" class="sheet" hidden>
+  <div class="sheetcard">
+    <div class="grabber"></div>
+    <div class="sheethead"><button type="button" class="btn plain small" id="sounds-off">Off</button><b>Sounds</b><button type="button" class="btn plain small strong" id="sounds-done">Done</button></div>
+    <p class="gfoot">Pick up to two. Each has its own volume.</p>
+    <div class="group" id="sound-list"></div>
+  </div>
+</div>
+
+<div id="room-sheet" class="sheet" hidden>
+  <div class="sheetcard">
+    <div class="grabber"></div>
+    <div class="sheethead"><span></span><b>Nap Room</b><button type="button" class="btn plain small strong" id="room-done">Done</button></div>
+    <p class="gfoot">Anyone with an account can join your block with this code, friends or not. Their kittens grow next to yours, and if anyone leaves, every kitten wanders off.</p>
+    <p class="roomcode" id="room-code">······</p>
+    <button type="button" class="btn filled wide" id="room-share">Share the Code</button>
+  </div>
+</div>
+
+<form id="edit" class="sheet" hidden>
+  <div class="sheetcard">
+    <div class="grabber"></div>
+    <div class="sheethead"><button type="button" class="btn plain small" id="edit-cancel">Cancel</button><b>Edit Block</b><button class="btn plain small strong" type="submit">Save</button></div>
+    <div class="group"><div class="row"><input name="intention" class="field" maxlength="140" placeholder="What you worked on"></div></div>
+    <p class="ghead">Tag</p>
+    <div class="chips tagchips" id="edit-tags"></div>
+    <p class="ghead">Note</p>
+    <div class="group"><div class="row"><textarea name="note" class="field note" maxlength="500" rows="4" placeholder="How it went, what's next"></textarea></div></div>
+  </div>
+</form>
+
+<!-- An alert in the system style -->
+<div id="alert" class="alertwrap" hidden>
+  <div class="alert" role="alertdialog" aria-modal="true">
+    <div class="alert-body"><h3 id="alert-title"></h3><p id="alert-msg"></p><input id="alert-input" type="password" hidden></div>
+    <div class="alert-actions" id="alert-actions"></div>
+  </div>
+</div>
+
+<!-- The cat that pops up with a "Boo!" while Kavana is open -->
+<div id="cat" class="peekcat" hidden aria-live="polite">
+  <div class="bubble" id="cat-says">Boo! It's time to focus.</div>
+  <div id="cat-art"></div>
+</div>
+<div id="confetti" aria-hidden="true"></div>
+<div id="toast" class="toast" hidden></div>
+</body>
+</html>
