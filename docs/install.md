@@ -29,6 +29,8 @@ The Home Screen app keeps its own data, separate from Safari. If you tried Kavan
 
 Open the link in Chrome, and it works right there in the tab, reminders included. To give it its own icon and window, open Chrome's menu and tap **Add to Home screen** (or **Install app**). On Android the check-in notifications have **Yes** and **Drifted** buttons, so you can answer without opening the app, and with Cat mode on they show a picture of the cat.
 
+There's also a real Android app. Download `Kavana-<version>.apk` from [the latest release](https://github.com/franz-rosenzweig/kavana-apps/releases/latest), open it, and let your phone install apps from that source once. Then allow **Display over other apps** if you want the cat to pop up when you drift off into another app. It needs Android 12 or newer, everything stays on the phone (it doesn't sync with the web app), and [Obtainium](https://github.com/ImranR98/Obtainium) can keep it up to date from the releases.
+
 ## On a computer
 
 Any recent browser works: Chrome, Edge, Firefox or Safari. To have it in its own window, use the install icon at the right of the address bar in Chrome or Edge, or **File → Add to Dock** in Safari on a Mac. Reminders work in browsers that support web notifications, and the browser asks you once to allow them. To keep the sites you drift to away during a block, there's also [a browser extension](extension.md) for Chrome, Edge, Brave and Firefox.

@@ -134,6 +134,8 @@ Open Kavana in Safari, tap the Share button, then **Add to Home Screen**, and op
 ### On Android
 Open it in Chrome and it works right in the tab, reminders included. To give it its own icon, use the menu and **Add to Home screen**. See [Install](docs/install.md#on-android).
 
+Or get the Android app, with the cat that shows up over other apps when you drift: download the APK from [the latest release](https://github.com/franz-rosenzweig/kavana-apps/releases/latest) and open it. It needs Android 12 or newer, and everything stays on the phone.
+
 ### On a computer
 Any recent browser works, and Chrome, Edge and Safari can install it as an app with its own window. See [Install](docs/install.md#on-a-computer). To block distracting sites during a block, load [the browser extension](docs/extension.md) in Chrome, Edge, Brave or Firefox.
 
