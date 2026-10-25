@@ -605,24 +605,44 @@
   <header class="nav"><button class="navback" data-go="settings"><svg><use href="#i-back"/></svg>Settings</button></header>
   <h1 class="largetitle" id="account-title">Account</h1>
   <div id="account-out">
+    <form id="email-form" autocomplete="on" hidden>
+      <div class="group">
+        <label class="row"><span class="rowlabel">Email</span><input name="email" type="email" class="field" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" required maxlength="254" placeholder="you@example.com"></label>
+        <label class="row" id="code-row" hidden><span class="rowlabel">Code</span><input name="code" class="field" inputmode="numeric" autocomplete="one-time-code" maxlength="7" placeholder="6 digits"></label>
+      </div>
+      <p class="gfoot" id="email-why"></p>
+      <p class="err" hidden></p>
+      <button class="btn filled big wide" type="submit" id="email-go">Email Me a Code</button>
+      <button type="button" class="btn plain wide" id="code-again" hidden>Send a new code</button>
+      <button type="button" class="btn plain wide" id="use-name">Use a name and password instead</button>
+    </form>
+    <div id="name-way">
     <div class="seg" id="account-tabs">
       <button type="button" class="on" data-tab-acct="login">Sign In</button>
       <button type="button" data-tab-acct="signup">Create Account</button>
     </div>
     <form id="account-form" autocomplete="on">
       <div class="group">
-        <label class="row"><span class="rowlabel">Name</span><input name="name" class="field" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required maxlength="24" placeholder="Required"></label>
+        <label class="row"><span class="rowlabel">Name</span><input name="name" class="field" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required maxlength="254" placeholder="Required"></label>
         <label class="row"><span class="rowlabel">Password</span><input name="password" class="field" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" required placeholder="Required"><button type="button" class="btn plain small" id="pw-show">Show</button></label>
       </div>
       <p class="gfoot" id="account-why"></p>
       <p class="err" hidden></p>
       <button class="btn filled big wide" type="submit" id="account-go">Sign In</button>
     </form>
+    <button type="button" class="btn plain wide" id="use-email" hidden>Use email instead</button>
+    </div>
   </div>
   <div id="account-in" hidden>
     <div class="group">
       <div class="row"><span class="avatar big" id="acct-avatar2"></span><span class="grow"><b id="who"></b><span class="sub" id="who-sub">Your history is backed up and syncs.</span></span></div>
     </div>
+    <div class="group" id="acct-details">
+      <button class="row link" id="acct-email"><span class="grow">Email</span><span class="value" id="acct-email-value"></span><svg class="chev"><use href="#i-chevron"/></svg></button>
+      <button class="row link" id="acct-password"><span class="grow">Password</span><span class="value" id="acct-pw-value"></span><svg class="chev"><use href="#i-chevron"/></svg></button>
+      <div class="row"><span class="grow">Username</span><span class="value" id="acct-name-value"></span></div>
+    </div>
+    <p class="gfoot" id="acct-how"></p>
     <div class="group">
       <button class="row link" id="signout"><span class="grow tint">Sign Out</span></button>
       <button class="row link" id="delete-account"><span class="grow danger">Delete My Account</span></button>

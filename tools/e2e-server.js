@@ -3,15 +3,17 @@
 // The server end to end, with Mozilla's real push service standing in for the devices:
 //   anonymous device: register, hand over pings, get them on time, daily reminder, forget
 //   accounts: sign up, sync (and a conflict), pings worked out from the synced doc
+//   email: a code makes an account or signs in, passwords set and changed, an address added, limits
 //   friends: codes, sharing levels, the friend-start ping, presence, napping together
 //   analytics: events in, the admin dashboard numbers out
 // Run against a sandbox started with KAVANA_MINUTE_MS=1000 (a "minute" is one second) and a short
 // grace for napping together:
-//   KAVANA_STATE=<dir> KAVANA_PORT=8462 KAVANA_HOST=172.17.0.1 KAVANA_MINUTE_MS=1000 KAVANA_NAP_GRACE_MS=2000 node server.js
+//   KAVANA_STATE=<dir> KAVANA_PORT=8462 KAVANA_HOST=172.17.0.1 KAVANA_MINUTE_MS=1000 KAVANA_NAP_GRACE_MS=2000 KAVANA_MAIL=outbox node server.js
 //   node tools/e2e-server.js http://172.17.0.1:8462 <state dir>
 // "quick" (safe on the live site, needs no account and leaves nothing behind):
 //   node tools/e2e-server.js https://stuffs.tiresia.xyz/kavana quick
 const crypto = require('node:crypto');
+const fs = require('node:fs');
 const { execFileSync } = require('node:child_process');
 const path = require('node:path');
 const push = require('../lib/push');
@@ -331,6 +333,61 @@ const cli = (...args) => execFileSync('node', [path.join(__dirname, '../bin/kava
   say('analytics today:', JSON.stringify({ installs: today.installs, open: today.c.open, start: today.c.start, 'start.len=25': today.c['start.len=25'], 'end.min': today.c['end.min'], junk: today.c['not-an-event'] || 0, pushes: today.c['push.checkin'] }));
   if (!today.c.start || today.c['end.min'] < 25 || today.c['not-an-event'] || Object.keys(today.c).some((k) => k.includes('<'))) fail('analytics');
   await B.api('GET', '/api/admin/analytics', null, [403]);
+
+  // ---------- email: codes from the sandbox's outbox ----------
+  if (!config.email) fail('start the sandbox with KAVANA_MAIL=outbox');
+  const mailTo = (email) => fs.readFileSync(path.join(STATE, 'outbox.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l)).filter((m) => m.to === email).pop();
+  const codeTo = (email) => /^(\d{6}) is your Kavana code$/.exec(mailTo(email).subject)[1];
+  const wrong = (code) => String((Number(code) + 1) % 1000000).padStart(6, '0');
+  const C = new Device('C'); const C2 = new Device('C2');
+  const mailC = `Cat.${tag}+focus@Example.com`;
+  await C.api('POST', '/api/email/code', { email: 'not an email' }, [400]);
+  await C.api('POST', '/api/email/code', { email: mailC });
+  const m1 = mailTo(mailC.toLowerCase());
+  if (!/Your code for signing in to Kavana is:\n\n {4}\d{3} \d{3}\n/.test(m1.text)) fail(`code email ${JSON.stringify(m1.text)}`);
+  const c1 = codeTo(mailC.toLowerCase());
+  await C.api('POST', '/api/email/signin', { email: mailC, code: wrong(c1) }, [401]);
+  const { data: meC } = await C.api('POST', '/api/email/signin', { email: mailC, code: `${c1.slice(0, 3)} ${c1.slice(3)}` });
+  if (!meC.created || meC.name !== `cat.${tag}` || meC.email !== mailC.toLowerCase() || meC.password) fail(`email account ${JSON.stringify(meC)}`);
+  await C2.api('POST', '/api/email/signin', { email: mailC, code: c1 }, [401]); // a code works once
+  say('email: a code made', meC.name, 'for', meC.email, '| a wrong code and a used one are refused');
+  await C.api('POST', '/api/login', { name: mailC, password: 'anything at all' }, [401]); // no password yet
+  await C.api('POST', '/api/account/password', { password: 'short' }, [400]);
+  const { data: meC2 } = await C.api('POST', '/api/account/password', { password: 'kitten paws' });
+  if (!meC2.password) fail('set a password');
+  await C2.api('POST', '/api/login', { name: mailC.toUpperCase(), password: 'kitten paws' });
+  await C.api('POST', '/api/logout');
+  await C.api('POST', '/api/login', { name: meC.name, password: 'kitten paws' });
+  await C.api('POST', '/api/account/password', { password: 'new kitten paws' }, [401]); // changing needs the old one now
+  await C.api('POST', '/api/account/password', { current: 'kitten paws', password: 'new kitten paws' });
+  await C.api('GET', '/api/me');
+  await C2.api('GET', '/api/me', null, [401]); // changing it signed out the other device
+  say('  password: set after an email sign-in, sign in by email + password or name + password, change needs the old one and signs out other devices');
+  const mailA = `ann.${tag}@example.com`;
+  await A.api('POST', '/api/account/email', { email: mailC }, [409]);
+  await A.api('POST', '/api/account/email', { email: mailA });
+  await A.api('POST', '/api/account/email/confirm', { email: mailA, code: wrong(codeTo(mailA)) }, [401]);
+  const { data: meA2 } = await A.api('POST', '/api/account/email/confirm', { email: mailA, code: codeTo(mailA) });
+  if (meA2.email !== mailA) fail('add an email');
+  await C2.api('POST', '/api/email/code', { email: mailA });
+  const { data: meA3 } = await C2.api('POST', '/api/email/signin', { email: mailA, code: codeTo(mailA) });
+  if (meA3.created || meA3.name !== nameA) fail(`email sign-in to an old account ${JSON.stringify(meA3)}`);
+  say('  an email added to', nameA, 'and a code to it signs in to the same account');
+  const D = new Device('D');
+  const mailD = `d@${tag}.example.org`;
+  await D.api('POST', '/api/email/code', { email: mailD });
+  const { data: meD } = await D.api('POST', '/api/email/signin', { email: mailD, code: codeTo(mailD) });
+  if (meD.name !== 'cat' && !/^cat\d+$/.test(meD.name)) fail(`a one-letter address gets a name ${meD.name}`);
+  await D.api('POST', '/api/account/code');
+  await D.api('POST', '/api/account/delete', { code: wrong(codeTo(mailD)) }, [401]);
+  await D.api('POST', '/api/account/delete', { code: codeTo(mailD) });
+  await D.api('GET', '/api/me', null, [401]);
+  say('  an account without a password (', meD.name, ') deleted with an emailed code');
+  await C.api('POST', '/api/email/code', { email: mailC }); // the sixth code from here this "hour"
+  await C.api('POST', '/api/email/code', { email: `x.${tag}@example.com` }, [429]);
+  say('  the seventh code in an hour from one place is refused');
+  await C.api('POST', '/api/account/delete', { password: 'new kitten paws' });
+  for (const d of [C, C2, D]) d.close();
 
   // ---------- cleanup: delete both accounts, forget the devices ----------
   await A.api('POST', '/api/account/delete', { password: 'nope' }, [401]);

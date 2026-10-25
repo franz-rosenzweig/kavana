@@ -35,6 +35,9 @@ let join = null;        // { name, end, nap } when joining a friend's block
 let friends = null;     // GET api/friends
 let friendsAt = 0;
 let accountTab = 'login';
+let accountWay = null; // 'email' (a code) or 'name' (and a password); email when the server sends mail
+let emailOn = null; // does the server send sign-in codes? null: not asked yet
+let codeFor = null; // the address the last sign-in code went to
 const meetQueue = [];   // cats you've just met, shown one at a time
 let pickTag = null;     // the tag on the start screen; null = the last one used
 let inviting = false;   // the "Who's coming?" sheet
@@ -134,7 +137,7 @@ function act(fn, says) {
 }
 
 // ---------- system-style alerts (instead of the browser's confirm and prompt) ----------
-function ask({ title, message = '', actions, input, type = 'password', value = '' }) {
+function ask({ title, message = '', actions, input, type = 'password', value = '', mode = '', auto = '' }) {
   return new Promise((resolve) => {
     $('#alert-title').textContent = title;
     $('#alert-msg').textContent = message;
@@ -143,6 +146,8 @@ function ask({ title, message = '', actions, input, type = 'password', value = '
     inp.hidden = !input;
     inp.type = type;
     inp.value = value;
+    inp.inputMode = mode;
+    inp.autocomplete = auto;
     if (input) inp.placeholder = input;
     const box = $('#alert-actions');
     box.className = `alert-actions${actions.length > 2 ? ' stack' : ''}`;
@@ -1742,10 +1747,17 @@ function drawFriendsSettings() {
 
 function renderAccount() {
   show('account');
+  if (emailOn === null && !renderAccount.asking) { // email is on unless the server says it isn't
+    renderAccount.asking = true;
+    D.api('GET', 'api/config').then((c) => { emailOn = Boolean(c.email); }, () => {})
+      .then(() => { renderAccount.asking = false; if (route === 'account' && emailOn === false) renderAccount(); });
+  }
   $('#account-out').hidden = Boolean(D.account);
   $('#account-in').hidden = !D.account;
   if (D.account) {
-    const name = D.account.display || D.account.name;
+    const a = D.account;
+    const name = a.display || a.name;
+    const pw = a.password !== false; // accounts from before email all have one
     $('#account-title').textContent = 'Account';
     $('#who').textContent = name;
     $('#who-sub').textContent = D.syncTrouble
@@ -1753,16 +1765,42 @@ function renderAccount() {
       : 'Your history is backed up and syncs.';
     const av = avatar(name); av.classList.add('big'); av.id = 'acct-avatar2';
     $('#acct-avatar2').replaceWith(av);
+    $('#acct-email').hidden = !a.email && emailOn === false;
+    $('#acct-email-value').textContent = a.email || 'Add';
+    $('#acct-pw-value').textContent = pw ? 'Change' : 'Set one';
+    $('#acct-name-value').textContent = a.name;
+    $('#acct-how').textContent = a.email && pw ? 'On another device, sign in with a code we email you, or with your email (or username) and password.'
+      : a.email ? "On another device, sign in with a code we email you. Set a password if you'd rather type one."
+      : emailOn !== false ? 'On another device, sign in with your username and password. Add your email to sign in with a code instead, and to get back in if you forget your password.'
+      : 'On another device, sign in with your username and password.';
     return;
   }
-  $('#account-title').textContent = accountTab === 'signup' ? 'Create Account' : 'Sign In';
-  for (const c of $$('#account-tabs button')) c.classList.toggle('on', c.dataset.tabAcct === accountTab);
   const signup = accountTab === 'signup';
+  $('#account-title').textContent = signup ? 'Create Account' : 'Sign In';
+  const way = emailOn === false ? 'name' : accountWay || 'email';
+  $('#email-form').hidden = way !== 'email';
+  $('#name-way').hidden = way !== 'name';
+  $('#use-email').hidden = emailOn === false;
+  // By email: the address, then the code we sent it.
+  const ef = $('#email-form');
+  ef.email.readOnly = Boolean(codeFor);
+  $('#code-row').hidden = !codeFor;
+  ef.code.required = Boolean(codeFor);
+  $('#email-go').textContent = !codeFor ? 'Email Me a Code' : signup ? 'Create Account' : 'Sign In';
+  $('#code-again').hidden = !codeFor;
+  $('#use-name').textContent = codeFor ? 'Use a different email' : 'Use a name and password instead';
+  $('#email-why').textContent = codeFor
+    ? `We sent a 6-digit code to ${codeFor}. It works for 10 minutes. Not there? Look in spam, or send a new one.`
+    : "We'll email you a 6-digit code. If you're new, it makes your account, with no password to remember. Your history in this browser comes with you.";
+  // By name and password.
+  for (const c of $$('#account-tabs button')) c.classList.toggle('on', c.dataset.tabAcct === accountTab);
   $('#account-why').textContent = signup
     ? 'Your history in this browser comes with you. Pick a name your friends will recognize, and a password of at least 8 characters.'
     : 'Signing in brings your history here, and anything you did in this browser comes along.';
   $('#account-go').textContent = signup ? 'Create Account' : 'Sign In';
-  $('#account-form').password.autocomplete = signup ? 'new-password' : 'current-password';
+  const f = $('#account-form');
+  f.password.autocomplete = signup ? 'new-password' : 'current-password';
+  f.name.placeholder = signup || emailOn === false ? 'Required' : 'Name or email';
 }
 
 // The admin's usage dashboard: counts only.
@@ -1979,32 +2017,80 @@ $('#account-tabs').addEventListener('click', (e) => {
   const c = e.target.closest('[data-tab-acct]');
   if (!c) return;
   accountTab = c.dataset.tabAcct;
-  $('#v-account .err').hidden = true;
+  $('#account-form .err').hidden = true;
   renderAccount();
 });
+function signedIn(kind, via) {
+  remember('welcomed');
+  D.track(kind === 'signup' ? 'signup' : 'login', { via });
+  if (mySub) D.registerDevice(mySub).catch(() => {});
+  friends = null;
+  go(pushSupported && !mySub ? 'remind' : 'settings');
+  toast(kind === 'signup' ? 'Account made. Your history is backed up.' : 'Signed in. Your history is here.');
+}
+const accountTrouble = (ex, wrong) => {
+  const why = ex.data && ex.data.error;
+  return ex.status === 401 ? wrong
+    : ex.status === 429 ? 'Too many tries. Wait a while, then try again.'
+    : why === 'email' ? "That doesn't look like an email address."
+    : why === 'taken' ? 'Another account has that email.'
+    : why === 'mail' ? "Couldn't send the email just now. Try again in a minute."
+    : why === 'password' ? 'Pick a password of at least 8 characters.'
+    : why === 'full' ? 'Kavana has all the accounts it can hold for now. Try again another day.'
+    : "Can't reach Kavana. Check your connection and try again.";
+};
+$('#email-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.target;
+  const err = $('#email-form .err');
+  const go1 = $('#email-go');
+  err.hidden = true;
+  go1.disabled = true;
+  try {
+    if (!codeFor) {
+      await D.emailCode(f.email.value);
+      codeFor = f.email.value.trim().toLowerCase();
+      renderAccount();
+      setTimeout(() => f.code.focus(), 60);
+    } else {
+      const created = await D.emailSignIn(codeFor, f.code.value);
+      f.code.value = '';
+      codeFor = null;
+      signedIn(created ? 'signup' : 'login', 'email');
+    }
+  } catch (ex) {
+    err.textContent = accountTrouble(ex, "That code doesn't match, or it's used up. Check it, or send a new one.");
+    err.hidden = false;
+  } finally { go1.disabled = false; }
+});
+$('#code-again').addEventListener('click', async () => {
+  const err = $('#email-form .err');
+  err.hidden = true;
+  try { await D.emailCode(codeFor); toast('Sent a new code.'); } catch (ex) { err.textContent = accountTrouble(ex, ''); err.hidden = false; }
+});
+$('#use-name').addEventListener('click', () => {
+  $('#email-form .err').hidden = true;
+  if (codeFor) { codeFor = null; $('#email-form').code.value = ''; } else accountWay = 'name';
+  renderAccount();
+  if (accountWay !== 'name') $('#email-form').email.focus();
+});
+$('#use-email').addEventListener('click', () => { accountWay = 'email'; $('#v-account #account-form .err').hidden = true; renderAccount(); });
 $('#account-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const f = e.target;
-  const err = $('#v-account .err');
+  const err = $('#account-form .err');
   err.hidden = true;
   const kind = accountTab;
   try {
     await D.signIn(kind, f.name.value, f.password.value);
     f.password.value = '';
-    remember('welcomed');
-    D.track(kind === 'signup' ? 'signup' : 'login');
-    if (mySub) D.registerDevice(mySub).catch(() => {});
-    friends = null;
-    go(pushSupported && !mySub ? 'remind' : 'settings');
-    toast(kind === 'signup' ? 'Account made. Your history is backed up.' : 'Signed in. Your history is here.');
+    signedIn(kind, 'name');
   } catch (ex) {
     const why = ex.data && ex.data.error;
-    err.textContent = ex.status === 401 ? "That name and password don't match."
-      : ex.status === 429 ? 'Too many tries. Wait a while, then try again.'
-      : why === 'taken' ? 'That name is taken. Try another one.'
+    err.textContent = why === 'taken' ? 'That name is taken. Try another one.'
       : why === 'name' ? 'Names are 2 to 24 letters or digits (dots, dashes and underscores are OK too).'
-      : why === 'password' ? 'Pick a password of at least 8 characters.'
-      : "Can't reach Kavana. Check your connection and try again.";
+      : accountTrouble(ex, emailOn !== false ? "That name and password don't match. Forgot your password? Sign in with an email code instead, then set a new one."
+        : "That name and password don't match.");
     err.hidden = false;
   }
 });
@@ -2021,18 +2107,90 @@ $('#signout').addEventListener('click', async () => {
   go('focus');
   toast('Signed out.');
 });
-$('#delete-account').addEventListener('click', async () => {
+// A code we emailed, asked for until it matches (five tries, like the server's). Resolves with what use() returned.
+async function askCode(email, label, use) {
+  for (let i = 0; i < 5; i++) {
+    const c = await ask({
+      title: 'Check Your Email', message: `We sent a 6-digit code to ${email}. It works for 10 minutes.`, input: '6 digits',
+      type: 'text', mode: 'numeric', auto: 'one-time-code', actions: [{ label: 'Cancel', cancel: true }, { label, main: true }],
+    });
+    if (c.i !== 1 || !c.value.trim()) return null;
+    try { return await use(c.value); } catch (ex) {
+      if (ex.status !== 401) { toast(accountTrouble(ex, '')); return null; }
+      toast("That code doesn't match. Try again.");
+    }
+  }
+  return null;
+}
+$('#acct-email').addEventListener('click', async () => {
+  const had = D.account.email;
   const r = await ask({
-    title: 'Delete Your Account?', message: "This deletes everything of yours on the server. Your history stays in this browser. Type your password to go ahead.",
-    input: 'Password', actions: [{ label: 'Cancel', cancel: true }, { label: 'Delete', main: true, danger: true }],
+    title: had ? 'Change Your Email' : 'Add Your Email',
+    message: had ? `It's ${had} now. We'll send a code to the new one.`
+      : "Then you can sign in with a code we email you, and get back in if you forget your password. It's only used for that.",
+    input: 'you@example.com', type: 'email', auto: 'email', actions: [{ label: 'Cancel', cancel: true }, { label: 'Send Code', main: true }],
   });
-  if (r.i !== 1 || !r.value) return;
+  const email = r.value.trim().toLowerCase();
+  if (r.i !== 1 || !email) return;
   try {
-    await D.deleteAccount(r.value);
+    const out = await D.addEmail(email);
+    if (out.name) { toast("That's your email already."); return; }
+  } catch (ex) { toast(accountTrouble(ex, '')); return; }
+  if (await askCode(email, had ? 'Change Email' : 'Add Email', (code) => D.confirmEmail(email, code))) {
+    D.track('email');
+    toast(had ? 'Email changed.' : 'Email added.');
+    renderAccount();
+  }
+});
+$('#acct-password').addEventListener('click', async () => {
+  const has = D.account.password !== false;
+  let current;
+  if (has && !D.freshEmailSignIn()) {
+    const r = await ask({
+      title: 'Change Your Password',
+      message: D.account.email ? 'Type the one you have now first. Forgot it? Sign out, sign in with an email code, and come back here within 15 minutes.' : 'Type the one you have now first.',
+      input: 'Current password', auto: 'current-password', actions: [{ label: 'Cancel', cancel: true }, { label: 'Next', main: true }],
+    });
+    if (r.i !== 1 || !r.value) return;
+    current = r.value;
+  }
+  const n = await ask({
+    title: has ? 'New Password' : 'Set a Password',
+    message: has ? 'At least 8 characters. Your other devices will ask you to sign in again.'
+      : 'At least 8 characters. Then you can sign in by typing your email (or username) and this password, as well as with a code.',
+    input: 'New password', auto: 'new-password', actions: [{ label: 'Cancel', cancel: true }, { label: has ? 'Change' : 'Set Password', main: true }],
+  });
+  if (n.i !== 1 || !n.value) return;
+  if (n.value.length < 8) { toast('Pick a password of at least 8 characters.'); return; }
+  try {
+    await D.setPassword(n.value, current);
+    D.track('password');
+    toast(has ? 'Password changed. Your other devices will ask you to sign in again.' : 'Password set.');
+    renderAccount();
+  } catch (ex) { toast(accountTrouble(ex, "That password doesn't match.")); }
+});
+$('#delete-account').addEventListener('click', async () => {
+  const deleted = () => {
     D.track('account_delete');
     friends = null;
     go('focus');
     toast('Account deleted.');
+  };
+  if (D.account.password === false) { // no password: an emailed code makes sure it's you
+    if (!(await confirmIt('Delete Your Account?', "This deletes everything of yours on the server. Your history stays in this browser. We'll email you a code to make sure it's you.", 'Send Code', true))) return;
+    let sent;
+    try { sent = (await D.accountCode()).sent; } catch (ex) { toast(accountTrouble(ex, '')); return; }
+    if (await askCode(sent, 'Delete', (code) => D.deleteAccount({ code }).then(() => true))) deleted();
+    return;
+  }
+  const r = await ask({
+    title: 'Delete Your Account?', message: "This deletes everything of yours on the server. Your history stays in this browser. Type your password to go ahead.",
+    input: 'Password', auto: 'current-password', actions: [{ label: 'Cancel', cancel: true }, { label: 'Delete', main: true, danger: true }],
+  });
+  if (r.i !== 1 || !r.value) return;
+  try {
+    await D.deleteAccount({ password: r.value });
+    deleted();
   } catch (ex) { toast(ex.status === 401 ? "That password doesn't match." : "Couldn't delete it. Check your connection."); }
 });
 

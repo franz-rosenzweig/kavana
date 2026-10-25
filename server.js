@@ -1,7 +1,8 @@
 'use strict';
 // Kavana's server. The app itself runs in the browser (web/engine.js); this is the part that can't:
 // - a mailbox that sends a device its check-in pings on time, so they arrive with the app closed;
-// - optional accounts, which back up and sync the browser's data between devices;
+// - optional accounts, which back up and sync the browser's data between devices (a name and a
+//   password, or an email and a code we send it, through Proton Mail Bridge here);
 // - focus with friends (accounts only, opt-in on both sides), napping together, rankings;
 // - a count of the shelter cats everyone sponsored;
 // - feature counts for the admin dashboard.
@@ -11,6 +12,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const push = require('./lib/push');
 const S = require('./lib/state');
+const M = require('./lib/mail');
 const E = require('./web/engine');
 
 const PORT = Number(process.env.KAVANA_PORT) || 8460;
@@ -24,11 +26,13 @@ const MIN = Number(process.env.KAVANA_MINUTE_MS) || 60000; // tests shrink the m
 E.config.MIN = MIN;
 const DAY = 86400000;
 const LIMITS = { accounts: 2000, devices: 5000, docBytes: 1_000_000, friends: 20, pings: 60, napping: 8 };
+const CODE_MS = 10 * 60000; // an emailed code works for ten real minutes, whatever the tests do to the minute
 const NAP_GRACE = Number(process.env.KAVANA_NAP_GRACE_MS) || 15000; // like the page's: a glance away is fine
 
 const VAPID = S.vapid();
 const ADMIN_TOKEN = S.adminToken();
 const sign = push.vapidSigner(VAPID, PUBLIC_URL);
+const mail = M.mailer(S.DIR);
 const { st, migrated } = S.loadState();
 st.naps = st.naps || {};
 st.shelter = st.shelter || { total: 0 };
@@ -402,7 +406,7 @@ const EVENTS = new Set(['open', 'start', 'end', 'stop', 'checkin', 'why', 'pause
   'install_hint', 'signup', 'login', 'logout', 'account_delete', 'friend_add', 'share', 'join', 'history', 'clear', 'settings',
   'later', 'cat', 'chime', 'welcome', 'analytics_off', 'cat_met', 'companion', 'cafe', 'shop', 'buy', 'adopt', 'away', 'tags',
   'missions', 'mission', 'nap', 'nap_gone', 'cancel', 'claim', 'rankings', 'rank', 'sponsor', 'shelter', 'theme', 'news',
-  'room', 'edit', 'note', 'achievements', 'share_cafe', 'lines', 'pausing', 'overtime', 'mindful']);
+  'room', 'edit', 'note', 'achievements', 'share_cafe', 'lines', 'pausing', 'overtime', 'mindful', 'email', 'password']);
 const today = () => new Date().toISOString().slice(0, 10);
 function dayRec(day) {
   if (!an.days[day]) {
@@ -448,9 +452,9 @@ function analyticsView() {
 }
 
 // ---------- accounts ----------
-function newSession(req, name) {
+function newSession(req, name, via) {
   const token = crypto.randomBytes(32).toString('base64url');
-  st.sessions[S.sha(token)] = { user: name, pwv: st.accounts[name].pwv || 0, created: Date.now() };
+  st.sessions[S.sha(token)] = { user: name, pwv: st.accounts[name].pwv || 0, created: Date.now(), ...(via ? { via } : {}) };
   // A device that signs in now gets the account's pings instead of its own.
   const dev = currentDevice(req);
   if (dev) { dev.d.owner = name; delete st.pings[`d:${dev.id}`]; delete st.daily[`d:${dev.id}`]; }
@@ -471,7 +475,58 @@ function removeAccount(name) {
   save();
 }
 
-const me = (name) => ({ name, display: display(name), admin: Boolean(st.accounts[name].admin) });
+const me = (name) => {
+  const a = st.accounts[name];
+  return { name, display: display(name), admin: Boolean(a.admin), email: a.email || null, password: Boolean(a.hash) };
+};
+
+// ---------- emailed codes: six digits, ten minutes, five tries, kept in memory only ----------
+// kind 'in' signs in (or makes the account), 'add' puts an address on a signed-in account,
+// 'confirm' stands in for the password when an account without one is deleted.
+const codes = new Map(); // `${kind}:${email}` -> { hash, exp, tries, user }
+const emailOwner = (email) => Object.keys(st.accounts).find((n) => st.accounts[n].email === email) || null;
+const SUBJECTS = { in: 'signing in to Kavana', add: 'adding this address to your Kavana account', confirm: 'deleting your Kavana account' };
+
+async function sendCode(kind, email, user, ip) {
+  if (limited(`code:${ip}`, 6, 60 * MIN) || limited(`code:${email}`, 3, 15 * MIN) || limited(`codeday:${email}`, 8, DAY)
+    || limited('code', 100, 60 * MIN) || limited('codeday', 500, DAY)) return 'throttled';
+  for (const k of [`code:${ip}`, `code:${email}`, `codeday:${email}`, 'code', 'codeday']) hit(k);
+  if (codes.size > 5000) for (const [k, c] of codes) if (c.exp < Date.now()) codes.delete(k);
+  const code = String(crypto.randomInt(1000000)).padStart(6, '0');
+  codes.set(`${kind}:${email}`, { hash: S.sha(`${email}:${code}`), exp: Date.now() + CODE_MS, tries: 0, user });
+  const text = `Hi,\n\nYour code for ${SUBJECTS[kind]} is:\n\n    ${code.slice(0, 3)} ${code.slice(3)}\n\n`
+    + "It works for 10 minutes. If you didn't ask for it, you can ignore this email: nobody gets in without the code.\n\n"
+    + `Kavana\n${PUBLIC_URL}\n`;
+  try { await mail.send(email, `${code} is your Kavana code`, text); } catch (e) {
+    console.log(`mail to ${email.split('@')[1]}: ${e.message}`);
+    codes.delete(`${kind}:${email}`);
+    return 'mail';
+  }
+  return null;
+}
+
+function takeCode(kind, email, code, user) {
+  const key = `${kind}:${email}`;
+  const c = codes.get(key);
+  if (!c || c.exp < Date.now() || (user && c.user !== user)) return false;
+  if (c.hash !== S.sha(`${email}:${String(code || '').replace(/\D/g, '')}`)) {
+    if (++c.tries >= 5) codes.delete(key);
+    return false;
+  }
+  codes.delete(key);
+  return true;
+}
+
+// An account made from an email gets a name from the part before the @ (friends see it until you
+// pick a display name), with a number on the end if it's taken.
+function nameFor(email) {
+  let base = email.split('@')[0].replace(/\+.*$/, '').replace(/[^a-z0-9._-]/g, '').replace(/^[._-]+/, '').slice(0, 20);
+  if (base.length < 2) base = 'cat';
+  let name = base;
+  for (let i = 2; st.accounts[name] || !S.validName(name); i++) name = `${base}${i}`;
+  return name;
+}
+
 
 // ---------- routes ----------
 async function api(req, res, route) {
@@ -490,7 +545,7 @@ async function api(req, res, route) {
   // --- open to everyone ---
   switch (route) {
     case 'GET /api/config':
-      return json(res, 200, { vapidKey: VAPID.publicKey });
+      return json(res, 200, { vapidKey: VAPID.publicKey, email: mail.on });
 
     case 'POST /api/devices': { // turn on reminders: register (or refresh) this browser's push subscription
       if (!push.endpointAllowed(body.endpoint) || !body.keys || !push.validKeys(body.keys)) return json(res, 400, { error: 'subscription' });
@@ -579,12 +634,37 @@ async function api(req, res, route) {
       return json(res, 200, me(name), newSession(req, name));
     }
 
-    case 'POST /api/login': {
+    case 'POST /api/login': { // a name or an email, and the password
       if (limited(`login:${ip}`, 5, 15 * MIN) || limited('login', 20, 60 * MIN)) return json(res, 429, { error: 'throttled' });
-      const name = S.cleanName(body.name);
-      const a = st.accounts[name];
-      if (!a || !S.checkPassword(a, String(body.password || '').trim())) { hit(`login:${ip}`); hit('login'); return json(res, 401, { error: 'wrong' }); }
+      const given = S.cleanName(body.name);
+      const name = given.includes('@') ? emailOwner(M.cleanEmail(given)) : given;
+      const a = name && st.accounts[name];
+      if (!a || !a.hash || !S.checkPassword(a, String(body.password || '').trim())) { hit(`login:${ip}`); hit('login'); return json(res, 401, { error: 'wrong' }); }
       return json(res, 200, me(name), newSession(req, name));
+    }
+
+    case 'POST /api/email/code': { // send a sign-in code; the same code makes an account if there isn't one
+      if (!mail.on) return json(res, 404, { error: 'no email' });
+      const email = M.cleanEmail(body.email);
+      if (!M.validEmail(email)) return json(res, 400, { error: 'email' });
+      const err = await sendCode('in', email, null, ip);
+      if (err) return json(res, err === 'throttled' ? 429 : 502, { error: err });
+      return json(res, 200, { ok: true });
+    }
+
+    case 'POST /api/email/signin': {
+      if (limited(`codebad:${ip}`, 20, 60 * MIN)) return json(res, 429, { error: 'throttled' });
+      const email = M.cleanEmail(body.email);
+      if (!takeCode('in', email, body.code)) { hit(`codebad:${ip}`); return json(res, 401, { error: 'wrong' }); }
+      let name = emailOwner(email);
+      const created = !name;
+      if (created) {
+        if (Object.keys(st.accounts).length >= LIMITS.accounts) return json(res, 503, { error: 'full' });
+        name = nameFor(email);
+        st.accounts[name] = { created: now, pwv: 0, code: S.friendCode(), friends: [], email };
+        count(null, 'server.signup');
+      }
+      return json(res, 200, { ...me(name), created }, newSession(req, name, 'email'));
     }
   }
 
@@ -633,8 +713,59 @@ async function api(req, res, route) {
       return json(res, 200, { rev: d.rev });
     }
 
-    case 'POST /api/account/delete': {
-      if (!S.checkPassword(user.account, String(body.password || ''))) return json(res, 401, { error: 'wrong' });
+    // Email and password on the account page.
+    case 'POST /api/account/email': { // send a code to the new address; it's set once the code comes back
+      if (!mail.on) return json(res, 404, { error: 'no email' });
+      const email = M.cleanEmail(body.email);
+      if (!M.validEmail(email)) return json(res, 400, { error: 'email' });
+      const owner = emailOwner(email);
+      if (owner === name) return json(res, 200, me(name));
+      if (owner) return json(res, 409, { error: 'taken' });
+      const err = await sendCode('add', email, name, ip);
+      if (err) return json(res, err === 'throttled' ? 429 : 502, { error: err });
+      return json(res, 200, { ok: true, sent: email });
+    }
+    case 'POST /api/account/email/confirm': {
+      if (limited(`codebad:${ip}`, 20, 60 * MIN)) return json(res, 429, { error: 'throttled' });
+      const email = M.cleanEmail(body.email);
+      if (!takeCode('add', email, body.code, name)) { hit(`codebad:${ip}`); return json(res, 401, { error: 'wrong' }); }
+      const owner = emailOwner(email);
+      if (owner && owner !== name) return json(res, 409, { error: 'taken' });
+      user.account.email = email;
+      save();
+      return json(res, 200, me(name));
+    }
+
+    // Set a password (or change it: that signs out your other devices). Changing it needs the old
+    // one, or a sign-in by email in the last 15 minutes ("forgot my password").
+    case 'POST /api/account/password': {
+      const pw = String(body.password || '');
+      if (pw.length < 8 || pw.length > 200) return json(res, 400, { error: 'password' });
+      const a = user.account;
+      const fresh = user.session.via === 'email' && now - user.session.created < 15 * 60000;
+      if (a.hash && !fresh) {
+        if (limited(`pw:${name}`, 5, 15 * MIN)) return json(res, 429, { error: 'throttled' });
+        if (!S.checkPassword(a, String(body.current || '').trim())) { hit(`pw:${name}`); return json(res, 401, { error: 'wrong' }); }
+      }
+      const had = Boolean(a.hash);
+      Object.assign(a, S.hashPassword(pw));
+      if (had) { a.pwv = (a.pwv || 0) + 1; user.session.pwv = a.pwv; }
+      save();
+      return json(res, 200, me(name));
+    }
+
+    case 'POST /api/account/code': { // an account without a password confirms things with an emailed code
+      if (!user.account.email || !mail.on) return json(res, 404, { error: 'no email' });
+      const err = await sendCode('confirm', user.account.email, name, ip);
+      if (err) return json(res, err === 'throttled' ? 429 : 502, { error: err });
+      return json(res, 200, { ok: true, sent: user.account.email });
+    }
+
+    case 'POST /api/account/delete': { // the password, or (no password) an emailed code
+      const a = user.account;
+      const ok = body.password ? Boolean(a.hash) && S.checkPassword(a, String(body.password))
+        : Boolean(a.email) && takeCode('confirm', a.email, body.code, name);
+      if (!ok) return json(res, 401, { error: 'wrong' });
       removeAccount(name);
       count(null, 'server.account_delete');
       return json(res, 200, { ok: true }, { 'Set-Cookie': sessionCookie(req, '', 0) });
@@ -768,7 +899,7 @@ async function admin(req, res, route) {
   switch (route) {
     case 'GET /admin/users':
       return json(res, 200, Object.entries(st.accounts).map(([n, x]) => ({
-        name: n, created: x.created, admin: Boolean(x.admin), friends: x.friends || [],
+        name: n, email: x.email || null, created: x.created, admin: Boolean(x.admin), friends: x.friends || [],
         devices: Object.values(st.devices).filter((d) => d.owner === n).length, blocks: docOf(n).doc.blocks.length,
       })));
     case 'POST /admin/add-user': {

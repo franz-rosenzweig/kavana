@@ -135,9 +135,9 @@ function signedOutElsewhere() { // the password was reset, or the account remove
   emit();
 }
 
-// kind: 'signup' or 'login'. This browser's data comes along into the account.
-D.signIn = async (kind, name, password) => {
-  const me = await api('POST', kind === 'signup' ? 'api/signup' : 'api/login', { name, password });
+// After any sign-in, this browser's data comes along into the account.
+async function joined(me, existing) {
+  LS.set('emailAt', null);
   D.account = me;
   LS.set('account', JSON.stringify(me));
   try {
@@ -145,7 +145,7 @@ D.signIn = async (kind, name, password) => {
     // Signing in to an account that has settings: they come with it (this browser's look newer only
     // because its first save noted the time zone, and they'd turn off sharing, rename you, ...).
     const theirs = E.normalize(r.doc).settings;
-    if (kind === 'login' && theirs.u) D.doc.settings = { ...theirs, u: Math.max(theirs.u, D.doc.settings.u || 0) };
+    if (existing && theirs.u) D.doc.settings = { ...theirs, u: Math.max(theirs.u, D.doc.settings.u || 0) };
     D.doc = E.merge(D.doc, r.doc);
     D.rev = r.rev;
   } catch {}
@@ -153,7 +153,27 @@ D.signIn = async (kind, name, password) => {
   await pushSync();
   emit();
   return me;
+}
+
+// kind: 'signup' or 'login' (a name or an email, and the password).
+D.signIn = async (kind, name, password) => joined(await api('POST', kind === 'signup' ? 'api/signup' : 'api/login', { name, password }), kind === 'login');
+
+// By email: a code, which signs in, or makes the account if there isn't one. Resolves with created.
+D.emailCode = (email) => api('POST', 'api/email/code', { email });
+D.emailSignIn = async (email, code) => {
+  const { created, ...me } = await api('POST', 'api/email/signin', { email, code });
+  await joined(me, !created);
+  LS.set('emailAt', Date.now()); // for the next 15 minutes a new password doesn't need the old one
+  return created;
 };
+
+// The account page: an email (a code to it, then the code back), a password.
+const meNow = (me) => { D.account = me; LS.set('account', JSON.stringify(me)); emit(); return me; };
+D.addEmail = (email) => api('POST', 'api/account/email', { email }).then((r) => (r.name ? meNow(r) : r));
+D.confirmEmail = async (email, code) => meNow(await api('POST', 'api/account/email/confirm', { email, code }));
+D.setPassword = async (password, current) => meNow(await api('POST', 'api/account/password', { password, current }));
+D.freshEmailSignIn = () => Date.now() - (Number(LS.get('emailAt')) || 0) < 14 * 60000;
+D.accountCode = () => api('POST', 'api/account/code', {});
 
 D.refreshMe = async () => {
   if (!D.account) return;
@@ -164,6 +184,7 @@ D.refreshMe = async () => {
 D.signOut = async () => {
   await pushSync();
   try { await api('POST', 'api/logout', {}); } catch {}
+  LS.set('emailAt', null);
   D.account = null;
   LS.set('account', null);
   D.doc = E.empty();
@@ -173,9 +194,9 @@ D.signOut = async () => {
   emit();
 };
 
-// Deleting the account removes the server's copy; this browser keeps its own.
-D.deleteAccount = async (password) => {
-  await api('POST', 'api/account/delete', { password });
+// Deleting the account removes the server's copy; this browser keeps its own. proof: { password } or { code }.
+D.deleteAccount = async (proof) => {
+  await api('POST', 'api/account/delete', proof);
   D.account = null;
   LS.set('account', null);
   D.rev = 0;

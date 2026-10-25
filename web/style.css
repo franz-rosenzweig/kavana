@@ -666,6 +666,10 @@ header.nav { margin: -4px 0 0 -8px; }
 .navback { border: 0; background: none; color: var(--tint); display: flex; align-items: center; gap: 2px; font-size: 17px; padding: 6px 8px; }
 .navback svg { width: 22px; height: 22px; }
 #account-tabs { margin-bottom: 18px; }
+#v-account .btn.plain.wide { margin-top: 10px; }
+#v-account form .btn.filled { margin-top: 16px; }
+#acct-how { margin-bottom: 24px; }
+#email-form input[readonly] { color: var(--label2); }
 
 /* ---------- sheets, alerts, toasts ---------- */
 .sheet { position: fixed; inset: 0; z-index: 50; display: flex; align-items: flex-end; justify-content: center; background: rgba(0, 0, 0, .32); animation: fade .2s; }

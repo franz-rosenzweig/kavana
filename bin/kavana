@@ -50,7 +50,7 @@ const printLogin = (r) => console.log(`\n  Link:      ${URL_}\n  Name:      ${r.
       break;
     case 'users':
       for (const u of await call('GET', '/admin/users')) {
-        console.log(`${u.name.padEnd(16)} since ${new Date(u.created).toISOString().slice(0, 10)}  devices ${u.devices}  blocks ${u.blocks}`
+        console.log(`${u.name.padEnd(16)} ${u.email ? `${u.email}  ` : ''}since ${new Date(u.created).toISOString().slice(0, 10)}  devices ${u.devices}  blocks ${u.blocks}`
           + `${u.admin ? '  admin' : ''}${u.friends.length ? `  friends: ${u.friends.join(', ')}` : ''}`);
       }
       break;
