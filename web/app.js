@@ -96,6 +96,7 @@ function go(where) {
 }
 
 // Redraw from the doc, and react to what changed since last time (a check-in came, the end came...).
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => refresh()); // the sky follows dark mode
 function refresh() {
   D.tick();
   const prev = state;
@@ -777,11 +778,16 @@ function ringTo(min) {
 // Each stop is [progress, top, bottom]; the stops are close in hue, so the sky never goes muddy between them.
 const SKY = [[0, '#8fcdf0', '#e7f6ff'], [0.3, '#9fd2ee', '#fdf0d8'], [0.48, '#f7c98a', '#fde6c2'], [0.64, '#f2a17c', '#fbd0a0'],
   [0.78, '#8a64ad', '#ee9d86'], [0.9, '#3d3a78', '#8a6a9e'], [1, '#1f2756', '#4a4f8c']];
+// In dark mode it's evening already: a calm deep blue that goes on into the night, with white text.
+const SKY_DARK = [[0, '#22406a', '#35557e'], [0.35, '#243a66', '#454f7e'], [0.6, '#262f5e', '#4f4679'], [0.8, '#1d2350', '#3a396b'],
+  [1, '#141a3e', '#2b2e5e']];
+const darkSky = () => matchMedia('(prefers-color-scheme: dark)').matches;
 const mixHex = (a, b, t) => { const A = [1, 3, 5].map((i) => parseInt(a.slice(i, i + 2), 16)), B = [1, 3, 5].map((i) => parseInt(b.slice(i, i + 2), 16)); return `rgb(${A.map((x, i) => Math.round(x + (B[i] - x) * t)).join(',')})`; };
 function skyAt(p) {
   p = Math.max(0, Math.min(1, p));
-  for (let i = 1; i < SKY.length; i++) if (p <= SKY[i][0]) { const [p0, t0, b0] = SKY[i - 1], [p1, t1, b1] = SKY[i]; const t = (p - p0) / (p1 - p0); return [mixHex(t0, t1, t), mixHex(b0, b1, t)]; }
-  return [SKY[SKY.length - 1][1], SKY[SKY.length - 1][2]];
+  const stops = darkSky() ? SKY_DARK : SKY;
+  for (let i = 1; i < stops.length; i++) if (p <= stops[i][0]) { const [p0, t0, b0] = stops[i - 1], [p1, t1, b1] = stops[i]; const t = (p - p0) / (p1 - p0); return [mixHex(t0, t1, t), mixHex(b0, b1, t)]; }
+  return [stops[stops.length - 1][1], stops[stops.length - 1][2]];
 }
 function homeSky() { const h = new Date().getHours() + new Date().getMinutes() / 60; return skyAt(h >= 7 && h < 16 ? 0 : h >= 16 && h < 19 ? 0.2 + (h - 16) / 3 * 0.55 : h >= 19 && h < 21 ? 0.75 + (h - 19) / 2 * 0.25 : h >= 5 && h < 7 ? 0.72 - (h - 5) / 2 * 0.72 : 1); }
 
@@ -919,8 +925,9 @@ function renderRun() {
     const p = watch ? Math.min(1, spent / (180 * 60000)) : a.over ? 1 : grow;
     const [s1, s2] = skyAt(p);
     $('#sky').style.setProperty('--sky1', s1); $('#sky').style.setProperty('--sky2', s2);
-    $('#sky').style.setProperty('--stars', String(Math.max(0, Math.min(1, (p - 0.7) / 0.3))));
-    document.body.classList.toggle('dusk', p > 0.74); // white text once the sky turns purple
+    const dark = darkSky(); // a few stars from the start, more as the night goes on
+    $('#sky').style.setProperty('--stars', String(dark ? 0.35 + 0.65 * Math.max(0, Math.min(1, (p - 0.4) / 0.6)) : Math.max(0, Math.min(1, (p - 0.7) / 0.3))));
+    document.body.classList.toggle('dusk', dark || p > 0.74); // white text once the sky turns purple
     $('#sky').classList.toggle('paused', paused);
     if (disk) $('#run-disk').style.setProperty('--left', String(frac));
     if (cats) { drawKitten(a, grow, paused); drawMates(a); }

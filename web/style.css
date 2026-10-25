@@ -212,6 +212,7 @@ body.home[data-theme="library"], body.home[data-theme="night"] { --label: #fff; 
 @keyframes divein { from { transform: scale(.62); } }
 @media (prefers-reduced-motion: reduce) { .skybg.dive, #v-run.dive .dial, .skybg .motes { animation: none; } }
 body.sky { background: #8fcdf0; }
+@media (prefers-color-scheme: dark) { body.sky { background: #22406a; } }
 body.sky.withmenu #app, body.sky #app { padding-top: calc(env(safe-area-inset-top) + 12px); }
 body.sky .menubtn { background: rgba(255, 255, 255, .32); box-shadow: none; color: #1d2a3a; }
 body.sky.dusk .menubtn { background: rgba(255, 255, 255, .16); color: #fff; }
