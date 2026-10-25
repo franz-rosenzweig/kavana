@@ -117,8 +117,11 @@ E.normalize = (d, sized = true) => {
   doc.settings = { ...doc.settings, ...(d.settings || {}) };
   doc.settings.daily = { ...E.empty().settings.daily, ...(doc.settings.daily || {}) };
   if (!Array.isArray(doc.settings.tags)) doc.settings.tags = E.TAGS.slice();
-  doc.owned = Array.isArray(d.owned) ? d.owned.filter((x) => x && E.SHOP[x.id] && x.at) : [];
-  doc.claimed = Array.isArray(d.claimed) ? d.claimed.filter((x) => x && typeof x.id === 'string' && x.at && rewardOf(x.id)) : [];
+  // Things bought and rewards collected stay even when this version doesn't know them yet (a newer
+  // device added them), so an older app never drops them when it syncs. Unknown ones count for nothing.
+  const known = (x) => x && typeof x.id === 'string' && /^[a-z0-9-]{1,40}$/.test(x.id) && x.at;
+  doc.owned = Array.isArray(d.owned) ? d.owned.filter(known) : [];
+  doc.claimed = Array.isArray(d.claimed) ? d.claimed.filter(known) : [];
   if (!Array.isArray(doc.settings.lines)) doc.settings.lines = [];
   doc.settings.rank = { ...E.empty().settings.rank, ...(doc.settings.rank && typeof doc.settings.rank === 'object' ? doc.settings.rank : {}) };
   doc.cleared = d.cleared || 0;

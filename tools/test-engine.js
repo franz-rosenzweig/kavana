@@ -963,4 +963,17 @@ test('every sound has its recording, the shop has a price for each one not free,
   assert.ok(S.KINDS.every((k) => S.GROUPS.some((g) => g.id === k.group)));
 });
 
+test('things and rewards a newer version added survive normalize and merge, and count for nothing here', () => {
+  const t = Date.now();
+  const doc = E.empty();
+  doc.owned.push({ id: 'sound-from-the-future', at: t, u: t }, { id: '<bad id>', at: t, u: t });
+  doc.claimed.push({ id: 'achievement-from-the-future', at: t, u: t });
+  const before = E.treats(E.normalize(E.empty()));
+  const out = E.normalize(E.merge(E.empty(), E.normalize(doc)));
+  assert.deepEqual(out.owned.map((x) => x.id), ['sound-from-the-future']);
+  assert.deepEqual(out.claimed.map((x) => x.id), ['achievement-from-the-future']);
+  assert.equal(E.treats(out).left, before.left);
+  assert.ok(E.owns(out, 'sound-from-the-future'));
+});
+
 console.log(`\n${n} passed`);
