@@ -9,6 +9,11 @@ const NEWS = [
     go: 'shop',
   },
   {
+    id: 'sounds-2026-10', date: '2026-10-25', title: 'Real sounds, and lots more of them',
+    body: 'The background sounds are real recordings now, and there are 39 of them: five cats purring, rain and thunder, waves and a stream, fires, birds and crickets, cafés, a city at night, and music. One in each group is free, the rest are in the shop. And when a kitten comes home, it says hello.',
+    go: 'shop',
+  },
+  {
     id: 'forest-2026-10', date: '2026-10-22', title: 'A big update: everything Forest does, with cats',
     body: 'A stopwatch that counts up. Cancel in the first 10 seconds. Pauses of up to 5 minutes (or none). Count extra time past the end. Notes on your blocks. Achievements, a monthly challenge and a starter challenge. Rankings with friends and worldwide. Shelter cats you sponsor. Café themes, six new sounds that you can layer, a mindful minute, and rooms anyone can join with a code.',
     go: 'missions',

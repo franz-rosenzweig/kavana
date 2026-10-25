@@ -654,6 +654,7 @@ function startHomecoming(h, b) {
     if (!homecoming || homecoming.id !== b.id) return;
     homeCafe.view.resize();
     homeCafe.arrive({ ...cafeCat(h), title: `${c.name} came home`, sub: `${titleOf(h)} · ${fmtMin(h.actual)}` }, fish(`+${b.treats + (b.bonus || 0)}`));
+    if (pref('chime') !== '0' && !document.hidden) Sound.meow(); // and says hello, unless the chime is off
   }, quick ? 0 : 450);
   setTimeout(() => sheet.classList.remove('arriving'), quick ? 150 : 2300);
 }
@@ -2388,31 +2389,36 @@ function togglePause() {
 }
 $('#t-pause').addEventListener('click', togglePause);
 $('#t-sound').addEventListener('click', () => { Sound.prime(); soundsOpen = true; render(); });
-// The sounds sheet: tap to add or take away (two at most), a volume for each.
+// The sounds sheet, in its groups: tap to add or take away (two at most), a volume for each.
 function drawSounds() {
   const mix = soundMix();
-  $('#sound-list').replaceChildren(...Sound.KINDS.map((k) => {
-    const on = mix.find((m) => m.id === k.id);
-    const owned = soundOwned(k.id);
-    const row = el('div', `row soundrow${on ? ' on' : ''}${owned ? '' : ' locked'}`);
-    const b = el('button', 'grow soundpick');
-    b.type = 'button';
-    b.dataset.sound = k.id;
-    const ic = el('span', 'tile t-teal');
-    ic.append(icon(on ? 'check' : owned ? 'sound' : 'lock'));
-    const txt = el('span', 'grow');
-    txt.append(el('b', null, k.name), el('span', 'sub', owned ? (k.about || 'Free') : `${k.about} · ${fish(E.SHOP[`sound-${k.id}`])} in the shop`));
-    b.append(ic, txt);
-    row.append(b);
-    if (on) {
-      const v = el('input', 'vol');
-      v.type = 'range'; v.min = '5'; v.max = '100'; v.value = String(Math.round(on.vol * 100));
-      v.dataset.vol = k.id;
-      v.setAttribute('aria-label', `${k.name} volume`);
-      row.append(v);
-    }
-    return row;
+  $('#sound-list').replaceChildren(...Sound.GROUPS.flatMap((g) => {
+    const box = el('div', 'group');
+    box.append(...Sound.KINDS.filter((k) => k.group === g.id).map((k) => soundRow(k, mix)));
+    return [el('p', 'ghead', g.name), box];
   }));
+}
+function soundRow(k, mix) {
+  const on = mix.find((m) => m.id === k.id);
+  const owned = soundOwned(k.id);
+  const row = el('div', `row soundrow${on ? ' on' : ''}${owned ? '' : ' locked'}`);
+  const b = el('button', 'grow soundpick');
+  b.type = 'button';
+  b.dataset.sound = k.id;
+  const ic = el('span', 'tile t-teal');
+  ic.append(icon(on ? 'check' : owned ? 'sound' : 'lock'));
+  const txt = el('span', 'grow');
+  txt.append(el('b', null, k.name), el('span', 'sub', owned ? (k.about || 'Free') : `${k.about} · ${fish(E.SHOP[`sound-${k.id}`])} in the shop`));
+  b.append(ic, txt);
+  row.append(b);
+  if (on) {
+    const v = el('input', 'vol');
+    v.type = 'range'; v.min = '5'; v.max = '100'; v.value = String(Math.round(on.vol * 100));
+    v.dataset.vol = k.id;
+    v.setAttribute('aria-label', `${k.name} volume`);
+    row.append(v);
+  }
+  return row;
 }
 $('#sounds').addEventListener('click', (e) => {
   if (e.target === e.currentTarget || e.target.closest('#sounds-done')) { soundsOpen = false; render(); return; }

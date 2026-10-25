@@ -953,4 +953,14 @@ test('every cat and café thing has its painting, and every shop item is in cats
   assert.deepEqual(E.SHELTER, K.SHELTER.map((c) => c.id));
 });
 
+test('every sound has its recording, the shop has a price for each one not free, and each group has a free one', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const S = require('../web/sounds.js').KavanaSound;
+  for (const k of S.KINDS) if (k.file) assert.ok(fs.existsSync(path.join(__dirname, '../web/audio', `${k.file}.mp3`)), k.file);
+  assert.deepEqual(S.KINDS.filter((k) => !k.free).map((k) => `sound-${k.id}`).sort(), Object.keys(E.SHOP).filter((id) => id.startsWith('sound-')).sort());
+  for (const g of S.GROUPS) assert.ok(S.KINDS.some((k) => k.group === g.id && k.free), g.id);
+  assert.ok(S.KINDS.every((k) => S.GROUPS.some((g) => g.id === k.group)));
+});
+
 console.log(`\n${n} passed`);

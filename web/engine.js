@@ -38,8 +38,15 @@ E.SHOP = {
   snowglobe: 40, sled: 60, snowman: 80, fireplace: 150, flurry: 300,
   // Café themes (wallpaper and floor; "classic" is free)
   'theme-mint': 100, 'theme-sakura': 150, 'theme-library': 150, 'theme-garden': 200, 'theme-night': 250,
-  // Sounds (purring, brown noise, rain and white noise are free)
+  // Sounds (one in each group is free: see web/sounds.js)
   'sound-cafe': 60, 'sound-fire': 60, 'sound-waves': 80, 'sound-birds': 80, 'sound-night': 80, 'sound-wind': 60,
+  'sound-bigpurr': 60, 'sound-deeppurr': 60, 'sound-sleepypurr': 60, 'sound-tomasina': 80,
+  'sound-lightrain': 60, 'sound-heavyrain': 60, 'sound-thunder': 80, 'sound-rainforest': 80, 'sound-stream': 60,
+  'sound-bigwaves': 80, 'sound-baltic': 60, 'sound-ocean': 60,
+  'sound-crackle': 60, 'sound-hearth': 60, 'sound-bigroom': 80,
+  'sound-birdsong': 60, 'sound-crickets': 60, 'sound-farstorm': 80, 'sound-hollowwind': 60,
+  'sound-copenhagen': 80, 'sound-city': 60,
+  'sound-dunes': 80, 'sound-angelic': 80, 'sound-bowls': 80, 'sound-tibetan': 80,
   // Shelter cats: the cat version of Forest's real trees. Each one stands for a real shelter cat;
   // they come one after the other.
   shelter1: 1000, shelter2: 1000, shelter3: 1000, shelter4: 1000,

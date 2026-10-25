@@ -11,6 +11,7 @@ These pages are how Kavana works, written down. It's a focus timer that checks i
 
 ### Using Kavana
 - [A focus block](focus-blocks.md) — a timer or a stopwatch, cancel, pausing, extra time, sounds, notes, the end, breaks, a mindful minute and Later
+- [Sounds](sounds.md) — the 39 background sounds, where each recording is from, and how the loops are made
 - [Check-ins and Cat mode](check-ins.md) — "Ask me" and "Nudge me", what the notifications do, and the cat at a check-in
 - [Cats](cats.md) — the kitten that grows while you focus, staying with it, napping together and nap rooms, the cats, treats and the shop, shelter cats, goals and achievements, and the Halloween and winter weeks
 - [The Café, goal and the daily reminder](history.md) — your Cat Café by day, week, month and year, sharing it, themes, when you focus, editing blocks, tags, the heatmap, a daily goal and a "Time to focus?" ping

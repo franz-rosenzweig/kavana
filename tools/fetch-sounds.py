@@ -9,7 +9,7 @@ seconds of its own end before it and of its own start after it (sounds.js loops 
 
     python3 tools/fetch-sounds.py auth                 print the link to let this script download originals
     python3 tools/fetch-sounds.py auth <code>          swap the code that page shows for a token
-    python3 tools/fetch-sounds.py make [ids]           download what's missing and write web/audio/
+    python3 tools/fetch-sounds.py make [ids]           download what's missing and write web/audio/ (and the meows)
     python3 tools/fetch-sounds.py check [ids] [--plots <dir>]
                                                        read the files back: the seam, the loudness, the peaks
     python3 tools/fetch-sounds.py try <id> <sound> [--loop 75] [--xfade 4]
@@ -38,8 +38,11 @@ PAD = 0.5  # the same as PAD in web/sounds.js
 # The picks: all "Creative Commons 0" (the script checks). `start` is where the loop begins in the
 # recording (seconds), `loop` how long it is (whole seconds, which sounds.js counts on), `xfade` how long
 # its end blends into its start, `channels` 1 makes it mono, and `highpass` / `lowpass` (Hz) filter out
-# a rumble, hum or whine. `file` is the name in web/audio/: a changed file needs a new number,
-# and the same name in FILES in web/sounds.js. docs/sounds.md lists them for people.
+# a rumble, hum or whine. A sound sounds.js doesn't make on the device sets its loudness by `like` (as
+# loud as that one) or `lufs`. `over` lays other recordings on top: [(sound, start, seconds, at, dB)],
+# each faded in and out and placed `at` seconds into the loop (it wraps round the end). `file` is the
+# name in web/audio/: a changed file needs a new number, and the same name in KINDS in web/sounds.js.
+# docs/sounds.md lists them for people.
 PICKS = {
     # "Female cat purr" by Sadiquecat (Pearl, lying on her side): steady breaths every 1.45 s. The
     # loop's two ends land on the same point of a breath, the pause before one, and the short fade
@@ -66,7 +69,57 @@ PICKS = {
     # "Bird ambience. Coniferous forest dawn chorus." by SamsterBirdies (by a lake): a steady chorus.
     # The garden recordings I tried came and went too much for a loop (a pheasant, a rooster, a plane).
     'birds': dict(sound=745273, start=10.4, loop=90, xfade=5, file='birds-1'),
+
+    # Cats. Each fade sits in the pause between two breaths, with both ends in step.
+    'bigpurr': dict(sound=260881, start=8.63, loop=50, xfade=0.25, lufs=-20.5, file='bigpurr-1'),  # "Cat purr.wav" by Trautwein
+    'deeppurr': dict(sound=130968, start=3.35, loop=30, xfade=0.25, like='purr', channels=1, file='deeppurr-1'),  # "Cat purring" by cubilon
+    'sleepypurr': dict(sound=86756, start=1.21, loop=16, xfade=0.4, like='purr', channels=1, file='sleepypurr-1'),  # "purring cat.wav" by skyn production
+    # "Cat Purr / gato ronroneando" by yetcop: Tomasina's purr has no breaths to keep in step, so a longer fade
+    'tomasina': dict(sound=252645, start=1.6, loop=9, xfade=1, like='purr', channels=1, file='tomasina-1'),
+    # Rain and water
+    'lightrain': dict(sound=200273, start=6.2, loop=75, xfade=4, like='rain', channels=1, file='lightrain-1'),  # "Rain light 2 (rural)" by jmbphilmes
+    'heavyrain': dict(sound=507902, start=1.9, loop=45, xfade=4, like='rain', file='heavyrain-1'),  # "Heavy Rain Sound" by inuetc
+    # Felix Blume's rain again (another stretch), with the roll of thunder from "Rain and Thunder 4" by
+    # FlatHill on top: that one alone is 33 s, a thunder roll and the rain fading out after it.
+    'thunder': dict(sound=512334, start=160, loop=90, xfade=4, like='rain', over=[(237729, 0.5, 31, 20, 2)], file='thunder-1'),
+    # "Rain Sound and Rainforest" by INNORECORDS, which is itself a 68 s cycle (a shower, drops on the
+    # ferns, a lighter shower): one whole cycle, with the seam in its quietest bit
+    'rainforest': dict(sound=457447, start=26, loop=68, xfade=4, like='rain', file='rainforest-1'),
+    'stream': dict(sound=446019, start=3.0, loop=55, xfade=4, like='rain', file='stream-1'),  # "Gentle Stream" by BurghRecords
+    'bigwaves': dict(sound=412308, start=98.9, loop=90, xfade=6, like='waves', file='bigwaves-1'),  # "Big waves hit land" by straget
+    'baltic': dict(sound=339517, start=290.9, loop=90, xfade=4, like='waves', file='baltic-1'),  # "Waves at Baltic Sea shore" by pulswelle
+    'ocean': dict(sound=531015, start=1.9, loop=60, xfade=6, like='waves', file='ocean-1'),  # "Ocean Waves" by Noted451
+    # Fire. The ones full of loud pops sit a little quieter, so the limiter doesn't flatten them.
+    'sauna': dict(sound=444127, start=0.2, loop=90, xfade=4, like='fire', file='sauna-1'),  # "Lit Fireplace" by lurpsis
+    'crackle': dict(sound=138018, start=56.1, loop=90, xfade=4, lufs=-21, file='crackle-1'),  # "fireplace" by martats
+    'hearth': dict(sound=499032, start=6.1, loop=85, xfade=4, lufs=-23, file='hearth-1'),  # "13_Fire in fireplace" by 16FThumaF
+    'bigroom': dict(sound=81801, start=9.0, loop=80, xfade=4, lufs=-24, file='bigroom-1'),  # "Fire in Fireplace, Close Up, Reverberant" by silencyo
+    # Outside
+    'springbirds': dict(sound=345852, start=15.7, loop=90, xfade=5, like='birds', file='springbirds-1'),  # "Spring Birds Loop with Low-Cut (New Jersey)" by hargissssound
+    'birdsong': dict(sound=387978, start=0.3, loop=21, xfade=3, like='birds', file='birdsong-1'),  # "Birds Singing 03" by DCPoke
+    'crickets': dict(sound=129678, start=0.5, loop=12, xfade=2, like='night', file='crickets-1'),  # "crickets" by FreethinkerAnon
+    'farstorm': dict(sound=522299, start=22.8, loop=90, xfade=4, like='night', file='farstorm-1'),  # "Crickets At Night - Raw sound" by Defelozedd94
+    'hollowwind': dict(sound=22331, start=0.5, loop=29, xfade=3, like='wind', file='hollowwind-1'),  # "wind.ogg" by sleepCircle
+    # Places
+    'cafeteria': dict(sound=625112, start=0.3, loop=80, xfade=4, like='cafe', file='cafeteria-1'),  # "Crowd at Cafeteria" by sonically_sound
+    'copenhagen': dict(sound=482990, start=34.0, loop=90, xfade=4, like='cafe', file='copenhagen-1'),  # "People talking at cafe ambience" by priesjensen
+    'city': dict(sound=237329, start=0.1, loop=60, xfade=4, like='wind', file='city-1'),  # "Night city atmosphere" by Soundkrampf
+    # Music: longer loops and fades, all as loud as each other
+    'wandering': dict(sound=455855, start=100.6, loop=120, xfade=8, lufs=-21, file='wandering-1'),  # "Wandering" by Andrewkn
+    'dunes': dict(sound=447511, start=44.8, loop=120, xfade=8, lufs=-21, file='dunes-1'),  # "Dunes" by Andrewkn
+    'angelic': dict(sound=242773, start=402.9, loop=120, xfade=8, lufs=-21, file='angelic-1'),  # "Angelic Pad Loop" by PhonZz
+    'bowls': dict(sound=479206, start=614.2, loop=120, xfade=8, lufs=-21, file='bowls-1'),  # "sing bowl wave bird relaxtion meditation music" by smilecat77
+    'tibetan': dict(sound=514386, start=33.2, loop=120, xfade=8, lufs=-21, file='tibetan-1'),  # "Relaxation Sound" by Kevin_Manickam
 }
+
+# Short sounds that play once: the meows when a kitten comes home (MEOWS in web/sounds.js). `start`
+# and `secs` cut the meow out, and they're all set to the same loudness.
+CUES = {
+    'meow-a': dict(sound=333916, start=0, secs=1.38, file='meow-a-1'),  # "Cat Meowing" by lextrack
+    'meow-b': dict(sound=412016, start=1.9, secs=0.8, file='meow-b-1'),  # "cat purring and meow" by skymary
+    'meow-c': dict(sound=234333, start=2.36, secs=0.5, file='meow-c-1'),  # "Cat Meow and Purr" by mcroce
+}
+CUE_LOUD = -18  # LUFS over the loudest 400 ms
 
 # ---------- Freesound ----------
 def key():
@@ -250,8 +303,11 @@ def made(id, sr=SR, seed=1):
 
 @functools.cache
 def target(id):
-    """How loud the recording should be: as loud as the version made on the device (LUFS)."""
-    return np.mean([lufs(made(id, seed=s), SR) for s in (1, 2, 3)])
+    """How loud the recording should be: as loud as the version made on the device (LUFS), or as the
+    one it's `like`, or its own `lufs`."""
+    if id in SECONDS: return np.mean([lufs(made(id, seed=s), SR) for s in (1, 2, 3)])
+    pick = PICKS[id]
+    return np.float64(pick['lufs']) if 'lufs' in pick else target(pick['like'])
 
 # ---------- making a loop ----------
 def loop_of(x, sr, start, loop, xfade):
@@ -293,6 +349,14 @@ def limit(y, sr, ceiling=0.89):
     gs = np.interp(np.arange(y.shape[1]), np.arange(len(g)) * hop + hop / 2, g, period=y.shape[1])
     return y * gs, float(g.min()), float(np.mean(g < 10 ** (-1 / 20)))
 
+def fades(n, sr, secs):
+    """A gain that rises from 0 over `secs`, holds, and falls back to 0 at the end (raised cosine)."""
+    f = min(int(secs * sr), n // 2)
+    g = np.ones(n)
+    ramp = 0.5 - 0.5 * np.cos(np.pi * (np.arange(f) + 0.5) / f) if f else np.ones(0)
+    g[:f] = ramp; g[n - f:] = ramp[::-1]
+    return g
+
 def padded(y, sr):
     p = int(PAD * sr)
     return np.concatenate([y[:, -p:], y, y[:, :p]], axis=1)
@@ -305,15 +369,37 @@ def make(id, k):
     for band in ('highpass', 'lowpass'):
         if pick.get(band): x = sosfilt(butter(4, pick[band], band, fs=SR, output='sos'), x, axis=-1).astype(np.float32)
     y, r, tilt = loop_of(x, SR, pick['start'], pick['loop'], pick.get('xfade', 4))
+    for sound, start, secs, at, db in pick.get('over', []):
+        o = decode(download(k, sound)[0], len(y), secs=start + secs)[:, int(start * SR):]
+        o = o * fades(o.shape[1], SR, min(1.0, secs / 4)) * 10 ** (db / 20) * 10 ** ((lufs(y, SR) - lufs(o, SR)) / 20)
+        i = (int(at * SR) + np.arange(o.shape[1])) % y.shape[1]
+        np.add.at(y, (slice(None), i), o)
     want = target(id)
     y *= 10 ** ((want - lufs(y, SR)) / 20)
     y, g, busy = limit(y, SR)
     y *= 10 ** ((want - lufs(y, SR)) / 20)  # once more, for what the limiter took
+    for _ in range(4):  # which can push a pop back up to full scale: limit and top up again until it doesn't
+        if np.abs(y).max() <= 0.98: break
+        y, g, busy = limit(y, SR)
+        y *= 10 ** ((want - lufs(y, SR)) / 20)
+    if np.abs(y).max() > 0.98: y, g, busy = limit(y, SR)  # the ceiling has the last word
     OUT.mkdir(exist_ok=True)
     f = OUT / f"{pick['file']}.mp3"
     f.write_bytes(encode_mp3(padded(y, SR)))
     print(f"{id:6} {f.name:12} from {pick['sound']} ({kind}) {pick['start']}s+{pick['loop']}s, {len(y)}ch, tilted {tilt:+.1f} dB, ends alike {r:+.2f}, "
           f"{want:.1f} LUFS, limiter at most {20 * np.log10(g):.1f} dB and over 1 dB {busy:.1%} of the time, {f.stat().st_size / 1e6:.2f} MB")
+
+def make_cue(name, k):
+    cue = CUES[name]
+    x = decode(download(k, cue['sound'])[0], 1, secs=cue['start'] + cue['secs'])[:, int(cue['start'] * SR):]
+    x = sosfilt(butter(4, 150, 'highpass', fs=SR, output='sos'), x, axis=-1)
+    n = x.shape[1]
+    x = x * np.minimum(1, np.minimum(np.arange(n) / (0.005 * SR), (n - np.arange(n)) / (0.04 * SR)))  # 5 ms in, 40 ms out
+    x *= 10 ** ((CUE_LOUD - blocks(x, SR, 0.4, 0.01).max()) / 20)
+    x *= min(1, 0.8 / np.abs(x).max())
+    f = OUT / f"{cue['file']}.mp3"
+    f.write_bytes(encode_mp3(x))
+    print(f"{name:6} {f.name:12} from {cue['sound']} {cue['start']}s+{cue['secs']}s, peak {20 * np.log10(np.abs(x).max()):.1f} dBFS, {f.stat().st_size / 1e3:.0f} kB")
 
 # ---------- checking the files ----------
 def seam(y, sr):
@@ -333,7 +419,7 @@ def seam(y, sr):
     return jump, abs(lvl(a) - lvl(b)), np.percentile(ld, 95), np.mean(np.abs(spec(a) - spec(b))), np.percentile(sd, 95)
 
 def check(ids, plots=None):
-    print('id      loop  ch  LUFS (made-on-device)  RMS (LEVEL)  peak dBFS  short-term spread  seam: jump/step, level dB (p95), spectrum (p95)')
+    print('id          loop  ch  LUFS (target)   RMS (LEVEL)  peak dBFS  short-term spread  seam: jump/step, level dB (p95), spectrum (p95)')
     for id in ids:
         f = OUT / f"{PICKS[id]['file']}.mp3"
         x = decode(f.read_bytes(), None)
@@ -343,7 +429,8 @@ def check(ids, plots=None):
         y = x[:, int(PAD * SR):int(PAD * SR) + L * SR]
         jump, ldiff, lp95, sdiff, sp95 = max((seam(x[:, int(PAD * SR) - d:int(PAD * SR) - d + L * SR], SR) for d in (0, 1105, 2257)), key=lambda v: v[0] + v[1] / max(v[2], 0.1) + v[3] / v[4])
         st = blocks(y, SR, 3, 1)
-        print(f'{id:6} {L:4}s  {len(x)}   {lufs(y, SR):6.1f} ({target(id):6.1f})       {np.sqrt(np.mean(y ** 2)):.3f} ({LEVEL[id]:.2f})'
+        level = f'({LEVEL[id]:.2f})' if id in LEVEL else '      '
+        print(f'{id:11} {L:4}s  {len(x)}   {lufs(y, SR):6.1f} ({target(id):6.1f})  {np.sqrt(np.mean(y ** 2)):.3f} {level}'
               f'   {20 * np.log10(np.abs(y).max()):6.1f}     {np.percentile(st, 95) - np.percentile(st, 5):4.1f} dB         '
               f'{jump:4.2f}, {ldiff:4.1f} ({lp95:4.1f}), {sdiff:4.2f} ({sp95:4.2f})')
         if plots: plot(id, y, Path(plots))
@@ -404,7 +491,7 @@ def main():
         if rest: token(k, grant_type='authorization_code', code=rest[0]); print('Signed in; the token is in', KEY)
         else: print(f"Open this, press Authorize, and run `auth <code>` with the code it shows:\n{API}/oauth2/authorize/?client_id={k['client_id']}&response_type=code")
     elif cmd == 'make':
-        for id in rest or PICKS: make(id, k)
+        for id in rest or [*PICKS, *CUES]: make_cue(id, k) if id in CUES else make(id, k)
     elif cmd == 'check':
         plots = None
         if '--plots' in rest: i = rest.index('--plots'); plots = rest[i + 1]; del rest[i:i + 2]
