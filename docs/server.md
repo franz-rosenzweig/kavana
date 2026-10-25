@@ -34,6 +34,7 @@ Everything is set with environment variables:
 | `KAVANA_PATH` | the cookie path, when Kavana lives under a path like `/kavana/` | `/` |
 | `KAVANA_MINUTE_MS` | how long a "minute" is, for tests only | `60000` |
 | `KAVANA_NAP_GRACE_MS` | how long someone napping together may be out of Kavana before every kitten wanders off, for tests only | `15000` |
+| `KAVANA_MAIL` | `outbox` writes the emails to `outbox.jsonl` in the state folder instead of sending them, for tests only | |
 
 ## HTTPS and a path
 
@@ -72,23 +73,36 @@ To update, `git pull` and restart it. Browsers check the files each time Kavana 
 
 Everything the server knows is in `KAVANA_STATE`, and none of it is in git. Kavana writes its files readable only by you (mode 600), and the folder should be private too (`chmod 700`):
 
-- `state.json`: accounts (name, password hash, friend code, friends), sign-ins, devices with reminders on, the pings waiting to be sent, daily reminder times, and the groups napping together (each dropped 12 hours after it ends).
+- `state.json`: accounts (name, email, password hash, friend code, friends), sign-ins, devices with reminders on, the pings waiting to be sent, daily reminder times, and the groups napping together (each dropped 12 hours after it ends).
 - `docs/<name>.json`: each account's synced data, with its revision.
 - `analytics.json`: the usage counts per day.
 - `vapid.json`: the push key pair, made on the first run. Back it up: if you lose it, everyone has to turn reminders on again.
 - `admin-token`: the CLI's key, made on the first run.
+- `mail.json`, if you want sign-in by email (below). You make this one yourself.
 
 The server writes these itself, a moment after each change and again when it stops, so stop it before you edit or restore anything by hand.
 
+## Sign-in by email
+
+People can sign in with a code Kavana emails them, which also makes their account the first time. For that, Kavana needs an SMTP server to send through, in a `mail.json` in the state folder (`chmod 600`, since it holds a password):
+
+```json
+{ "host": "127.0.0.1", "port": 1025, "user": "you@example.com", "pass": "...", "from": "Kavana <support@example.com>" }
+```
+
+It always asks for STARTTLS and logs in with AUTH PLAIN. It only accepts a self-signed certificate on localhost, which is what [Proton Mail Bridge](https://proton.me/mail/bridge) has, and that's how mine sends: through Bridge, from support@tiresia.xyz. The `from` address has to be one your mail server lets you send as. Restart the server after you add the file. Without it, the app just offers names and passwords, and everything else works the same.
+
+For the codes to land in inboxes and not in spam, the `from` domain needs SPF, DKIM and DMARC records, which your mail provider gives you when you add the domain.
+
 ## Accounts and the CLI
 
-People make their own accounts in the app. `bin/kavana` is for the rest, and it talks to the running server on localhost with the token from the state folder, so give it the same `KAVANA_STATE`, and `KAVANA_PORT` if you changed it (with `KAVANA_URL`, the passwords it prints come with your address):
+People make their own accounts in the app, with an email or with a name and a password. `bin/kavana` is for the rest, and it talks to the running server on localhost with the token from the state folder, so give it the same `KAVANA_STATE`, and `KAVANA_PORT` if you changed it (with `KAVANA_URL`, the passwords it prints come with your address):
 
 ```
 kavana add-user <name>         make an account, prints the password
 kavana reset-password <name>   new password, signs out their devices
 kavana remove-user <name>      delete them and everything of theirs on the server
-kavana users                   list accounts
+kavana users                   list accounts, with their emails
 kavana admin <name> [off]      give an account admin rights, or take them away
 kavana friends <a> <b>         make two accounts friends (people can also swap codes in the app)
 kavana unfriend <a> <b>
@@ -99,7 +113,8 @@ The passwords it makes up are three plain words, like `maple-otter-lantern`, whi
 
 ## Limits
 
-- Sign-ups: 3 per IP address an hour, and 30 a day in all. Sign-ins: 5 wrong tries per IP address every 15 minutes.
+- Sign-ups with a name: 3 per IP address an hour, and 30 a day in all. Sign-ins: 5 wrong tries per IP address every 15 minutes.
+- Emailed codes: 6 per IP address an hour, 3 to one address every 15 minutes and 8 a day, and 100 an hour and 500 a day in all, so nobody can use your server to flood someone's inbox. Each code works for 10 minutes and 5 tries, and 20 wrong codes from one IP address in an hour stop it for a while.
 - At most 2,000 accounts, 5,000 devices with reminders, 20 friends each, and 1 MB of synced data per account. Nobody should get there: the app keeps each history under 800 KB by folding the oldest blocks into a summary ([how](DEVELOPING.md#the-engines-rules)).
 - Push only goes to the real push services (Apple, Google, Mozilla and Microsoft), so nobody can point your server at another address.
 

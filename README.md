@@ -76,7 +76,7 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 
 ### Your data stays yours
 - **No account needed.** Everything is kept in your browser. The server only sends the reminders, and it deletes each one once it's sent.
-- **An account if you want one**, to back it up, use it on more than one device, and focus with friends. **Delete My Account** removes the account and its data from the server.
+- **An account if you want one**, to back it up, use it on more than one device, and focus with friends. Your email is enough: Kavana emails you a code to sign in, so there's no password to remember (a name and password works too). **Delete My Account** removes the account and its data from the server.
 - **Counts, never content.** The app counts which features get used, with a random id per browser and never anything you type, and you can turn that off in **Settings → Privacy**. The details are in [Accounts and privacy](docs/privacy.md).
 
 ## Screenshots

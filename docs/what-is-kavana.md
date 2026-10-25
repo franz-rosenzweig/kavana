@@ -59,7 +59,7 @@ One thing to know about iPhones and iPads: the Home Screen app keeps its own dat
 
 **Settings** is the last tab, and it's laid out like the Settings app:
 
-- **Your account**, at the top: **Sign In** (or **Create Account**), and once you're signed in, your name, **Sign Out** and **Delete My Account**.
+- **Your account**, at the top: **Sign In**, with your email and a code Kavana emails you (it makes the account the first time), or with a name and password. Once you're signed in, it has your name, your **Email** and **Password** (add or change either one), your username, **Sign Out** and **Delete My Account**.
 - **Focus**: **Daily goal**, **Check in every** (10 to 60 minutes, or **Only at the end**), **Cat mode**, **Next kitten**, which takes you to the Cats tab, **Tags**, **Pausing** (up to 5 minutes, or off), **Count extra time**, **Closing Kavana counts as leaving**, **Block sites while you focus** (on a computer, which says **On** once [the browser extension](extension.md) is installed and opens its guide), **Your own lines** (for "Nudge me") and **Café theme**.
 - **Daily reminder**: **Remind me to start a block**, at a time and on the days you pick.
 - **Focus with friends**: **Friends** opens what you share, the name they see, your friend code, and your friends.

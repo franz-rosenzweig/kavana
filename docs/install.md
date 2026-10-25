@@ -48,7 +48,7 @@ If you use a Focus mode like Do Not Disturb, add Kavana to its allowed apps (Set
 
 ## On more than one device
 
-Without an account, each browser keeps its own Kavana. To have the same history, Later list and settings everywhere, make an account (tap **Sign In** at the top of **Settings**, then **Create Account**) and sign in with it on each device. What you did before signing in comes along into the account. The reminders are per device, so turn them on on each one where you want them.
+Without an account, each browser keeps its own Kavana. To have the same history, Later list and settings everywhere, make an account (tap **Sign In** at the top of **Settings**, type your email, then the code Kavana emails you, or use a name and password) and sign in with it on each device. What you did before signing in comes along into the account. The reminders are per device, so turn them on on each one where you want them.
 
 ## Your own copy
 

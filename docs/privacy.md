@@ -25,9 +25,10 @@ The notifications are encrypted for your browser before they leave the server, s
 
 ## With an account
 
-An account is for a backup, for using Kavana on more than one device, and for friends. When you make one, what was in your browser comes along into it. The server keeps, in one file per account:
+An account is for a backup, for using Kavana on more than one device, and for friends. You can make one with just your email: Kavana emails you a 6-digit code, you type it in, and that's the account, with no password to remember. Or you can make one with a name and a password, like before. When you make one, what was in your browser comes along into it. The server keeps, in one file per account:
 
-- your name and your password, stored as a scrypt hash, never the password itself;
+- your name, and your password if you set one, stored as a scrypt hash, never the password itself;
+- your email, if you signed up with it or added it. It's only used to send you sign-in codes, and a code to make sure it's you when an account without a password is deleted. Nothing else ever goes to it: no newsletters, no reminders, no "we miss you";
 - your friend code and who your friends are;
 - your sign-ins, each a random token kept only as a hash. The browser holds it in a cookie that lasts 400 days and is renewed when you use the app;
 - the same data your browser keeps: blocks, Later and settings, including your time zone, what you share with friends and the name they see. This is what syncs between your devices;
@@ -36,9 +37,11 @@ An account is for a backup, for using Kavana on more than one device, and for fr
 
 If you join the [rankings](friends.md#rankings), the server works out this week's minutes and kittens from your synced data, and shows them to your friends who are in the rankings too. If you also choose **Worldwide**, it shows them to everyone under the nickname you picked, and never your account name. Turning the rankings off takes you out right away.
 
+The codes come from support@tiresia.xyz, which is my Proton Mail address, so they travel like any other email I send. Each code works for 10 minutes and five tries, and the server keeps only a hash of it, in memory, so it's gone once it's used or the server restarts. If you didn't ask for a code, you can ignore the email: nobody gets in without it. When you sign up with your email, your account gets a name from the part before the @ (with a number on the end if someone has it already). Your friends see that name unless you pick another one in **Settings → Friends**, and **Settings → Account** shows it as your username.
+
 Your friends only ever see what [Focus with friends](friends.md) says they see: the block you're in now, at the level you chose, and never your history, notes, parked thoughts or check-ins. With rankings on, they also see your week's minutes and kittens. When anyone sponsors a [shelter cat](cats.md#shelter-cats), the server adds one to a single number for everybody, with nothing about who did it; your friends' count comes from their own synced data.
 
-**Sign Out** (tap your name at the top of Settings) removes the account's data from that browser, and it's still safe in the account. **Delete My Account** asks for your password and then removes the account from the server: your sign-ins, your synced data, your pending pings and daily reminder, and you from your friends' lists. What's in your browser stays there, and a device that had reminders on keeps them as a device without an account.
+**Sign Out** (tap your name at the top of Settings) removes the account's data from that browser, and it's still safe in the account. **Delete My Account** asks for your password (or, if you never set one, for a code Kavana emails you) and then removes the account from the server, your email included: your sign-ins, your synced data, your pending pings and daily reminder, and you from your friends' lists. What's in your browser stays there, and a device that had reminders on keeps them as a device without an account.
 
 ## The browser extension
 

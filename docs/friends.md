@@ -6,7 +6,7 @@
 
 ## Adding a friend
 
-Make an account first (tap **Sign In** at the top of **Settings**, then **Create Account**, see [Accounts and privacy](privacy.md)). Then open **Settings → Friends**:
+Make an account first (tap **Sign In** at the top of **Settings** and type your email, then the code Kavana sends you, see [Accounts and privacy](privacy.md)). Then open **Settings → Friends**:
 
 1. **Your friend code** is a short code made of letters and digits. Press **Copy** and send it to your friend however you like.
 2. Your friend types it into **Add a friend's code** and presses **Add** (or you type theirs). You're now friends with each other, and Kavana says "Friend added. You see each other once you both share."
