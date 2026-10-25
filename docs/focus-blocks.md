@@ -6,9 +6,9 @@ A "block" is one stretch of focus on one thing, and it's the whole app: you say 
 
 ## Starting a block
 
-The **Focus** tab is one screen, the way Forest does it: the café wall, a round window with the cat who's coming sitting on its cushion, a big clock and one **Start** button. At the top, **What are you working on?** wants one plain sentence, like "Draft the newsletter". Your last few intentions sit under it as chips, so a thing you come back to every day is one tap away.
+The **Focus** tab is one screen, the way Forest does it: the café wall, a round window with the cat who's coming sitting on its cushion, a big clock and one **Start** button. You don't have to type anything: pick how long and press **Start**. Under the tag at the top there's **Add a title**, if you want one, like Forest's session title: one plain sentence, like "Draft the newsletter", and then the check-ins ask about that. While you type one, your last few titles show up under it, so a thing you come back to every day is one tap away. A tag is optional too. A block without a title goes by its tag in the Café, or just "Focus".
 
-<p align="center"><img src="images/start.png" width="260" alt="The Focus tab on a phone: the menu button and a Writing tag at the top, Draft the newsletter, chips for Spanish practice and Sketch the logo, the round window with Miso on a cushion and the ring around it at 50 minutes, Miso comes home grown up., 50:00 and the Start button"> <img src="images/options.png" width="260" alt="The This Block sheet over the Focus tab: Miso with Change, the tags with Writing picked, Timer and Stopwatch, How long with 50 min picked, Check-ins with Ask me picked, and First step"></p>
+<p align="center"><img src="images/start.png" width="260" alt="The Focus tab on a phone: the menu button and a Writing tag at the top, Add a title under it, the round window with Miso on a cushion and the ring around it at 50 minutes, Miso comes home grown up., 50:00 and the Start button"> <img src="images/options.png" width="260" alt="The This Block sheet over the Focus tab: Miso with Change, the tags with Writing picked, Timer and Stopwatch, How long with 50 min picked, Check-ins with Ask me picked, and First step"></p>
 
 *The Focus tab, ready to go, and everything else about the block.*
 

@@ -6,7 +6,7 @@ A "check-in" is how Kavana keeps you company during a block, and you pick one of
 
 ## Ask me
 
-"Ask me" asks "Still on: Draft the newsletter?" every 15 minutes, with two answers:
+"Ask me" asks "Still on: Draft the newsletter?" every 15 minutes (or "Still focusing?" if the block has no title), with two answers:
 
 - **👍 Yes** means you're on it. Kavana says "Good. Keep going." and goes quiet until the next one.
 - **🌀 Drifted** means you weren't, which happens to everybody. It says "No worries" and asks **What pulled you away?**: Phone, Messages, Email, The web, Thoughts, Someone, Tired, Hungry or Other. Tap one, or **Skip**. The line under the ring counts it ("Drifted once"), and the Café tab shows what pulls you away most.

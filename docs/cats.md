@@ -50,7 +50,7 @@ This is the same rule Forest has, and it's the point: the kitten is a reason to 
 
 ## Napping together
 
-If you have friends in Kavana (see [Focus with friends](friends.md)), you can nap together, which is my version of Forest's "Plant Together". When a friend is focusing, press **Join** next to their name, type what you're working on and start. Your kitten and theirs grow up in the same ring, side by side, with their name under theirs, and you both finish at the same moment. With three or more friends, yours sits on top and theirs sit in a row along the bottom of the ring.
+If you have friends in Kavana (see [Focus with friends](friends.md)), you can nap together, which is my version of Forest's "Plant Together". When a friend is focusing, press **Join** next to their name and start. Your kitten and theirs grow up in the same ring, side by side, with their name under theirs, and you both finish at the same moment. With three or more friends, yours sits on top and theirs sit in a row along the bottom of the ring.
 
 The rule is the same as Forest's, and it's the whole point: if ANYONE in the group leaves Kavana for more than 15 seconds, or stops, every kitten in the group wanders off, yours too. Kavana says who it was ("Alex left Kavana, so every kitten wandered off."), and your block keeps going like it always does. If a friend only glances away, their kitten goes pale in your ring for a moment, and nothing happens as long as they're back within the 15 seconds. There's no **Pause** while you nap together, because one person's pause would leave everybody else waiting.
 

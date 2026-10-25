@@ -22,12 +22,12 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/hero-dark.png">
-  <img src="docs/images/hero-light.png" alt="Three phones: the Focus tab with Draft the newsletter typed in and Miso on a cushion in the round window, the same block running at sunset with the kitten growing in the ring, and the Café as a little 3D room full of cats">
+  <img src="docs/images/hero-light.png" alt="Three phones: the Focus tab with Miso on a cushion in the round window and the ring set to 50 minutes, the same block running at sunset with the kitten growing in the ring, and the Café as a little 3D room full of cats">
 </picture>
 
 ## Why I built it
 
-Kavana (כוונה) is Hebrew for intention, the attention you bring to what you're doing. The app is a focus timer, and the difference from a normal one is that it doesn't just count down. You type what you're working on, pick 5, 25 or 50 minutes or your own number, and while the block runs it checks in: "Still on: Draft the newsletter?" You tap **Yes**, or you tap **Drifted** and say what pulled you away, and you're back on it a few seconds later instead of twenty minutes later.
+Kavana (כוונה) is Hebrew for intention, the attention you bring to what you're doing. The app is a focus timer, and the difference from a normal one is that it doesn't just count down. You pick how long, give it a title if you like, and while the block runs it checks in: "Still on: Draft the newsletter?" You tap **Yes**, or you tap **Drifted** and say what pulled you away, and you're back on it a few seconds later instead of twenty minutes later.
 
 A countdown can tell you the time is up, but it can't tell you that you left the work ten minutes ago for your phone. That's the part I wanted help with, so that's what Kavana does: it notices WITH you, gently, and keeps a log so you can see what pulls you away most.
 
@@ -36,7 +36,7 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 ## Features
 
 ### A block
-- **What you're working on.** One screen, like Forest's: type it, drag around the window to pick how long (5 minutes to 2 hours), and press **Start**. The clock opens the rest: a first step if it helps you start, a tag, how it checks in, and a **Stopwatch** that counts up instead. Your last few intentions are one tap away, and for the first 10 seconds **Cancel** takes a block back.
+- **One screen, like Forest's.** Drag around the window to pick how long (5 minutes to 2 hours) and press **Start**. A title and a tag are there if you want them, and optional. The clock opens the rest: a first step if it helps you start, how it checks in, and a **Stopwatch** that counts up instead. Your last few titles are one tap away, and for the first 10 seconds **Cancel** takes a block back.
 - **Two ways to check in.** "Ask me" asks "Still on: ...?" every 15 minutes, or however often you set it (Yes / Drifted, and then "What pulled you away?"). "Nudge me" sends a short line or a quote at an uneven gap instead, so it doesn't feel like a metronome.
 - **Reminders with the app closed.** The check-ins arrive as notifications, on an iPhone or iPad from the Home Screen app, on Android, and in browsers on a computer. On Android the notification has **Yes** and **Drifted** buttons.
 ### While you work

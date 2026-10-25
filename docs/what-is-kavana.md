@@ -2,7 +2,7 @@
 
 # What is Kavana?
 
-Kavana is a focus timer that checks in on you while you work. The name is Hebrew (כוונה) for intention, the attention you bring to what you're doing. You type what you're working on, pick how long, and every so often it asks "Still on: ...?" If you drifted, you say so, and you're back on it a minute later instead of at the end of the hour.
+Kavana is a focus timer that checks in on you while you work. The name is Hebrew (כוונה) for intention, the attention you bring to what you're doing. You pick how long (and, if you like, give it a title), and every so often it asks "Still on it?" If you drifted, you say so, and you're back on it a minute later instead of at the end of the hour.
 
 <p align="center"><img src="images/checkin.png" width="300" alt="A block about 15 minutes in on a phone, with the check-in card Still on: Draft the newsletter?, big 👍 Yes and 🌀 Drifted buttons, and Miso the cat peeking over the top of the card"></p>
 
@@ -35,7 +35,7 @@ Kavana gets around the way Forest does. The Focus tab is the whole first screen:
 
 *An iPad in landscape, with the menu open.*
 
-With a keyboard (an iPad with one, or a computer), **⌘1** to **⌘5** go to Focus, Later, Café, Cats and Settings, **⌘,** opens Settings, the space bar pauses and resumes a block, **N** jumps to "What are you working on?", and **Esc** closes the menu or a sheet, or goes back.
+With a keyboard (an iPad with one, or a computer), **⌘1** to **⌘5** go to Focus, Later, Café, Cats and Settings, **⌘,** opens Settings, the space bar pauses and resumes a block, **N** jumps to the title, and **Esc** closes the menu or a sheet, or goes back.
 
 ## Where your data lives
 

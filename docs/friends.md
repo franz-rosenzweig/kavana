@@ -39,7 +39,7 @@ Once you share, your friends show on the Focus tab, under the Start button, unde
 
 ## Joining a friend
 
-When a friend is focusing with more than a couple of minutes left, their name has a **Join** button. Press it, and under the Start button the Focus tab says "Napping with Dana. You'll finish together at 4:02 PM. If anyone leaves, every kitten wanders off." Type what you'll work on (it doesn't have to be the same thing) and press **Start Focus**. The length is set by their block, so there's no "How long" to pick, and **Cancel** goes back to a normal block.
+When a friend is focusing with more than a couple of minutes left, their name has a **Join** button. Press it, and under the Start button the Focus tab says "Napping with Dana. You'll finish together at 4:02 PM. If anyone leaves, every kitten wanders off." Add a title if you like (it doesn't have to be the same thing) and press **Start**. The length is set by their block, so there's no "How long" to pick, and **Cancel** goes back to a normal block.
 
 While you work, Dana's kitten grows up in your ring next to yours, and the block says "Napping with Dana" under your intention. That's napping together, and it has one rule: if anyone in the group leaves Kavana or stops, every kitten wanders off. If everybody stays, every kitten comes home with extra treats. The whole thing is in [Cats](cats.md#napping-together). With Cat mode off, joining is just focusing together: "Joining Dana. You'll both finish at 4:02 PM." and then "Focusing with Dana".
 
