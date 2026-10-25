@@ -273,7 +273,7 @@ function friendStarted(name, block) {
     notify(`a:${f}`, {
       kind: 'friend', tag: `kavana-friend-${name}`, friend: name,
       title: `${display(name)} started focusing`,
-      body: `${mine.settings.share === 'all' ? `${block.intention}. ` : ''}${block.mode === 'stopwatch' ? 'On a stopwatch.' : `${left} min. Join them?`}`,
+      body: `${mine.settings.share === 'all' && block.intention ? `${block.intention}. ` : ''}${block.mode === 'stopwatch' ? 'On a stopwatch.' : `${left} min. Join them?`}`,
     });
   }
 }

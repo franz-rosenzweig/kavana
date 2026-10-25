@@ -236,6 +236,8 @@ function chime(soft) {
 }
 
 const catsOn = () => D.doc.settings.cat !== false;
+// A block's name where one has to be shown: its title, which is optional (like Forest's session title), else its tag.
+const titleOf = (b) => b.intention || b.tag || 'Focus';
 const dayKey = (t) => { const d = new Date(t); return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`; };
 // The past: past 2000 blocks, the oldest are folded into doc.past, which keeps each day's totals
 // (E.pastDays: the minutes by tag, who came home, how many wandered off) but not the blocks or their hours.
@@ -526,7 +528,7 @@ function drawLive() {
   live.hidden = !busy || route === 'focus' || document.body.classList.contains('bare');
   if (live.hidden) return;
   live.classList.toggle('paused', Boolean(state.active && state.active.paused));
-  $('#live-text').textContent = state.active ? state.active.intention : 'Break';
+  $('#live-text').textContent = state.active ? titleOf(state.active) : 'Break';
   paintLive();
 }
 function paintLive() {
@@ -546,7 +548,7 @@ function drawOverlays() {
   if (checkin) {
     $('#ask-pane').hidden = asking;
     $('#why-pane').hidden = !asking;
-    $('#checkin-text').textContent = a.intention;
+    $('#checkin-q').replaceChildren(...(a.intention ? ['Still on: ', Object.assign(el('span'), { id: 'checkin-text', textContent: a.intention }), '?'] : ['Still focusing?']));
     putCat($('#checkin-cat'), 'peek');
   }
   const outcome = Boolean(state.awaiting) && !checkin;
@@ -595,7 +597,8 @@ function drawInvite() {
 function drawOutcome() {
   const b = state.awaiting;
   $('#outcome-eyebrow').textContent = b.mode === 'stopwatch' ? (b.stopped ? 'Stopwatch, under 10 minutes' : 'Stopwatch') : b.stopped ? 'Stopped early' : "Time's up";
-  $('#outcome-text').textContent = b.intention;
+  $('#outcome-text').textContent = b.intention || b.tag || '';
+  $('#outcome-text').hidden = !b.intention && !b.tag;
   const c = K.byId(b.cat);
   const line = $('#outcome-kitten');
   line.hidden = !catsOn();
@@ -644,7 +647,7 @@ function startHomecoming(h, b) {
   setTimeout(() => {
     if (!homecoming || homecoming.id !== b.id) return;
     homeCafe.view.resize();
-    homeCafe.arrive({ ...cafeCat(h), title: `${c.name} came home`, sub: `${h.intention} · ${fmtMin(h.actual)}` }, fish(`+${b.treats + (b.bonus || 0)}`));
+    homeCafe.arrive({ ...cafeCat(h), title: `${c.name} came home`, sub: `${titleOf(h)} · ${fmtMin(h.actual)}` }, fish(`+${b.treats + (b.bonus || 0)}`));
   }, quick ? 0 : 450);
   setTimeout(() => sheet.classList.remove('arriving'), quick ? 150 : 2300);
 }
@@ -652,7 +655,6 @@ $('#homecafe').addEventListener('pointerup', () => $('#outcome').classList.remov
 
 function renderHome() {
   show('focus');
-  $('#today-date').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
   $('#remind-banner').hidden = !pushSupported || Boolean(mySub);
   $('#install-banner').hidden = !(ios && !standalone) || remembered('installNo');
   // What's new, once per post; the starter challenge until it's done.
@@ -855,7 +857,8 @@ function renderRun() {
   const paused = Boolean(a.paused);
   const watch = a.mode === 'stopwatch';
   $('#run-eyebrow').textContent = paused ? 'Paused' : a.over ? 'Extra time' : watch ? 'Stopwatch' : 'Focusing';
-  $('#run-intention').textContent = a.intention;
+  $('#run-intention').textContent = a.intention || a.tag || ''; // no title: the sky and the kitten are enough
+  $('#run-intention').hidden = !a.intention && !a.tag;
   $('#run-step').hidden = !a.step;
   $('#run-step').replaceChildren(...(a.step ? [el('b', null, 'First step: '), a.step] : []));
   $('#run-line').hidden = !a.line || paused;
@@ -1258,7 +1261,7 @@ function cafeCat(b) {
   const small = cameHomeSmall(b);
   return {
     key: b.id, id: c.id, src: small ? c.kitten : c.portrait, napSrc: small ? null : c.nap, kitten: small, poses: small ? null : c.poses || null,
-    ghost: c.breed === 'ghost', title: c.name, sub: b.past ? dayLong(b.start) : `${b.intention} · ${fmtMin(b.actual)}`,
+    ghost: c.breed === 'ghost', title: c.name, sub: b.past ? dayLong(b.start) : `${titleOf(b)} · ${fmtMin(b.actual)}`,
   };
 }
 const ITEM_NAMES = Object.fromEntries(K.ITEMS.map((x) => [x.id, [x.name, x.about]]));
@@ -1449,7 +1452,7 @@ function renderCafe() {
       : b.drifts ? `drifted ${times(b.drifts)}` : b.checkins ? 'no drift' : 'no check-ins';
     const [emo, word] = OUTCOME[b.outcome] || ['⏹️', 'No answer'];
     const mid = el('span', 'grow');
-    const what = el('span', 'what', b.intention);
+    const what = el('span', `what${b.intention ? '' : ' untitled'}`, titleOf(b));
     if (b.tag) { const t = el('span', 'htag', b.tag); t.style.setProperty('--c', tagColor(b.tag)); what.append(' ', t); }
     mid.append(what, el('span', 'meta', `${word} · ${b.mode === 'stopwatch' ? `stopwatch, ${b.actual} min` : length} · ${drift}`));
     if (b.note) mid.append(el('span', 'hnote', b.note));
@@ -2037,10 +2040,14 @@ $('#remind-on').addEventListener('click', turnOnReminders);
 $('#remind-later').addEventListener('click', () => { remember('remind'); go('focus'); });
 
 // start screen
+$('#recent').addEventListener('pointerdown', (e) => { if (e.target.closest('[data-recent]')) e.preventDefault(); }); // keep the title field open
 $('#recent').addEventListener('click', (e) => {
   const c = e.target.closest('[data-recent]');
-  if (c) $('#start').intention.value = c.dataset.recent;
+  if (c) { $('#start').intention.value = c.dataset.recent; $('#start').intention.blur(); }
 });
+// The title is a quiet line, like Forest's "Add session title": your recent ones show while you type one.
+$('#start').intention.addEventListener('focus', () => $('#start').classList.add('titling'));
+$('#start').intention.addEventListener('blur', () => setTimeout(() => $('#start').classList.remove('titling'), 120));
 $('#lengths').addEventListener('click', (e) => {
   const chip = e.target.closest('button');
   if (!chip) return;
@@ -2068,7 +2075,6 @@ $('#start').addEventListener('submit', (e) => {
   const m = join ? 'timer' : currentMode();
   const len = join || m === 'stopwatch' ? 0 : custom ? Math.round(Number(f.custom.value)) : minutes;
   if (!join && m === 'timer' && !(len >= 1 && len <= 240)) { toast('Pick between 1 and 240 minutes.'); return; }
-  if (!f.intention.value.trim()) { toast("Type what you're working on first."); f.intention.focus(); return; }
   const extras = startExtras();
   const s = style || state.settings.style;
   const later = fromLater && (state.later.find((x) => x.id === fromLater) || {}).text === f.intention.value.trim() ? fromLater : undefined;
@@ -2114,8 +2120,7 @@ async function joinByCode(code) {
   join = { name: r.host, end: r.end, nap: r.id, code };
   go('focus');
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  $('#start').intention.focus();
-  toast("Type what you'll work on, then Start. You'll finish together.");
+  toast("Press Start when you're ready. You'll finish together.");
 }
 $('#join-code').addEventListener('click', async () => {
   const r = await ask({ title: 'Join a Nap Room', message: 'Type the 6-letter code you got.', input: 'ABCDEF', type: 'text', actions: [{ label: 'Cancel', cancel: true }, { label: 'Join', main: true }] });
@@ -2170,8 +2175,7 @@ $('#friends-list').addEventListener('click', (e) => {
   join = { name: f.display, end: f.end, nap: f.nap || null };
   renderHome();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  $('#start').intention.focus();
-  toast(join.nap && catsOn() ? "Type what you'll work on, then Start. Your kittens nap together." : "Type what you'll work on, then Start. You'll finish together.");
+  toast(join.nap && catsOn() ? "Press Start when you're ready. Your kittens nap together." : "Press Start when you're ready. You'll finish together.");
 });
 
 $('#break-banner').addEventListener('click', (e) => {
@@ -2834,7 +2838,6 @@ $('#edit').addEventListener('submit', (e) => {
   e.preventDefault();
   const f = e.target;
   const id = editId;
-  if (!f.intention.value.trim()) { toast('Say what you worked on.'); return; }
   editId = null;
   if (act((doc, t) => E.edit(doc, id, { intention: f.intention.value, tag: editTag, note: f.note.value }, t), "Couldn't save that.")) { D.track('edit'); toast('Saved.'); }
 });
@@ -2845,7 +2848,7 @@ $('#close-counts').addEventListener('change', (e) => setting({ closeCounts: e.ta
 // the mindful minute
 $('#breath-len').addEventListener('click', (e) => { const b = e.target.closest('[data-len]'); if (b) { breathLen = Number(b.dataset.len); stopBreath(); renderBreathe(); } });
 $('#breath-sound').addEventListener('click', () => { Sound.prime(); soundsOpen = true; render(); });
-$('#breath-focus').addEventListener('click', () => { go('focus'); setTimeout(() => $('#start').intention.focus(), 100); });
+$('#breath-focus').addEventListener('click', () => go('focus'));
 
 // Keyboard, for iPads with keyboards and Macs: ⌘1-5 for Focus, Later, Café, Cats and Settings, ⌘, for Settings, space to pause, Esc to close.
 document.addEventListener('keydown', (e) => {

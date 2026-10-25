@@ -156,8 +156,7 @@
       <button type="button" class="tagpill" id="home-tag"><i class="dot" id="home-tag-dot"></i><span id="home-tag-name">No tag</span><svg><use href="#i-chevron"/></svg></button>
       <button type="button" class="treats" data-go="shop" id="home-treats" title="Treats to spend in the shop">🐟 0</button>
     </header>
-    <p class="eyebrow-date" id="today-date"></p>
-    <input name="intention" class="homeintent" maxlength="140" placeholder="What are you working on?" aria-label="What are you working on?">
+    <input name="intention" class="hometitle" maxlength="140" placeholder="Add a title" aria-label="A title for this block (optional)">
     <div class="chips homechips" id="recent" hidden></div>
     <div class="window" id="home-window" tabindex="0" role="slider" aria-label="How long" aria-valuemin="5" aria-valuemax="120" aria-valuenow="25">
       <svg class="ring" viewBox="0 0 320 320" aria-hidden="true"><circle class="track" cx="160" cy="160" r="148"/><circle class="prog" id="home-ring" cx="160" cy="160" r="148" pathLength="1000"/><circle class="knob" id="home-knob" cx="160" cy="12" r="11"/></svg>
@@ -652,7 +651,7 @@
   <div class="sheetcard" id="ask-pane">
     <div class="sheet-cat" id="checkin-cat"></div>
     <p class="fm-label">Check-in</p>
-    <h2>Still on: <span id="checkin-text"></span>?</h2>
+    <h2 id="checkin-q">Still on: <span id="checkin-text"></span>?</h2>
     <div class="bigchoices two">
       <button class="choice yes" data-ans="yes"><span>👍</span>Yes</button>
       <button class="choice drift" data-ans="drifted"><span>🌀</span>Drifted</button>
@@ -753,7 +752,7 @@
   <div class="sheetcard">
     <div class="grabber"></div>
     <div class="sheethead"><button type="button" class="btn plain small" id="edit-cancel">Cancel</button><b>Edit Block</b><button class="btn plain small strong" type="submit">Save</button></div>
-    <div class="group"><div class="row"><input name="intention" class="field" maxlength="140" placeholder="What you worked on"></div></div>
+    <div class="group"><div class="row"><input name="intention" class="field" maxlength="140" placeholder="A title (optional)"></div></div>
     <p class="ghead">Tag</p>
     <div class="chips tagchips" id="edit-tags"></div>
     <p class="ghead">Note</p>

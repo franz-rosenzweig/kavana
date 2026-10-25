@@ -471,7 +471,7 @@ E.view = (doc, now) => {
   const seen = new Set();
   const recent = [];
   for (const b of [...doc.blocks].sort((a, b) => b.start - a.start)) {
-    if (seen.has(b.intention.toLowerCase())) continue;
+    if (!b.intention || seen.has(b.intention.toLowerCase())) continue; // a block without a title isn't one to repeat
     seen.add(b.intention.toLowerCase());
     recent.push(b.intention);
     if (recent.length === 4) break;
@@ -512,8 +512,7 @@ function closeAll(doc, now) {
 }
 
 E.start = (doc, o, now) => {
-  const intention = clean(o.intention, 140);
-  if (!intention) bad('intention');
+  const intention = clean(o.intention, 140); // optional, like Forest's session title
   const joining = o.withEnd && o.withEnd > now + M();
   const mode = !joining && o.mode === 'stopwatch' ? 'stopwatch' : 'timer';
   let minutes = mode === 'stopwatch' ? E.STOPWATCH_MAX : Math.round(Number(o.minutes));
@@ -579,7 +578,7 @@ E.cancel = (doc, now) => {
 E.edit = (doc, id, patch, now) => {
   const b = doc.blocks.find((x) => x.id === id && !x.cancelled);
   if (!b) bad('edit');
-  if ('intention' in patch) { const t = clean(patch.intention, 140); if (!t) bad('intention'); b.intention = t; }
+  if ('intention' in patch) b.intention = clean(patch.intention, 140);
   if ('tag' in patch) b.tag = clean(patch.tag, 20) || undefined;
   if ('note' in patch) b.note = String(patch.note || '').replace(/\r/g, '').trim().slice(0, 500) || undefined;
   touch(doc, b, now);
@@ -929,6 +928,8 @@ E.setSettings = (doc, patch, now) => {
 
 // ---------- what the server should send, and when ----------
 // Cat mode (on unless turned off) gives the pings a cat and a "Boo!".
+// A block's title at the start of a notification's line, if it has one (the title is optional).
+const said = (b) => (b.intention ? `${b.intention}. ` : '');
 E.pings = (doc, now) => {
   const out = [];
   const cat = doc.settings.cat !== false;
@@ -937,20 +938,20 @@ E.pings = (doc, now) => {
     for (const p of b.plan) {
       if (p.at <= now) continue;
       out.push(p.kind === 'nudge'
-        ? { at: p.at, kind: 'nudge', tag: `kavana-${b.id}`, title: `${cat ? '🐱 ' : ''}${b.intention}`, body: p.line, block: b.id, n: p.n }
+        ? { at: p.at, kind: 'nudge', tag: `kavana-${b.id}`, title: `${cat ? '🐱 ' : ''}${b.intention || 'Keep going'}`, body: p.line, block: b.id, n: p.n }
         : {
           at: p.at, kind: 'checkin', tag: `kavana-${b.id}`, block: b.id, n: p.n,
-          title: `${cat ? '🐱 Boo! ' : ''}Still on: ${b.intention}?`, body: `${Math.max(1, Math.round((b.end - p.at) / M()))} min left. Tap to answer.`,
+          title: `${cat ? '🐱 Boo! ' : ''}${b.intention ? `Still on: ${b.intention}?` : 'Still focusing?'}`, body: `${Math.max(1, Math.round((b.end - p.at) / M()))} min left. Tap to answer.`,
           actions: [{ action: 'yes', title: 'Yes' }, { action: 'drifted', title: 'Drifted' }],
         });
     }
     const name = cat && b.cat ? b.cat.charAt(0).toUpperCase() + b.cat.slice(1) : 'Your kitten';
     const home = cat && !b.gone; // a kitten that already wandered off doesn't come home at the end
     if (b.overtime && !b.over) {
-      out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: home ? `🐱 Time's up, and ${name} came home` : cat ? "🐱 Time's up" : "Time's up", body: `${b.intention}. Kavana keeps counting until you stop.` });
+      out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: home ? `🐱 Time's up, and ${name} came home` : cat ? "🐱 Time's up" : "Time's up", body: `${said(b)}Kavana keeps counting until you stop.` });
     } else if (b.mode === 'stopwatch') {
-      out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: home ? `🐱 Three hours! ${name} came home` : cat ? '🐱 Three hours. How did it go?' : 'Three hours. How did it go?', body: `${b.intention}. Tap to log it.` });
-    } else out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: cat ? "🐱 Boo! Time's up. How did it go?" : 'How did it go?', body: `${b.intention}. Tap to log it.` });
+      out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: home ? `🐱 Three hours! ${name} came home` : cat ? '🐱 Three hours. How did it go?' : 'Three hours. How did it go?', body: `${said(b)}Tap to log it.` });
+    } else out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: cat ? "🐱 Boo! Time's up. How did it go?" : 'How did it go?', body: `${said(b)}Tap to log it.` });
   }
   if (doc.brk && doc.brk.end > now) {
     out.push({ at: doc.brk.end, kind: 'break-over', tag: 'kavana-break', title: cat ? "🐱 Boo! Break's over" : "Break's over", body: "It's time to focus. Ready for the next block?" });

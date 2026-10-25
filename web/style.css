@@ -126,7 +126,7 @@ body.home[data-theme="night"] { --wall1: #1e2240; --wall2: #2b3054; --dots: rgba
 }
 body.home[data-theme="library"], body.home[data-theme="night"] { --label: #fff; --label2: rgba(235, 235, 245, .7); color: #fff; }
 .home form { display: flex; flex-direction: column; align-items: center; text-align: center; min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 52px); min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 52px); }
-.home .eyebrow-date { margin-top: auto; } /* the window and the button sit in the middle of the screen */
+.home .window { margin-top: auto; } /* the window and the button sit in the middle of the screen */
 .home .quiet { margin-bottom: auto; }
 .hometop { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; }
 .hometop .menuroom { width: 44px; flex: none; }
@@ -141,13 +141,15 @@ body.home[data-theme="library"], body.home[data-theme="night"] { --label: #fff; 
 .tagpill svg { width: 14px; height: 14px; color: var(--label2); }
 .hometop .treats { margin: 0; background: rgba(255, 255, 255, .62); }
 @media (prefers-color-scheme: dark) { .tagpill, .hometop .treats { background: rgba(255, 255, 255, .1); } }
-.homeintent {
-  width: 100%; max-width: 30em; margin-top: 6px; border: 0; background: none; text-align: center; color: var(--label);
-  font: 700 26px/1.25 var(--font); padding: 6px 8px; border-radius: 12px; outline: none;
+/* The title is optional and quiet, like Forest's "Add session title" under the tag. */
+.hometitle {
+  width: 100%; max-width: 24em; margin-top: 4px; border: 0; background: none; text-align: center; color: var(--label);
+  font: 500 17px/1.3 var(--font); padding: 6px 10px; border-radius: 10px; outline: none;
 }
-.homeintent::placeholder { color: var(--label3); }
-.homeintent:focus { background: rgba(255, 255, 255, .45); }
-@media (prefers-color-scheme: dark) { .homeintent:focus { background: rgba(255, 255, 255, .06); } }
+.hometitle::placeholder { color: var(--label2); }
+.hometitle:focus { background: rgba(255, 255, 255, .55); }
+@media (prefers-color-scheme: dark) { .hometitle:focus { background: rgba(255, 255, 255, .07); } }
+.home form:not(.titling) .homechips { display: none; } /* your recent titles, only while you type one */
 .home .homechips { justify-content: safe center; margin: 6px 0 0; flex-wrap: nowrap; max-width: 100%; overflow-x: auto; scrollbar-width: none; padding: 2px 4px; }
 .homechips::-webkit-scrollbar { display: none; }
 .homechips .chip { flex: none; }
@@ -155,7 +157,7 @@ body.home[data-theme="library"], body.home[data-theme="night"] { --label: #fff; 
 @media (prefers-color-scheme: dark) { .home .homechips .chip { background: rgba(255, 255, 255, .08); } }
 /* The window: a round pane with the sky of the moment, a cushion on the sill, the cat on it, and the
    ring around it that you drag to set how long. */
-.window { position: relative; width: min(420px, 72vw, 42vh); aspect-ratio: 1; margin: 18px 0 6px; touch-action: none; cursor: pointer; outline: none; }
+.window { position: relative; width: min(420px, 74vw, 44vh); aspect-ratio: 1; margin: 18px 0 6px; touch-action: none; cursor: pointer; outline: none; }
 .window .ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(0deg); overflow: visible; }
 .window .ring .track { fill: none; stroke: rgba(124, 74, 34, .16); stroke-width: 14; }
 .window .ring .prog { fill: none; stroke: var(--tint); stroke-width: 14; stroke-linecap: round; stroke-dasharray: 1000; transform: rotate(-90deg); transform-origin: 160px 160px; transition: stroke-dashoffset .12s; }
@@ -536,6 +538,7 @@ body.sky.dusk .kitten-says.sad { color: #ffcf8a; }
 .hrow .emo { font-size: 22px; line-height: 1.2; }
 .hrow .meta { display: block; color: var(--label2); font-size: 14px; margin-top: 2px; }
 .hrow .what { font-weight: 600; overflow-wrap: anywhere; }
+.hrow .what.untitled { color: var(--label2); font-weight: 500; } /* no title: its tag, or Focus */
 .hrow .when { color: var(--label2); font-size: 14px; margin-left: auto; }
 .hrow .parked { width: 100%; padding-left: 34px; color: var(--label2); font-size: 14px; }
 .hrow .parked div::before { content: "• "; }

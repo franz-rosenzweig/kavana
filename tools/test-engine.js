@@ -554,7 +554,22 @@ test('notes and edits', () => {
   assert.deepEqual([h.intention, h.tag, h.note], ['Write the intro', 'Study', 'Got the first page done.']);
   E.edit(d, b.id, { tag: '', note: '' }, at(27));
   assert.deepEqual([E.history(d)[0].tag, E.history(d)[0].note], [null, '']);
-  assert.throws(() => E.edit(d, b.id, { intention: '  ' }, at(28)));
+  E.edit(d, b.id, { intention: '  ' }, at(28)); // the title is optional: clearing it is fine
+  assert.equal(E.history(d)[0].intention, '');
+});
+
+test('a block without a title: it starts, stays out of the recent ones, and its pings still read well', () => {
+  const d = E.empty();
+  E.setSettings(d, { interval: 10 }, t);
+  const b = E.start(d, { minutes: 25 }, t);
+  assert.equal(b.intention, '');
+  const p = E.pings(d, t);
+  assert.equal(p.find((x) => x.kind === 'checkin').title, '🐱 Boo! Still focusing?');
+  assert.equal(p.find((x) => x.kind === 'end').body, 'Tap to log it.');
+  E.tick(d, at(26));
+  E.outcome(d, b.id, 'done', at(26));
+  E.start(d, { intention: 'Read', minutes: 25 }, at(30));
+  assert.deepEqual(E.view(d, at(31)).recent, ['Read']);
 });
 
 test('achievements: progress, claim once, the reward is treats', () => {
