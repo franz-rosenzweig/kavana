@@ -385,7 +385,16 @@ def make(id, k):
     if np.abs(y).max() > 0.98: y, g, busy = limit(y, SR)  # the ceiling has the last word
     OUT.mkdir(exist_ok=True)
     f = OUT / f"{pick['file']}.mp3"
-    f.write_bytes(encode_mp3(padded(y, SR)))
+    mp3 = encode_mp3(padded(y, SR))
+    # MP3 can overshoot a sharp pop past full scale, and resampling it (browsers decode to the audio
+    # device's rate) adds a little more; a decoder that makes 16-bit samples (Android's) then clips it.
+    # Read the file back, at 48 and at 44.1 kHz, and take it down until neither peaks over 0.95.
+    for _ in range(4):
+        over = max(np.abs(decode(mp3, len(y), sr=r)).max() for r in (SR, 44100))
+        if over <= 0.95: break
+        y *= 0.94 / over
+        mp3 = encode_mp3(padded(y, SR))
+    f.write_bytes(mp3)
     print(f"{id:6} {f.name:12} from {pick['sound']} ({kind}) {pick['start']}s+{pick['loop']}s, {len(y)}ch, tilted {tilt:+.1f} dB, ends alike {r:+.2f}, "
           f"{want:.1f} LUFS, limiter at most {20 * np.log10(g):.1f} dB and over 1 dB {busy:.1%} of the time, {f.stat().st_size / 1e6:.2f} MB")
 
