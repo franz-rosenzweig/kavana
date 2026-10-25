@@ -69,6 +69,8 @@ const STATIC = {
 };
 const ICON = /^\/icons\/([a-z0-9-]+\.(png|svg))$/;
 const PORTRAIT = /^\/(cats|cafe)\/([a-z0-9-]+\.webp)$/; // the painted cats (web/cats/) and café things (web/cafe/)
+const AUDIO = /^\/audio\/([a-z0-9-]+)\.(mp3|m4a|ogg)$/; // recorded background sounds (web/audio/), a new name when one changes
+const AUDIO_TYPE = { mp3: 'audio/mpeg', m4a: 'audio/mp4', ogg: 'audio/ogg' };
 const BASE_HEADERS = {
   'X-Robots-Tag': 'noindex, nofollow, noarchive', 'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'no-referrer', 'X-Frame-Options': 'DENY',
@@ -90,7 +92,7 @@ function serveStatic(req, res, rel, type) {
   const headers = {
     'Content-Type': type, ETag: etag,
     // Cloudflare rewrites any other Cache-Control on .js/.css to 4 hours; "private" makes it pass through.
-    'Cache-Control': rel.startsWith('icons/') || rel.startsWith('cats/') || rel.startsWith('cafe/') ? 'public, max-age=86400' : 'private, no-cache', // pictures get a new name when they change
+    'Cache-Control': rel.startsWith('icons/') || rel.startsWith('cats/') || rel.startsWith('cafe/') || rel.startsWith('audio/') ? 'public, max-age=86400' : 'private, no-cache', // pictures get a new name when they change
   };
   if (rel === 'index.html') headers['Content-Security-Policy'] = CSP;
   if (req.headers['if-none-match'] === etag) return send(res, 304, null, headers);
@@ -822,6 +824,8 @@ const server = http.createServer(async (req, res) => {
     if (m) return serveStatic(req, res, `icons/${m[1]}`, m[2] === 'svg' ? 'image/svg+xml' : 'image/png');
     const pm = PORTRAIT.exec(p);
     if (pm) return serveStatic(req, res, `${pm[1]}/${pm[2]}`, 'image/webp');
+    const am = AUDIO.exec(p);
+    if (am) return serveStatic(req, res, `audio/${am[1]}.${am[2]}`, AUDIO_TYPE[am[2]]);
     return json(res, 404, { error: 'not found' });
   } catch (e) {
     if (!res.headersSent) json(res, e.status || 500, { error: e.status ? e.message : 'server error' });
