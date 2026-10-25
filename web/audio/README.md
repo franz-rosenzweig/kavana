@@ -1,1 +1,1 @@
-Recorded background sounds, served at /audio/<name>.mp3 (or .m4a, .ogg). A changed file gets a new name, because they are cached for a day.
+Recorded background sounds, served at /audio/<name>.mp3 (or .m4a, .ogg). A changed file gets a new name, because they are cached for a day. tools/fetch-sounds.py makes them from CC0 recordings on Freesound, and docs/sounds.md says whose each one is.
