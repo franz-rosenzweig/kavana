@@ -1,6 +1,9 @@
-// Kavana's background sounds, all made on the device (nothing to download). Up to two play at once,
-// each with its own volume, like Forest's ambient sounds. Purring, brown noise, rain and white noise
-// are free; the others are in the shop (E.SHOP 'sound-<id>').
+// Kavana's background sounds. Up to two play at once, each with its own volume, like Forest's ambient
+// sounds. Purring, brown noise, rain and white noise are free; the others are in the shop
+// (E.SHOP 'sound-<id>'). Most are real recordings (web/audio/, CC0 from Freesound; docs/sounds.md says
+// where each one is from, and tools/fetch-sounds.py makes them), fetched the first time one is picked.
+// Until it's there, or when it can't be fetched, a version made on the device plays, and the recording
+// takes over with a crossfade when it comes in. Brown and white noise are only made on the device.
 (function (root) {
 'use strict';
 const KINDS = [
@@ -11,7 +14,7 @@ const KINDS = [
   { id: 'cafe', name: 'Café', about: 'Murmur and the odd cup.' },
   { id: 'fire', name: 'Fireplace', about: 'A low fire that crackles.' },
   { id: 'waves', name: 'Waves', about: 'Slow surf on a beach.' },
-  { id: 'birds', name: 'Birds', about: 'A quiet morning garden.' },
+  { id: 'birds', name: 'Birds', about: 'Dawn in a pine forest.' },
   { id: 'night', name: 'Night', about: 'Crickets on a warm night.' },
   { id: 'wind', name: 'Wind', about: 'Wind around the house.' },
 ];
@@ -134,15 +137,29 @@ const MAKERS = {
   },
 };
 const SECONDS = { purr: 6, waves: 20, cafe: 16, fire: 12, birds: 16, night: 8, wind: 16, rain: 6, brown: 6, white: 6 };
-// How loud each one sits (RMS), so switching between them doesn't jump.
+// How loud each one sits (RMS), so switching between them doesn't jump. tools/fetch-sounds.py makes each
+// recording as loud as the version made here.
 const LEVEL = { purr: 0.11, rain: 0.1, brown: 0.14, white: 0.08, cafe: 0.11, fire: 0.12, waves: 0.12, birds: 0.08, night: 0.09, wind: 0.11 };
+
+// The recordings, web/audio/<name>.mp3. Each file is a loop of a whole number of seconds with PAD
+// seconds of its own end before it and of its own start after it, so it stays seamless whether or not
+// the browser's MP3 decoder trims the encoder's padding. A changed file gets a new number, because
+// they're cached for a day.
+const FILES = { purr: 'purr-1', rain: 'rain-1', cafe: 'cafe-1', fire: 'fire-1', waves: 'waves-1', birds: 'birds-1', night: 'night-1', wind: 'wind-1' };
+const PAD = 0.5;
+const KEEP = 3; // decoded recordings kept in memory (a minute and a half of stereo is about 30 MB)
+// An equal-power crossfade, for swapping in a recording.
+const RISE = Float32Array.from({ length: 33 }, (_, i) => Math.sin((Math.PI / 2) * (i / 32)));
+const FALL = RISE.slice().reverse();
 
 const Sound = {
   KINDS,
   byId: (id) => KINDS.find((k) => k.id === id),
   ctx: null,
-  layers: [], // { id, src, gain }
-  cache: new Map(),
+  layers: [], // { id, gain, src, fade, rec }: each sound's volume, and what plays into it
+  cache: new Map(), // the ones made on the device
+  recorded: new Map(), // id → decoded recording, the most recently used last
+  loading: new Map(), // id → the fetch in flight
   // iOS only lets audio start inside a tap.
   prime() {
     try {
@@ -165,6 +182,62 @@ const Sound = {
     this.cache.set(id, buf);
     return buf;
   },
+  // Fetch and decode a sound's recording, once. When it comes in, a layer still playing the made-up
+  // version crosses over to it. If it fails (offline, say), the next pick tries again.
+  load(id) {
+    if (!FILES[id] || this.recorded.has(id) || this.loading.has(id)) return;
+    const ctx = this.ctx;
+    const p = fetch(`audio/${FILES[id]}.mp3`)
+      .then((r) => { if (!r.ok) throw new Error(`audio ${r.status}`); return r.arrayBuffer(); })
+      .then((a) => new Promise((ok, no) => { // the callback form, which older Safari needs too
+        const p = ctx.decodeAudioData(a, ok, no);
+        if (p && p.catch) p.catch(() => {});
+      }))
+      .then((buf) => {
+        if (buf.duration < 2 * PAD + 1) return;
+        this.recorded.set(id, buf);
+        this.trim();
+        this.swap(id);
+      })
+      .catch(() => {})
+      .then(() => this.loading.delete(id));
+    this.loading.set(id, p);
+  },
+  // Forget the recordings used longest ago, past KEEP, unless they're playing.
+  trim() {
+    for (const id of [...this.recorded.keys()]) {
+      if (this.recorded.size <= KEEP) break;
+      if (!this.layers.some((l) => l.id === id)) this.recorded.delete(id);
+    }
+  },
+  // A looping source for this sound, into `out`: the recording if it's here, or the made-up one.
+  voice(id, out) {
+    const rec = this.recorded.get(id);
+    const src = this.ctx.createBufferSource();
+    src.buffer = rec || this.buffer(id);
+    src.loop = true;
+    if (rec) {
+      this.recorded.delete(id); this.recorded.set(id, rec); // the most recently used goes last
+      src.loopStart = PAD;
+      src.loopEnd = PAD + Math.round(rec.duration - 2 * PAD);
+    }
+    const fade = this.ctx.createGain();
+    src.connect(fade).connect(out);
+    src.start(this.ctx.currentTime, rec ? PAD : 0);
+    return { src, fade, rec: Boolean(rec) };
+  },
+  // The recording came in while the made-up version plays: cross over in two seconds.
+  swap(id) {
+    const l = this.layers.find((x) => x.id === id && !x.rec);
+    if (!l) return;
+    try {
+      const t = this.ctx.currentTime, { src, fade } = l;
+      Object.assign(l, this.voice(id, l.gain));
+      l.fade.gain.setValueCurveAtTime(RISE, t, 2);
+      fade.gain.setValueCurveAtTime(FALL, t, 2);
+      src.stop(t + 2.1);
+    } catch {}
+  },
   // Play these sounds ([{ id, vol }], at most two); anything else stops.
   play(mix) {
     if (!this.ctx) return;
@@ -175,15 +248,12 @@ const Sound = {
       const l = this.layers.find((x) => x.id === m.id);
       if (l) { l.gain.gain.setTargetAtTime(m.vol * 0.8, this.ctx.currentTime, 0.2); continue; }
       try {
-        const src = this.ctx.createBufferSource();
-        src.buffer = this.buffer(m.id);
-        src.loop = true;
         const gain = this.ctx.createGain();
         gain.gain.setValueAtTime(0, this.ctx.currentTime);
         gain.gain.linearRampToValueAtTime(m.vol * 0.8, this.ctx.currentTime + 2);
-        src.connect(gain).connect(this.ctx.destination);
-        src.start();
-        this.layers.push({ id: m.id, src, gain });
+        gain.connect(this.ctx.destination);
+        this.layers.push({ id: m.id, gain, ...this.voice(m.id, gain) });
+        this.load(m.id);
       } catch {}
     }
   },
