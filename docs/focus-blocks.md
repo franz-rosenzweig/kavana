@@ -56,7 +56,7 @@ Leaving Chataltul for more than about 15 seconds in the middle of a block (anoth
 
 *Parking a thought, and the disk timer.*
 
-<p align="center"><img src="images/sounds.png" width="260" alt="The Sounds card over a running block: Pick up to two, Purring and Fireplace checked with a volume slider each, Rain, Brown noise and White noise free, Café and Fireplace from the shop, and Waves, Birds, Night and Wind with their prices"> <img src="images/paused.png" width="260" alt="A paused block, Read chapter 3, the ring in orange, Starts again by itself in 4:59, and Miso waits for you. A pause lasts 5 minutes at most."> <img src="images/extra.png" width="260" alt="Extra time: Write the intro, the grown cat in the ring, +03:10, Ended 3:40 PM, and a Done button"></p>
+<p align="center"><img src="images/sounds.png" width="260" alt="The Sounds card over a running block: Pick up to two, Purring and Fireplace checked with a volume slider each, Rain, Brown noise and White noise free, Café and Fireplace from the shop, and Waves, Birds, Night and Wind with their prices"> <img src="images/paused.png" width="260" alt="A paused block, Read chapter 3, the ring in orange, Starts again by itself in 4:59, and Miso waits for you. A pause lasts 5 minutes at most."> <img src="images/extra.png" width="260" alt="Extra time: Write the intro, the grown cat in the ring, +03:33, Ended 1:18 PM, and a Done button"></p>
 
 *Two sounds at once, a pause counting down, and extra time.*
 

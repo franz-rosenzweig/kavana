@@ -66,7 +66,7 @@ One thing to know about iPhones and iPads: the Home Screen app keeps its own dat
 - **Notifications**: whether reminders are on for this device, **Turn On** or **Test**, and **Chime when Chataltul is open**.
 - **Privacy**: what's kept where, and **Share anonymous usage counts**.
 
-<p align="center"><img src="images/settings.png" width="260" alt="Settings on a phone: Sign In at the top, Focus with Daily goal 2 hours, Check in every 15 min, Cat mode on, Next kitten Miso and Tags, Daily reminder, Friends with Needs an account, and Notifications with Reminders are on"></p>
+<p align="center"><img src="images/settings.png" width="260" alt="Settings on a phone: Focus with Daily goal 2 hours, Check in every 15 min, Cat mode on, Next kitten Miso, Tags, Pausing, Count extra time, Closing Chataltul counts as leaving, Your own lines and Café theme, then Daily reminder, and Friends with Needs an account"></p>
 
 *Settings.*
 

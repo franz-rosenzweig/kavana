@@ -109,7 +109,7 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 
 *The end of a block, a break, and a minute of breathing.*
 
-<p align="center"><img src="docs/images/cats.png" width="260" alt="The Cats tab: You've met 6 of 8 and adopted 1, painted portraits of the cats with Miso picked, and a locked cat as a grey silhouette"> <img src="docs/images/meet.png" width="260" alt="You met Biscuit! with a painted Siamese cat holding a cookie, Invite Biscuit Next and Nice!"> <img src="docs/images/confetti.png" width="260" alt="Paw-print confetti over the Focus tab right after Done, with Nice! 50 min of focus"></p>
+<p align="center"><img src="docs/images/cats.png" width="260" alt="The Cats tab: You've met all 8 and adopted 1, painted portraits of the cats with Miso picked, and Milo, black with gold eyes"> <img src="docs/images/meet.png" width="260" alt="You met Biscuit! with a painted Siamese cat holding a cookie, Invite Biscuit Next and Nice!"> <img src="docs/images/confetti.png" width="260" alt="Paw-print confetti over the Focus tab right after Done, with Nice! 50 min of focus"></p>
 
 *The Cats tab, meeting a new cat, and the paw confetti after Done.*
 

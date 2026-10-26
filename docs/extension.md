@@ -6,7 +6,7 @@ Forest has a browser extension that keeps you off the sites you drift to while a
 
 It works on a computer in Chrome, Edge, Brave and the other Chromium browsers, and in Firefox 140 or newer and the browsers built on it, like Zen. It doesn't need an account and it doesn't talk to any server. It hears about your blocks from the Chataltul page itself, which means it works with my copy at stuffs.tiresia.xyz/kavana, and with a Chataltul on localhost while you work on the code.
 
-<p align="center"><img src="images/extension-blocked.png" width="330" alt="The cat page: a painted orange kitten, Boo! Miso is growing., youtube.com is on your list until 12:16 PM., a card with Write the chapter and 25 min left, and the buttons Back to Chataltul and Edit the list"> <img src="images/extension-blocked-dark.png" width="330" alt="The same cat page in dark mode"></p>
+<p align="center"><img src="images/extension-blocked.png" width="330" alt="The cat page: a painted orange kitten, Boo! Miso is growing., youtube.com is on your list until 1:50 PM., a card with Write the chapter and 25 min left, and the buttons Back to Chataltul and Edit the list"> <img src="images/extension-blocked-dark.png" width="330" alt="The same cat page in dark mode"></p>
 
 *YouTube during a block, in light and dark mode.*
 
@@ -37,7 +37,7 @@ Basically, you don't do anything different. Start a block in Chataltul the way y
 
 The list starts with YouTube, Reddit, X, Twitter, Facebook, Instagram and TikTok. To change it, click **Edit the list** on the cat page or in the toolbar button. Type a site and press **Add**, like "news.ycombinator.com", or paste a whole address and it keeps just the site. A site covers its subdomains too, so reddit.com also blocks old.reddit.com and www.reddit.com. During a block you can ADD sites but you can't take any off, which is kind of the point. **Remove** comes back as soon as the block's over, and **Back to the default list** puts the starting list back.
 
-<p align="center"><img src="images/extension-list.png" width="420" alt="Sites to block: A block is running until 12:16 PM: Write the chapter. Sites can come off the list when it's over. The list youtube.com, reddit.com, x.com, twitter.com, facebook.com, instagram.com, tiktok.com and news.ycombinator.com, each with a grayed-out Remove, a field Add a site, like news.ycombinator.com, and Open Chataltul"> <img src="images/extension-popup.png" width="320" alt="The toolbar button's popup: Chataltul, the kitten, Miso is growing, Write the chapter. Blocking 8 sites for 25 min, until 12:16 PM., and the buttons Open Chataltul and Edit the list"></p>
+<p align="center"><img src="images/extension-list.png" width="420" alt="Sites to block: A block is running until 1:50 PM: Write the chapter. Sites can come off the list when it's over. The list youtube.com, reddit.com, x.com, twitter.com, facebook.com, instagram.com, tiktok.com and news.ycombinator.com, each with a grayed-out Remove, a field Add a site, like news.ycombinator.com, and Open Chataltul"> <img src="images/extension-popup.png" width="320" alt="The toolbar button's popup: Chataltul, the kitten, Miso is growing, Write the chapter. Blocking 8 sites for 25 min, until 1:50 PM., and the buttons Open Chataltul and Edit the list"></p>
 
 *The list during a block, and the toolbar button.*
 

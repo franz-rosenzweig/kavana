@@ -104,7 +104,7 @@ When you've done what a cat needs, Chataltul shows "You met Biscuit!" with a lin
 
 Once you've met a cat, it's yours to keep, even if you use **Clear My History** later.
 
-<p align="center"><img src="images/cats.png" width="260" alt="The Cats tab with My Cats picked: painted portraits of the cats you've met, Luna adopted and picked with a check mark, grey silhouettes for the ones still to meet, and the cats to adopt with their prices"> <img src="images/meet.png" width="260" alt="A sheet over the Focus tab: a painted Siamese cat holding a cookie, New friend, You met Biscuit!, Says a lot, mostly well done, with Invite Biscuit Next and Nice!"></p>
+<p align="center"><img src="images/cats.png" width="260" alt="The Cats tab with My Cats picked: You've met all 8 and adopted 1, painted portraits of the cats with Miso picked and Milo next to him, black with gold eyes"> <img src="images/meet.png" width="260" alt="A sheet over the Focus tab: a painted Siamese cat holding a cookie, New friend, You met Biscuit!, Says a lot, mostly well done, with Invite Biscuit Next and Nice!"></p>
 
 *The Cats tab, and meeting Biscuit.*
 
@@ -187,7 +187,7 @@ Every year from October 25 to November 1 the shop has a Halloween corner. There'
 
 They're only in the shop that week, but what you get you keep, so Pumpkin can come to your blocks all year and the garland can stay up as long as you like. The week before, the shop says when it starts ("Halloween starts in 4 days"), and during the week the Café tab has a little banner about it.
 
-<p align="center"><img src="images/halloween-shop.png" width="260" alt="The shop during Halloween: a Halloween until Nov 1 section with Pumpkin, an orange cat peeking out of a jack-o'-lantern, the candles, the jack-o'-lanterns, the bat garland and the cauldron with their prices, and Only for a week. What you get, you keep."> <img src="images/halloween-cafe.png" width="260" alt="The café in the evening with the Halloween things: a garland of bats along the wall, glowing jack-o'-lanterns, candles and a green cauldron, and the cats that came home sitting around them"></p>
+<p align="center"><img src="images/halloween-shop.png" width="260" alt="The shop during Halloween: a Halloween until Nov 1 section with Pumpkin, an orange cat peeking out of a jack-o'-lantern, the candles, the jack-o'-lanterns, the bat garland and the cauldron with their prices, and Only for a week. What you get, you keep."> <img src="images/halloween-cafe.png" width="260" alt="The Café tab in Halloween week: the banner Halloween is in the shop until Nov 1, and the café with the Halloween things, a garland of bats along the wall, jack-o'-lanterns, candles and a green cauldron, and the cats that came home around them"></p>
 
 *The Halloween shop, and the café dressed up for it.*
 

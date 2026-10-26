@@ -33,7 +33,7 @@ Under the room are a few cards: how many **cats came home**, how long you **focu
 
 **Clear My History** at the bottom removes every finished block, and the totals of the oldest ones, so the café empties too. It asks first, it can't be undone, and with an account it clears it on all your devices. You keep your treats (including what missions paid), what you bought, and the cats you've met. It does close today's and this week's missions, so they can't pay twice, and new ones come the next day.
 
-<p align="center"><img src="images/cafe-stats.png" width="260" alt="The Café for this week, scrolled to When you focus: a bar for each hour of the day, You focus most around 10 AM, and Who came home with each cat's portrait and how many times"> <img src="images/edit.png" width="260" alt="Edit Block over the Café: Read chapter 4, the tags with Reading picked, and a note"> <img src="images/themes.png" width="260" alt="Café Theme in Settings: Classic, Mint, Sakura, Library, Garden and Night Café, with Night Café picked"></p>
+<p align="center"><img src="images/cafe-stats.png" width="260" alt="The Café for this week, scrolled to When you focus: a bar for each hour of the day, You focus most around 8 AM, and Who came home with each cat's portrait and how many times"> <img src="images/edit.png" width="260" alt="Edit Block over the Café: Spanish practice, the tags with Study picked, and a note"> <img src="images/themes.png" width="260" alt="Café Theme in Settings: Classic, Mint, Sakura, Library, Garden and Night Café, with Night Café picked"></p>
 
 *When you focus, editing a block, and the café themes.*
 
