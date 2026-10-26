@@ -1,8 +1,8 @@
-<sub>[Kavana docs](README.md) › Using Kavana</sub>
+<sub>[Chataltul docs](README.md) › Using Chataltul</sub>
 
 # A focus block
 
-A "block" is one stretch of focus on one thing, and it's the whole app: you say what you're working on, pick how long, and Kavana keeps you company until the end, with a kitten growing up in the ring the whole time. This page follows a block from the Focus tab to "How did it go?", and then the things around it, breaks and the Later list.
+A "block" is one stretch of focus on one thing, and it's the whole app: you say what you're working on, pick how long, and Chataltul keeps you company until the end, with a kitten growing up in the ring the whole time. This page follows a block from the Focus tab to "How did it go?", and then the things around it, breaks and the Later list.
 
 ## Starting a block
 
@@ -30,7 +30,7 @@ Under the Start button there's one quiet line at most, whichever matters most ri
 
 Everything else is in the menu, the button at the top left. It slides in from the side, with today's minutes and your days in a row on top, and then **Focus**, **Café**, **Cats**, **Goals** (today's missions, see [Cats](cats.md#goals-missions-challenges-and-achievements)), **Shop**, **Later**, **Rankings**, **Friends**, **A mindful minute**, **Shelter cats**, **What's new** and **Settings**. A red dot on the button means there's a new cat or a new post. On a keyboard, **⌘1** to **⌘5** go straight to Focus, Later, Café, Cats and Settings.
 
-<p align="center"><img src="images/menu.png" width="260" alt="The menu slid in from the left over the Focus tab: Kavana, 0 min of 2 h today and 4 days in a row, then Focus, Café, Cats, Goals, Shop, Later, Rankings, Friends, A mindful minute, Shelter cats, What's new and Settings, and Miso sitting at the bottom"></p>
+<p align="center"><img src="images/menu.png" width="260" alt="The menu slid in from the left over the Focus tab: Chataltul, 0 min of 2 h today and 4 days in a row, then Focus, Café, Cats, Goals, Shop, Later, Rankings, Friends, A mindful minute, Shelter cats, What's new and Settings, and Miso sitting at the bottom"></p>
 
 *The menu.*
 
@@ -43,10 +43,10 @@ The block takes over the whole screen, and the screen is the sky in the window y
 - **Park a thought** is for the thing that just popped into your head. Write it down so it stops pulling at you, press **Park**, and you're back to work. The button then says "Parked (1)", the thought shows again at the end of the block, and it lands on your Later list too.
 - **Sound** opens a list of 39 sounds in groups: cats purring, rain and water, fire, outside (birds, crickets, wind), places (cafés and a city at night), music, and brown and white noise. One in each group is free, and the others are in the shop. Except for the two noises, they're real recordings that people gave away on Freesound ([Sounds](sounds.md) says whose each one is). Each one downloads the first time you pick it, a megabyte or so, and until it's there, or if you're offline, a version made on the device plays instead. Pick up to two to play together (a fire with a purring cat is my favorite), each with its own volume.
 - **Disk** swaps the ring for a disk that shrinks as the time runs out, which is easy to read from across the room. **Ring** swaps back.
-- **Screen on** stops the screen from going dark, for a phone or iPad propped up on the desk. It's on unless you turn it off, because a locked screen counts as leaving Kavana and sends the kitten off. It only shows where the device allows it.
+- **Screen on** stops the screen from going dark, for a phone or iPad propped up on the desk. It's on unless you turn it off, because a locked screen counts as leaving Chataltul and sends the kitten off. It only shows where the device allows it.
 - **Invite** opens a nap room for your block, with a code anyone with an account can join (it needs an account).
 
-Leaving Kavana for more than about 15 seconds in the middle of a block (another app, another tab, a locked screen) makes the kitten wander off, like the tree in Forest. The block keeps going, so you can still finish the work, and [Cats](cats.md#staying-with-your-kitten) has the details.
+Leaving Chataltul for more than about 15 seconds in the middle of a block (another app, another tab, a locked screen) makes the kitten wander off, like the tree in Forest. The block keeps going, so you can still finish the work, and [Cats](cats.md#staying-with-your-kitten) has the details.
 
 <p align="center"><img src="images/sky.png" alt="Three phones with the same block, Draft the newsletter, at three times: an afternoon-blue sky with 35:58 left, a coral sunset with 18:58 left, and a purple night with stars and 03:28 left, the kitten growing up on its cushion in the ring each time"></p>
 
@@ -62,9 +62,9 @@ Leaving Kavana for more than about 15 seconds in the middle of a block (another 
 
 ### Extra time
 
-Forest has a setting that keeps counting after the timer ends, and so does Kavana: **Settings → Count extra time**. With it on, when the time is up your kitten comes home right away, and the block doesn't end. The clock counts the extra ("+3:10"), every extra minute is another treat, and you tap **Done** when you're done.
+Forest has a setting that keeps counting after the timer ends, and so does Chataltul: **Settings → Count extra time**. With it on, when the time is up your kitten comes home right away, and the block doesn't end. The clock counts the extra ("+3:10"), every extra minute is another treat, and you tap **Done** when you're done.
 
-You don't have to stay on the block. The menu is there while it runs too, so you can look at Later, the Café or Settings, and a little pill at the top of the screen, like a Live Activity, shows what you're working on and the time left. Tap it to go back to the block. And when Kavana asks you something, like "Stop This Block?", it's a small alert in the middle of the screen, the same kind your phone or Mac shows.
+You don't have to stay on the block. The menu is there while it runs too, so you can look at Later, the Café or Settings, and a little pill at the top of the screen, like a Live Activity, shows what you're working on and the time left. Tap it to go back to the block. And when Chataltul asks you something, like "Stop This Block?", it's a small alert in the middle of the screen, the same kind your phone or Mac shows.
 
 <p align="center"><img src="images/live.png" width="260" alt="The Later tab while a block runs, with a dark pill at the top: Draft the newsletter 35:46"> <img src="images/stop.png" width="260" alt="The alert Stop This Block? You can still say how it went, with Cancel and Stop, over the running block"></p>
 
@@ -78,7 +78,7 @@ When the time is up and your kitten came home, you get to watch it: the sky give
 
 *The homecoming, and the card after it.*
 
-Then a card asks **How did it go?** ("Time's up", or "Stopped early" if you stopped it), with **🎉 Done**, **🌗 Partly** and **🌧️ Not really**, and a line about your kitten on top ("Miso came home to your café. 🐟 +25", or that it wandered off). If you're in the flow, **+5 min** or **+10 min** keeps the same block going (after a short block of ten minutes or less it offers +10 and +20 instead). The thoughts you parked are listed under "You parked", and **Copy Them** copies them as a list, for your notes or your to-do app. **Skip** files the block without an answer, and so does Kavana itself if nobody answers within 12 hours. **Again** files it the same way and starts the same block straight away (the same thing, the same length, the same tag), with nothing in between, for when you're on a roll.
+Then a card asks **How did it go?** ("Time's up", or "Stopped early" if you stopped it), with **🎉 Done**, **🌗 Partly** and **🌧️ Not really**, and a line about your kitten on top ("Miso came home to your café. 🐟 +25", or that it wandered off). If you're in the flow, **+5 min** or **+10 min** keeps the same block going (after a short block of ten minutes or less it offers +10 and +20 instead). The thoughts you parked are listed under "You parked", and **Copy Them** copies them as a list, for your notes or your to-do app. **Skip** files the block without an answer, and so does Chataltul itself if nobody answers within 12 hours. **Again** files it the same way and starts the same block straight away (the same thing, the same length, the same tag), with nothing in between, for when you're on a roll.
 
 Tap **Done**, and you get paw-print confetti and "Nice! 50 min of focus." Sometimes that's also when you meet a new cat (see [Cats](cats.md)).
 

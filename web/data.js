@@ -1,4 +1,4 @@
-// Where Kavana keeps things, and the few times it talks to the server.
+// Where Chataltul keeps things, and the few times it talks to the server.
 // - The doc (blocks, Later, settings) lives in this browser's localStorage, always.
 // - Signed in: the doc is also synced with the account (merge on conflict, see engine.js).
 // - Reminders on, no account: the device hands the server its next pings, which it deletes once sent.

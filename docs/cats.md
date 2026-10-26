@@ -1,8 +1,8 @@
-<sub>[Kavana docs](README.md) › Using Kavana</sub>
+<sub>[Chataltul docs](README.md) › Using Chataltul</sub>
 
 # Cats
 
-Kavana works a lot like Forest, except instead of planting a tree you invite a kitten. It shows up when you start a block, grows up in the ring while you work, and when the block reaches its end it comes home to your Cat Café. Stop early, or leave Kavana in the middle, and it wanders off. No drama, it's just not in the café for that one. Every minute of a block whose kitten came home also earns you a 🐟 treat, and treats buy things for the café and cats to adopt. On top of that you can nap together with friends (or anyone, with a room code), do missions, challenges and achievements for extra treats, sponsor shelter cats, and once a year there's a Halloween week and a winter one.
+Chataltul works a lot like Forest, except instead of planting a tree you invite a kitten. It shows up when you start a block, grows up in the ring while you work, and when the block reaches its end it comes home to your Cat Café. Stop early, or leave Chataltul in the middle, and it wanders off. No drama, it's just not in the café for that one. Every minute of a block whose kitten came home also earns you a 🐟 treat, and treats buy things for the café and cats to adopt. On top of that you can nap together with friends (or anyone, with a room code), do missions, challenges and achievements for extra treats, sponsor shelter cats, and once a year there's a Halloween week and a winter one.
 
 <p align="center"><img src="images/kitten.png" width="260" alt="A running block on a phone at sunset: Focusing, Draft the newsletter, a painted orange kitten on a cushion inside the ring, 18:58 under it, and Miso is growing. Stay with it."> <img src="images/cafe.png" width="260" alt="The Café tab: Day picked, Today, the café as a little 3D room with a window, a cat tree, a counter, a rug, cushions and an armchair, and the cats that came home today in it"></p>
 
@@ -29,9 +29,9 @@ If you like, **Sound** has a purring cat too, and the shop has more (see [A focu
 There are two ways a kitten wanders off:
 
 - **You stop early.** "Stop This Block?" says so ("Miso will wander off."), and you can still say how it went.
-- **You leave Kavana in the middle of a block.** If Kavana is out of sight for more than about 15 seconds (another app, another tab, a locked screen, or closing it), the kitten wanders off. When you come back you see it go: it tiptoes out of the ring, and its cushion is left with a paw print on it. The block itself keeps going, check-ins and all, so you can still finish the work. There's just no cat for it.
+- **You leave Chataltul in the middle of a block.** If Chataltul is out of sight for more than about 15 seconds (another app, another tab, a locked screen, or closing it), the kitten wanders off. When you come back you see it go: it tiptoes out of the ring, and its cushion is left with a paw print on it. The block itself keeps going, check-ins and all, so you can still finish the work. There's just no cat for it.
 
-<p align="center"><img src="images/tiptoe.png" alt="Two phones: Pepper tiptoeing out of the ring side-on during Spanish practice, and then the empty cushion with a paw print and Pepper wandered off while you were away. Your block keeps going."></p>
+<p align="center"><img src="images/tiptoe.png" alt="Two phones: Milo tiptoeing out of the ring side-on during Spanish practice, and then the empty cushion with a paw print and Milo wandered off while you were away. Your block keeps going."></p>
 
 *Coming back too late: the kitten tiptoes off.*
 
@@ -41,18 +41,18 @@ This is the same rule Forest has, and it's the point: the kitten is a reason to 
 
 - **A quick look is fine.** Glancing at a notification and coming back within 15 seconds doesn't count.
 - **A reload is fine.** Reloading the page never counts as leaving, however long it takes, because losing a kitten to a slow connection would just be unfair.
-- **On a computer** the Kavana window only has to be visible somewhere on the screen, so you can keep it small in a corner and work in the window next to it. [The browser extension](extension.md) keeps the sites you drift to off the screen in the meantime: they show a cat instead until the block's over.
+- **On a computer** the Chataltul window only has to be visible somewhere on the screen, so you can keep it small in a corner and work in the window next to it. [The browser extension](extension.md) keeps the sites you drift to off the screen in the meantime: they show a cat instead until the block's over.
 - **The screen stays on** during a block, where the device allows it, because a locked screen counts as leaving too. **Screen on** in the toolbar turns that off if you'd rather.
 - **A pause doesn't count,** so pause first if you have to step away. Like Forest's, a pause lasts 5 minutes at most, and then the block goes on by itself (so if you're still away, your 15 seconds start then). If you'd rather have no pausing at all, set **Settings → Pausing** to **Off**.
-- **Closing Kavana counts too,** unless you turn off **Settings → Closing Kavana counts as leaving**. Then only switching to another app or tab sends the kitten off. Forest has the same switch.
-- **With notifications on,** leaving gives you a heads-up: "🐱 Miso is waiting. Come back to Kavana, or Miso wanders off."
+- **Closing Chataltul counts too,** unless you turn off **Settings → Closing Chataltul counts as leaving**. Then only switching to another app or tab sends the kitten off. Forest has the same switch.
+- **With notifications on,** leaving gives you a heads-up: "🐱 Miso is waiting. Come back to Chataltul, or Miso wanders off."
 - **Once it's home, it's home.** If you keep going with **+5 min** at the end, the cat is already in the café, and the extra minutes earn treats too. Or turn on **Settings → Count extra time**: when the time is up the kitten comes home right away, and the block keeps counting ("+3:12") until you tap **Done**, with a treat for every extra minute.
 
 ## Napping together
 
-If you have friends in Kavana (see [Focus with friends](friends.md)), you can nap together, which is my version of Forest's "Plant Together". When a friend is focusing, press **Join** next to their name and start. Your kitten and theirs grow up in the same ring, side by side, with their name under theirs, and you both finish at the same moment. With three or more friends, yours sits on top and theirs sit in a row along the bottom of the ring.
+If you have friends in Chataltul (see [Focus with friends](friends.md)), you can nap together, which is my version of Forest's "Plant Together". When a friend is focusing, press **Join** next to their name and start. Your kitten and theirs grow up in the same ring, side by side, with their name under theirs, and you both finish at the same moment. With three or more friends, yours sits on top and theirs sit in a row along the bottom of the ring.
 
-The rule is the same as Forest's, and it's the whole point: if ANYONE in the group leaves Kavana for more than 15 seconds, or stops, every kitten in the group wanders off, yours too. Kavana says who it was ("Alex left Kavana, so every kitten wandered off."), and your block keeps going like it always does. If a friend only glances away, their kitten goes pale in your ring for a moment, and nothing happens as long as they're back within the 15 seconds. There's no **Pause** while you nap together, because one person's pause would leave everybody else waiting.
+The rule is the same as Forest's, and it's the whole point: if ANYONE in the group leaves Chataltul for more than 15 seconds, or stops, every kitten in the group wanders off, yours too. Chataltul says who it was ("Alex left Chataltul, so every kitten wandered off."), and your block keeps going like it always does. If a friend only glances away, their kitten goes pale in your ring for a moment, and nothing happens as long as they're back within the 15 seconds. There's no **Pause** while you nap together, because one person's pause would leave everybody else waiting.
 
 If everybody makes it to the end, every kitten comes home with a bonus: 🐟 5 more for each friend you napped with. So a 25-minute block with two friends brings you 🐟 35 instead of 🐟 25.
 
@@ -60,11 +60,11 @@ If everybody makes it to the end, every kitten comes home with a bonus: 🐟 5 m
 
 *Napping with Dana and Alex, and what happens when one of you leaves.*
 
-A few details, so nobody's surprised. Anyone who can see you focusing can join your block, because that's what sharing with friends means, so when someone joins, Kavana tells you right away ("Dana joined you. If anyone leaves, every kitten wanders off."). Up to 8 people fit in one nap. It needs an account and Cat mode, and with Cat mode off, joining is just focusing together, like before.
+A few details, so nobody's surprised. Anyone who can see you focusing can join your block, because that's what sharing with friends means, so when someone joins, Chataltul tells you right away ("Dana joined you. If anyone leaves, every kitten wanders off."). Up to 8 people fit in one nap. It needs an account and Cat mode, and with Cat mode off, joining is just focusing together, like before.
 
 ### Nap rooms
 
-You can also nap with someone who isn't your friend in Kavana, with a code, like Forest's rooms. During a block, tap **Invite** in the toolbar, and Kavana shows a 6-letter code with a **Share the Code** button. Whoever gets it taps **Nap in a room with a code** under the Start button (or just opens the link you sent), types what they're working on and starts, and their kitten joins yours. Same rule as always: if anyone leaves, every kitten goes. It needs an account on both sides, but not a friendship.
+You can also nap with someone who isn't your friend in Chataltul, with a code, like Forest's rooms. During a block, tap **Invite** in the toolbar, and Chataltul shows a 6-letter code with a **Share the Code** button. Whoever gets it taps **Nap in a room with a code** under the Start button (or just opens the link you sent), types what they're working on and starts, and their kitten joins yours. Same rule as always: if anyone leaves, every kitten goes. It needs an account on both sides, but not a friendship.
 
 <p align="center"><img src="images/room.png" width="260" alt="A running block with the Nap Room card over it: Anyone with an account can join your block with this code, friends or not, a six-letter code in big letters, and Share the Code"></p>
 
@@ -77,7 +77,7 @@ There are sixteen. You meet eight of them by focusing, and you adopt the others 
 | Cat | What it's like | How you meet it |
 | --- | --- | --- |
 | **Miso** | An orange tabby who naps while you work. | Here from the start |
-| **Pepper** | A black cat. Quiet, curious, and always on time. | Finish your first block |
+| **Milo** | A black cat with gold eyes. Quiet, curious, and always on time. | Finish your first block |
 | **Mochi** | A cream cat, soft as a cloud, sleeps in sunbeams. | Focus for 1 hour in all |
 | **Pickles** | A calico who shows up when you keep showing up. | Focus 3 days in a row |
 | **Noodle** | A tuxedo cat, dressed up for a good break. | Take 3 breaks |
@@ -96,11 +96,11 @@ There are sixteen. You meet eight of them by focusing, and you adopt the others 
 | **Pumpkin** | Lives in a jack-o'-lantern. Halloween week only. | 🐟 300 |
 | **Flurry** | Wears her scarf indoors. Winter only. | 🐟 300 |
 
-A few details, so nobody wonders. "Finish" means the block ran to the end, so a block you stopped early doesn't count for Pepper. The hours for Mochi and Earl Grey add up every block you've done, stopped ones included. Pickles counts your best run of days ever, so the three days don't have to be this week. Noodle counts a break when you start it, and Boo comes for any block you start after 10 at night (or before 4 in the morning, for the real night owls).
+A few details, so nobody wonders. "Finish" means the block ran to the end, so a block you stopped early doesn't count for Milo. The hours for Mochi and Earl Grey add up every block you've done, stopped ones included. Pickles counts your best run of days ever, so the three days don't have to be this week. Noodle counts a break when you start it, and Boo comes for any block you start after 10 at night (or before 4 in the morning, for the real night owls).
 
 ## Meeting a cat
 
-When you've done what a cat needs, Kavana shows "You met Biscuit!" with a line about it. **Invite Biscuit Next** makes it the cat for your next block, and **Nice!** keeps the one you have. Adopting a cat shows "Welcome home, Luna!" the same way. The Cats tab gets a dot in the tab bar until you look, and the count in the sidebar goes up ("9/14").
+When you've done what a cat needs, Chataltul shows "You met Biscuit!" with a line about it. **Invite Biscuit Next** makes it the cat for your next block, and **Nice!** keeps the one you have. Adopting a cat shows "Welcome home, Luna!" the same way. The Cats tab gets a dot in the tab bar until you look, and the count in the sidebar goes up ("9/14").
 
 Once you've met a cat, it's yours to keep, even if you use **Clear My History** later.
 
@@ -126,13 +126,13 @@ You get one 🐟 for every minute of a block whose kitten came home, so a 25-min
 
 Treats also come from napping together (above) and from missions, challenges and achievements (below).
 
-If you used Kavana before the café was there, the blocks you finished back then count as cats that came home (with Miso), and their treats are yours. **Clear My History** empties the café, but you keep your treats, everything you bought, and the cats you've met. With an account, all of it syncs to your other devices.
+If you used Chataltul before the café was there, the blocks you finished back then count as cats that came home (with Miso), and their treats are yours. **Clear My History** empties the café, but you keep your treats, everything you bought, and the cats you've met. With an account, all of it syncs to your other devices.
 
 ## Shelter cats
 
-Forest lets you spend coins on planting a REAL tree, and honestly that's one of my favorite things about it. Kavana's version is shelter cats. At the bottom of the shop, **Sponsor a shelter cat** opens a page with four of them, Ginger Snap, Scrappy, Penny and Domino, for 🐟 1000 each, one after the other. Each one stands for a real cat waiting for a home somewhere, and once you sponsor them they move into your café for good.
+Forest lets you spend coins on planting a REAL tree, and honestly that's one of my favorite things about it. Chataltul's version is shelter cats. At the bottom of the shop, **Sponsor a shelter cat** opens a page with four of them, Ginger Snap, Scrappy, Penny and Domino, for 🐟 1000 each, one after the other. Each one stands for a real cat waiting for a home somewhere, and once you sponsor them they move into your café for good.
 
-The page counts them like Forest counts its trees: how many you sponsored, how many your friends did, and how many everybody did. Treats can't buy cat food, though, so there's also a link to [Best Friends Animal Society](https://bestfriends.org/donate), a shelter that takes care of thousands of cats, if you want to help a real one. No money goes through Kavana, and the link goes straight to their own page.
+The page counts them like Forest counts its trees: how many you sponsored, how many your friends did, and how many everybody did. Treats can't buy cat food, though, so there's also a link to [Best Friends Animal Society](https://bestfriends.org/donate), a shelter that takes care of thousands of cats, if you want to help a real one. No money goes through Chataltul, and the link goes straight to their own page.
 
 <p align="center"><img src="images/shelter.png" width="260" alt="Shelter Cats: how many by you, by friends and by everyone, Ginger Snap in your café, Scrappy for 1000 treats, Penny and Domino after that, and Help a real cat, a link to the shelter's donation page"></p>
 
@@ -150,7 +150,7 @@ All of these are under **Cats → Goals**, and **Goals** in the menu tells you h
 
 Missions are small goals that pay extra treats.
 
-Every day there are three new ones, and every week (starting Sunday) there's one bigger one. They change every day, but everybody gets the same ones on the same day, so you can race a friend if you want. Only blocks whose kitten came home count, on the day the block started. When you finish one, Kavana says so ("Mission done: Bring 3 kittens home. 🐟 +15") and the treats are yours right away. One you don't finish just goes away at midnight, or on Sunday for the weekly one. No penalty.
+Every day there are three new ones, and every week (starting Sunday) there's one bigger one. They change every day, but everybody gets the same ones on the same day, so you can race a friend if you want. Only blocks whose kitten came home count, on the day the block started. When you finish one, Chataltul says so ("Mission done: Bring 3 kittens home. 🐟 +15") and the treats are yours right away. One you don't finish just goes away at midnight, or on Sunday for the weekly one. No penalty.
 
 <p align="center"><img src="images/missions.png" width="260" alt="Cats with Missions picked: Today, Bring 3 kittens home with 2 of 3 and a progress bar, Finish a 50-minute block Done, Focus on 2 different tags Done, each with its treats, and This week, Bring kittens home on 4 days this week, 1 of 4"></p>
 

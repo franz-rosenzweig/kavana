@@ -1,7 +1,7 @@
 <p align="center">
   <img src="web/icons/kavana-512.png" width="120" alt="">
 </p>
-<h1 align="center">Kavana</h1>
+<h1 align="center">Chataltul</h1>
 <p align="center"><b>A focus timer that checks in on you.</b><br>You say what you're working on, and every so often it asks if you're still on it, so you notice when you drift.</p>
 <p align="center">
   <img src="https://img.shields.io/badge/web-app-2e6a64?style=flat-square" alt="Web app">
@@ -27,9 +27,9 @@
 
 ## Why I built it
 
-Kavana (כוונה) is Hebrew for intention, the attention you bring to what you're doing. The app is a focus timer, and the difference from a normal one is that it doesn't just count down. You pick how long, give it a title if you like, and while the block runs it checks in: "Still on: Draft the newsletter?" You tap **Yes**, or you tap **Drifted** and say what pulled you away, and you're back on it a few seconds later instead of twenty minutes later.
+Chataltul (חתלתול) is Hebrew for kitten, the one that grows up while you focus. It used to be called Kavana (כוונה), Hebrew for intention, the attention you bring to what you're doing, and that's still the idea. The app is a focus timer, and the difference from a normal one is that it doesn't just count down. You pick how long, give it a title if you like, and while the block runs it checks in: "Still on: Draft the newsletter?" You tap **Yes**, or you tap **Drifted** and say what pulled you away, and you're back on it a few seconds later instead of twenty minutes later.
 
-A countdown can tell you the time is up, but it can't tell you that you left the work ten minutes ago for your phone. That's the part I wanted help with, so that's what Kavana does: it notices WITH you, gently, and keeps a log so you can see what pulls you away most.
+A countdown can tell you the time is up, but it can't tell you that you left the work ten minutes ago for your phone. That's the part I wanted help with, so that's what Chataltul does: it notices WITH you, gently, and keeps a log so you can see what pulls you away most.
 
 I wanted it on an iPad without going through the App Store, which is why it's a web app you add to the Home Screen. It works in any browser, it needs no account, and everything you do stays in your browser unless you decide to make one.
 
@@ -48,15 +48,15 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 - **At the end.** Your cat comes home: the café comes up and it drops onto its spot, with its treats floating up. Then Done / Partly / Not really, **+5 min** or **+10 min** if you're in the flow, the thoughts you parked, ready to copy, and **Again** to start the same block in one tap. **Done** gets you paw-print confetti.
 
 ### Cats, a bit like Forest
-- **A kitten grows while you focus.** Invite a cat when you start a block, and it grows up inside the timer ring, from a napping kitten to a grown cat (25 minutes or more; shorter, it comes home a kitten). Stay to the end and it comes home to your **Cat Café**. Stop early, or leave Kavana for more than a few seconds, and it tiptoes off (the block keeps going).
+- **A kitten grows while you focus.** Invite a cat when you start a block, and it grows up inside the timer ring, from a napping kitten to a grown cat (25 minutes or more; shorter, it comes home a kitten). Stay to the end and it comes home to your **Cat Café**. Stop early, or leave Chataltul for more than a few seconds, and it tiptoes off (the block keeps going).
 - **The Cat Café, in 3D.** Every cat that came home, by day, week, month or year, in a little café room that floats on the page and turns when you drag it, like Forest's patch of trees. The cats sit on what you bought, walk around, loaf and wash, and the light follows your clock. Your focus time by tag is under it.
 - **Treats and a shop.** Every minute of a block whose kitten came home earns a 🐟. Spend them on things for the café (a rug, a window, a cat tree, a café counter...), cats to adopt, café themes and sounds.
-- **Shelter cats.** Kavana's version of Forest's real trees: sponsor shelter cats with treats, see how many everybody sponsored, and a link to donate to a real shelter if you want.
-- **Napping together.** Join a friend's block, or anyone's with a room code, and your kittens grow up side by side in the same ring. If anyone leaves Kavana or stops, every kitten wanders off, and if everybody stays, every kitten brings extra treats.
+- **Shelter cats.** Chataltul's version of Forest's real trees: sponsor shelter cats with treats, see how many everybody sponsored, and a link to donate to a real shelter if you want.
+- **Napping together.** Join a friend's block, or anyone's with a room code, and your kittens grow up side by side in the same ring. If anyone leaves Chataltul or stops, every kitten wanders off, and if everybody stays, every kitten brings extra treats.
 - **Goals.** Three missions a day and one a week, a monthly focus challenge, a starter challenge for new people, and 27 achievements, all paying extra treats.
 - **Events.** Halloween week (October 25 to November 1) with a pumpkin cat, and winter (December 15 to January 5) with Flurry, each with things for the café, only in the shop that week.
 - **A browser extension.** While a block runs, the sites you drift to (YouTube, Reddit, X and the rest of your list) show a cat instead, "Boo! Miso is growing.", in Chrome, Edge, Brave or Firefox on a computer. See [The browser extension](docs/extension.md).
-- **Sixteen cats,** each painted: Miso, Pepper, Mochi, Pickles, Noodle, Earl Grey, Biscuit and Boo you meet by focusing (your first block, an hour in all, three days in a row...), and Luna, Cocoa, Olive, Dumpling, Maple, Ziggy, Pumpkin and Flurry you adopt. [Cats](docs/cats.md) has all of them. Cat mode is on unless you turn it off, and the notifications get a 🐱 too.
+- **Sixteen cats,** each painted: Miso, Milo, Mochi, Pickles, Noodle, Earl Grey, Biscuit and Boo you meet by focusing (your first block, an hour in all, three days in a row...), and Luna, Cocoa, Olive, Dumpling, Maple, Ziggy, Pumpkin and Flurry you adopt. [Cats](docs/cats.md) has all of them. Cat mode is on unless you turn it off, and the notifications get a 🐱 too.
 
 ### Around it
 - **Later.** A list like Reminders for the things that come up, with ▶ to turn one into a block.
@@ -76,7 +76,7 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 
 ### Your data stays yours
 - **No account needed.** Everything is kept in your browser. The server only sends the reminders, and it deletes each one once it's sent.
-- **An account if you want one**, to back it up, use it on more than one device, and focus with friends. Your email is enough: Kavana emails you a code to sign in, so there's no password to remember (a name and password works too). **Delete My Account** removes the account and its data from the server.
+- **An account if you want one**, to back it up, use it on more than one device, and focus with friends. Your email is enough: Chataltul emails you a code to sign in, so there's no password to remember (a name and password works too). **Delete My Account** removes the account and its data from the server.
 - **Counts, never content.** The app counts which features get used, with a random id per browser and never anything you type, and you can turn that off in **Settings → Privacy**. The details are in [Accounts and privacy](docs/privacy.md).
 
 ## Screenshots
@@ -92,7 +92,7 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 ![An iPad in landscape with the menu slid in from the left (today's minutes and days in a row, Focus, Café, Cats, Goals, Shop, Later, Rankings, Friends, A mindful minute, Shelter cats, What's new, Settings) over the Focus tab](docs/images/ipad-landscape.png)
 *On an iPad in landscape, with the menu open.*
 
-![Kavana in a browser on a Mac: the Café for this week, a 3D café room full of cats on the furniture, and the cards for cats came home, focused, wandered off and treats](docs/images/computer.png)
+![Chataltul in a browser on a Mac: the Café for this week, a 3D café room full of cats on the furniture, and the cards for cats came home, focused, wandered off and treats](docs/images/computer.png)
 *It works in a browser on a computer too.*
 
 <details><summary>More screenshots</summary>
@@ -117,7 +117,7 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 
 *Joining a friend, focusing together, and Settings → Friends.*
 
-<p align="center"><img src="docs/images/welcome.png" width="260" alt="Welcome to Kavana with a little cast of painted cats around Miso, four features, and Continue"> <img src="docs/images/install.png" width="260" alt="Add to Home Screen, the four steps for Safari"> <img src="docs/images/privacy.png" width="260" alt="The bottom of Settings: Notifications, and Privacy with the Share anonymous usage counts switch"></p>
+<p align="center"><img src="docs/images/welcome.png" width="260" alt="Welcome to Chataltul with a little cast of painted cats around Miso, four features, and Continue"> <img src="docs/images/install.png" width="260" alt="Add to Home Screen, the four steps for Safari"> <img src="docs/images/privacy.png" width="260" alt="The bottom of Settings: Notifications, and Privacy with the Share anonymous usage counts switch"></p>
 
 *The first run, adding it to the Home Screen, and Settings → Privacy.*
 
@@ -129,7 +129,7 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 ## Install
 
 ### On an iPhone or iPad
-Open Kavana in Safari, tap the Share button, then **Add to Home Screen**, and open it from there. The reminders only work in the Home Screen app (iPadOS and iOS 16.4 or newer), because that's the only place Apple allows web notifications. The steps, with the link to my copy, are in [Install](docs/install.md).
+Open Chataltul in Safari, tap the Share button, then **Add to Home Screen**, and open it from there. The reminders only work in the Home Screen app (iPadOS and iOS 16.4 or newer), because that's the only place Apple allows web notifications. The steps, with the link to my copy, are in [Install](docs/install.md).
 
 ### On Android
 Open it in Chrome and it works right in the tab, reminders included. To give it its own icon, use the menu and **Add to Home screen**. See [Install](docs/install.md#on-android).
@@ -140,26 +140,26 @@ Or get the Android app, with the cat that shows up over other apps when you drif
 Any recent browser works, and Chrome, Edge and Safari can install it as an app with its own window. See [Install](docs/install.md#on-a-computer). To block distracting sites during a block, load [the browser extension](docs/extension.md) in Chrome, Edge, Brave or Firefox.
 
 ### Your own server
-It's one Node program with no dependencies and nothing to build: `git clone`, then `KAVANA_STATE=./state node server.js`, and put it behind HTTPS for the reminders. [Your own server](docs/server.md) has the whole setup, and [Developing Kavana](docs/DEVELOPING.md) has the code and the tests.
+It's one Node program with no dependencies and nothing to build: `git clone`, then `KAVANA_STATE=./state node server.js`, and put it behind HTTPS for the reminders. [Your own server](docs/server.md) has the whole setup, and [Developing Chataltul](docs/DEVELOPING.md) has the code and the tests.
 
 ## Documentation
 
-Everything about using Kavana, where your data is kept, and running your own copy is in the [docs](docs/README.md):
+Everything about using Chataltul, where your data is kept, and running your own copy is in the [docs](docs/README.md):
 
-- **Getting started**: [What is Kavana?](docs/what-is-kavana.md), [Why I made it](docs/why-i-made-it.md), [Install](docs/install.md)
-- **Using Kavana**: [a focus block](docs/focus-blocks.md), [check-ins and Cat mode](docs/check-ins.md), [cats](docs/cats.md), [the Café, goal and the daily reminder](docs/history.md), [focus with friends](docs/friends.md), [the browser extension](docs/extension.md)
+- **Getting started**: [What is Chataltul?](docs/what-is-kavana.md), [Why I made it](docs/why-i-made-it.md), [Install](docs/install.md)
+- **Using Chataltul**: [a focus block](docs/focus-blocks.md), [check-ins and Cat mode](docs/check-ins.md), [cats](docs/cats.md), [the Café, goal and the daily reminder](docs/history.md), [focus with friends](docs/friends.md), [the browser extension](docs/extension.md)
 - **Your data**: [accounts and privacy](docs/privacy.md)
 - **Running your own server**: [your own server](docs/server.md)
-- **Under the hood**: [developing Kavana](docs/DEVELOPING.md)
+- **Under the hood**: [developing Chataltul](docs/DEVELOPING.md)
 
-Start with [What is Kavana?](docs/what-is-kavana.md).
+Start with [What is Chataltul?](docs/what-is-kavana.md).
 
 ## How it's built
 
 - **The app logic** is `web/engine.js`, plain functions over one document: blocks, check-ins, nudges, pauses, Later, breaks, history, the pings to send, what friends may see, and the merge for sync. The browser runs it, and the server runs the same file for accounts.
 - **Your data** lives in the browser's localStorage (`web/data.js`), and answers tapped on a notification wait in IndexedDB until the app opens. With an account, the same document is also kept on the server, one file per account.
 - **The screens** are `web/app.js`, `index.html` and `style.css`, dressed like an iPadOS/macOS app, with a service worker (`web/sw.js`) for the notifications. The cats that move are drawn in `web/cats.js`, one SVG kit with fifteen cats in four poses (peek, sit, sleep, cheer), which also says where everything goes in the café. The paintings in `web/cats/` and `web/cafe/` (every cat grown up, as a kitten and napping, and the café's furniture) were painted with imagegen-cc on my Mac (`tools/paint-cats.js`, `tools/cutout.py`). There's no framework, no build step and no dependencies.
-- **The browser extension** (`extension/`) is plain Manifest V3 that loads in Chromium and Firefox. The Kavana page tells it when a block starts, pauses, stops or ends, and it turns one `declarativeNetRequest` rule on and off.
+- **The browser extension** (`extension/`) is plain Manifest V3 that loads in Chromium and Firefox. The Chataltul page tells it when a block starts, pauses, stops or ends, and it turns one `declarativeNetRequest` rule on and off.
 - **The server** (`server.js`) is plain Node with nothing to install. It sends the reminders with Web Push, which is written out by hand in `lib/push.js` (VAPID and aes128gcm), and keeps its state in JSON files (`lib/state.js`).
 
 ## Credits

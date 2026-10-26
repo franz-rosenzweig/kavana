@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-// Kavana's admin CLI. It talks to the running server's /admin API on localhost with the token
+// Chataltul's admin CLI. It talks to the running server's /admin API on localhost with the token
 // in the state directory, so the server stays the only thing that writes the state.
 const fs = require('node:fs');
 const path = require('node:path');

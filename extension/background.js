@@ -1,4 +1,4 @@
-// Turns the block list on while a Kavana block runs, and off when it ends. A site on the list opens the
+// Turns the block list on while a Chataltul block runs, and off when it ends. A site on the list opens the
 // cat page instead (whole pages only, so a video embedded in another site still plays).
 'use strict';
 if (typeof importScripts === 'function' && !globalThis.KX) importScripts('common.js'); // Chrome; Firefox's manifest lists both
@@ -20,7 +20,7 @@ async function update() {
     condition: {
       regexFilter: '^(.+)$',
       requestDomains: sites,
-      excludedRequestDomains: [new URL(app).hostname], // never Kavana itself
+      excludedRequestDomains: [new URL(app).hostname], // never Chataltul itself
       resourceTypes: ['main_frame'],
     },
   }] : [];
@@ -37,10 +37,10 @@ async function badge(block) {
   else await api.alarms.clear('tick');
   await api.action.setBadgeBackgroundColor({ color: '#2c8a7e' });
   await api.action.setBadgeText({ text: block ? String(Math.ceil((block.end - Date.now()) / 60000)) : '' });
-  await api.action.setTitle({ title: block ? `Kavana: blocking until ${KX.clock(block.end)}` : 'Kavana' });
+  await api.action.setTitle({ title: block ? `Chataltul: blocking until ${KX.clock(block.end)}` : 'Chataltul' });
 }
 
-// Kavana pages that were already open when the extension was installed or updated get the script now.
+// Chataltul pages that were already open when the extension was installed or updated get the script now.
 async function inject() {
   const matches = api.runtime.getManifest().content_scripts[0].matches;
   for (const t of await api.tabs.query({ url: matches })) {

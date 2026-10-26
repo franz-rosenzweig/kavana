@@ -25,8 +25,8 @@ const KX = {
   },
 
   // Everything the extension keeps, in its own storage on this computer:
-  //   block  what the Kavana page last said: { running, end, intention, cat, at }
-  //   app    the Kavana page that said it, for "Back to Kavana"
+  //   block  what the Chataltul page last said: { running, end, intention, cat, at }
+  //   app    the Chataltul page that said it, for "Back to Chataltul"
   //   sites  the block list (missing until you change it, then the defaults are copied in)
   async load() {
     const got = await api.storage.local.get(['block', 'app', 'sites']);
@@ -37,7 +37,7 @@ const KX = {
     };
   },
 
-  // A block counts while Kavana says it runs and its end hasn't passed.
+  // A block counts while Chataltul says it runs and its end hasn't passed.
   running(block, now = Date.now()) {
     return Boolean(block && block.running && block.end > now);
   },
@@ -53,13 +53,13 @@ const KX = {
     return new Date(at).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
   },
 
-  // Kavana's painting of the block's kitten (grown once it's home), or null when there's no cat to show.
+  // Chataltul's painting of the block's kitten (grown once it's home), or null when there's no cat to show.
   picture(app, cat) {
     if (!cat || !cat.id || cat.kitten === 'gone') return null;
     return `${app}cats/${cat.id}${cat.kitten === 'home' ? '' : '-kitten'}-1.webp`;
   },
 
-  // Switch to a Kavana tab that's open already. False if there isn't one.
+  // Switch to a Chataltul tab that's open already. False if there isn't one.
   async toKavana(app) {
     const tab = (await api.tabs.query({})).find((t) => t.url && t.url.startsWith(app));
     if (!tab) return false;

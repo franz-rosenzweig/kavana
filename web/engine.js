@@ -1,4 +1,4 @@
-// Kavana's engine: everything a block does, as plain functions over one document (the "doc").
+// Chataltul's engine: everything a block does, as plain functions over one document (the "doc").
 // The page keeps the doc in the browser. With an account it's also synced to the server, which
 // loads this same file to merge copies and to work out when to send the pings.
 (function (root) {
@@ -146,7 +146,7 @@ const activeMs = (b, at) => at - b.start - (b.pausedTotal || 0); // time on the 
 const touch = (doc, b, now) => { if (b) b.u = now; doc.u = now; };
 
 // Every block invites a kitten (b.cat). It grows while you focus and comes home to the café when the
-// block reaches its end (b.home). Stop early, or leave Kavana in the middle, and it wanders off (b.gone).
+// block reaches its end (b.home). Stop early, or leave Chataltul in the middle, and it wanders off (b.gone).
 // Blocks from before the café have no b.cat: the finished ones count as home, with Miso.
 const kitten = (b) => (b.home ? 'home' : b.gone ? 'gone' : !b.cat ? (b.ended ? (b.stopped ? 'gone' : 'home') : 'growing') : b.ended ? 'gone' : 'growing');
 E.kitten = kitten;
@@ -594,7 +594,7 @@ E.edit = (doc, id, patch, now) => {
   touch(doc, b, now);
 };
 
-// You left Kavana in the middle of a block (the page knows from its visibility): the kitten wanders
+// You left Chataltul in the middle of a block (the page knows from its visibility): the kitten wanders
 // off at `at`. The block itself goes on. The page may only find out later, after the block has ended
 // (and the kitten came home): then it's undone.
 // With `grace`, `at` is when you left, and the kitten waits that long before it goes. Leaving during a
@@ -958,7 +958,7 @@ E.pings = (doc, now) => {
     const name = cat && b.cat ? b.cat.charAt(0).toUpperCase() + b.cat.slice(1) : 'Your kitten';
     const home = cat && !b.gone; // a kitten that already wandered off doesn't come home at the end
     if (b.overtime && !b.over) {
-      out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: home ? `🐱 Time's up, and ${name} came home` : cat ? "🐱 Time's up" : "Time's up", body: `${said(b)}Kavana keeps counting until you stop.` });
+      out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: home ? `🐱 Time's up, and ${name} came home` : cat ? "🐱 Time's up" : "Time's up", body: `${said(b)}Chataltul keeps counting until you stop.` });
     } else if (b.mode === 'stopwatch') {
       out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: home ? `🐱 Three hours! ${name} came home` : cat ? '🐱 Three hours. How did it go?' : 'Three hours. How did it go?', body: `${said(b)}Tap to log it.` });
     } else out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: cat ? "🐱 Boo! Time's up. How did it go?" : 'How did it go?', body: `${said(b)}Tap to log it.` });

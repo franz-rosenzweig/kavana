@@ -31,7 +31,7 @@ const ua = crypto.createECDH('prime256v1');
 ua.generateKeys();
 const auth = crypto.randomBytes(16);
 const channelID = crypto.randomUUID();
-const payload = { kind: 'test', title: 'Kavana', body: 'e2e ' + Date.now() };
+const payload = { kind: 'test', title: 'Chataltul', body: 'e2e ' + Date.now() };
 
 const ws = new WebSocket('wss://push.services.mozilla.com/');
 const fail = (m) => { console.error('FAIL', m); process.exit(1); };

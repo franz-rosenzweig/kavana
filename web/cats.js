@@ -1,4 +1,4 @@
-// Kavana's cats: one drawing kit, fourteen cats, four poses (peek, sit, sleep, cheer), and the Cat Café's things.
+// Chataltul's cats: one drawing kit, fourteen cats, four poses (peek, sit, sleep, cheer), and the Cat Café's things.
 // Cat(breed, pose) returns an SVG string. Ids inside are unique per call, so many can share a page.
 // Loaded by the page (window.KavanaCats) and by Node for tests and the Android notification picture.
 (function (root) {
@@ -8,7 +8,7 @@ const INK = '#1e2627';
 // Fur, details, and which markings each breed gets.
 const BREEDS = {
   orange: { fur: '#eea45c', mark: '#b96d2a', ear: '#f5c4b3', nose: '#e07a6a', eye: INK, line: INK, marks: 'tabby' },
-  black: { fur: '#2d2f36', mark: '#2d2f36', ear: '#6e4c5c', nose: '#8a5e6e', eye: '#cfe26a', pupil: INK, line: '#101214', detail: '#d9d5e2', marks: 'none', shine: '#fff' },
+  black: { fur: '#2d2f36', mark: '#2d2f36', ear: '#6e4c5c', nose: '#8a5e6e', eye: '#e6a42a', pupil: INK, line: '#101214', detail: '#d9d5e2', marks: 'none', shine: '#fff' },
   cream: { fur: '#fff6ea', mark: '#cbc3bb', ear: '#f7b9c6', nose: '#f19aac', eye: INK, line: INK, marks: 'earpatch' },
   calico: { fur: '#fffaf3', mark: '#eea45c', mark2: '#33353c', ear: '#f5c4b3', nose: '#e07a6a', eye: INK, line: INK, marks: 'calico' },
   grey: { fur: '#a3acb7', mark: '#6c7581', ear: '#f0c1c4', nose: '#d98a93', eye: '#d9a441', pupil: INK, line: INK, marks: 'tabby' },
@@ -25,14 +25,16 @@ const BREEDS = {
   flurry: { fur: '#c9d6e6', mark: '#9fb3cc', ear: '#f2c1cc', nose: '#e59aac', eye: '#5b8fd6', pupil: INK, line: INK, marks: 'none' },
 };
 
-// The cats. The first eight you meet by focusing: `rule` gets the stats from Kavana's history (see
+// The cats. The first eight you meet by focusing: `rule` gets the stats from Chataltul's history (see
 // app.js) and says if you've met them. The rest you adopt in the shop with treats (prices in engine.js).
 // The pictures are painted (web/cats/, made with tools/paint-cats.js): the grown cat, the kitten
 // growing in the timer ring, and the kitten napping when it has just arrived.
-const art = (id) => ({ portrait: `cats/${id}-1.webp`, kitten: `cats/${id}-kitten-1.webp`, nap: `cats/${id}-nap-1.webp` });
+// A cat whose pictures are repainted gets a new number, because they're cached for a day (Milo's eyes went gold).
+const V = { pepper: 2 };
+const art = (id) => ({ portrait: `cats/${id}-${V[id] || 1}.webp`, kitten: `cats/${id}-kitten-${V[id] || 1}.webp`, nap: `cats/${id}-nap-${V[id] || 1}.webp` });
 const CATS = [
   { id: 'miso', name: 'Miso', ...art('miso'), breed: 'orange', about: 'An orange tabby who naps while you work.', how: 'Here from the start', rule: () => true },
-  { id: 'pepper', name: 'Pepper', ...art('pepper'), breed: 'black', about: 'Quiet, curious, and always on time.', how: 'Finish your first block', rule: (s) => s.finished >= 1 },
+  { id: 'pepper', name: 'Milo', ...art('pepper'), breed: 'black', about: 'Gold eyes, quiet and curious, and always on time.', how: 'Finish your first block', rule: (s) => s.finished >= 1 },
   { id: 'mochi', name: 'Mochi', ...art('mochi'), breed: 'cream', about: 'Soft as a cloud, sleeps in sunbeams.', how: 'Focus for 1 hour in all', rule: (s) => s.totalMin >= 60 },
   { id: 'pickles', name: 'Pickles', ...art('pickles'), breed: 'calico', about: 'Shows up when you keep showing up.', how: 'Focus 3 days in a row', rule: (s) => s.bestStreak >= 3 },
   { id: 'noodle', name: 'Noodle', ...art('noodle'), breed: 'tuxedo', about: 'Dressed up for a good break.', how: 'Take 3 breaks', rule: (s) => s.breaks >= 3 },
@@ -56,7 +58,7 @@ const MOVES = {
   miso: ['walk', 'loaf', 'stretch', 'wash', 'back'], mochi: ['walk', 'loaf', 'stretch', 'wash', 'back'],
   pepper: ['walk', 'loaf', 'stretch', 'wash', 'back'], pickles: ['walk', 'loaf', 'stretch', 'wash', 'back'],
 };
-for (const c of CATS) if (MOVES[c.id]) c.poses = Object.fromEntries(MOVES[c.id].map((p) => [p, `cats/${c.id}-${p}-1.webp`]));
+for (const c of CATS) if (MOVES[c.id]) c.poses = Object.fromEntries(MOVES[c.id].map((p) => [p, `cats/${c.id}-${p}-${V[c.id] || 1}.webp`]));
 
 // The Cat Café's things (web/cafe/). `at` is where it goes in the room: [center x, bottom y, width],
 // in % of the room (3:2; the wall is the top 58%). Wall things hang behind everything on the floor.
@@ -93,7 +95,7 @@ for (const x of ITEMS) if (TURNS[x.id]) x.views = Object.fromEntries(Object.entr
 
 // Shelter cats: the cat version of Forest's real trees. Sponsoring one (with treats) stands for a real
 // shelter cat; they come one after the other, and live in your café from then on. The link goes to a
-// real shelter's donation page: no money goes through Kavana.
+// real shelter's donation page: no money goes through Chataltul.
 const SHELTER_ORG = { name: 'Best Friends Animal Society', url: 'https://bestfriends.org/donate' };
 const SHELTER = [
   { id: 'shelter1', name: 'Ginger Snap', about: 'A senior with grey whiskers. Calm, gentle, patient.' },

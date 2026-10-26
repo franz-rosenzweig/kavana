@@ -337,14 +337,14 @@ const cli = (...args) => execFileSync('node', [path.join(__dirname, '../bin/kava
   // ---------- email: codes from the sandbox's outbox ----------
   if (!config.email) fail('start the sandbox with KAVANA_MAIL=outbox');
   const mailTo = (email) => fs.readFileSync(path.join(STATE, 'outbox.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l)).filter((m) => m.to === email).pop();
-  const codeTo = (email) => /^(\d{6}) is your Kavana code$/.exec(mailTo(email).subject)[1];
+  const codeTo = (email) => /^(\d{6}) is your Chataltul code$/.exec(mailTo(email).subject)[1];
   const wrong = (code) => String((Number(code) + 1) % 1000000).padStart(6, '0');
   const C = new Device('C'); const C2 = new Device('C2');
   const mailC = `Cat.${tag}+focus@Example.com`;
   await C.api('POST', '/api/email/code', { email: 'not an email' }, [400]);
   await C.api('POST', '/api/email/code', { email: mailC });
   const m1 = mailTo(mailC.toLowerCase());
-  if (!/Your code for signing in to Kavana is:\n\n {4}\d{3} \d{3}\n/.test(m1.text)) fail(`code email ${JSON.stringify(m1.text)}`);
+  if (!/Your code for signing in to Chataltul is:\n\n {4}\d{3} \d{3}\n/.test(m1.text)) fail(`code email ${JSON.stringify(m1.text)}`);
   const c1 = codeTo(mailC.toLowerCase());
   await C.api('POST', '/api/email/signin', { email: mailC, code: wrong(c1) }, [401]);
   const { data: meC } = await C.api('POST', '/api/email/signin', { email: mailC, code: `${c1.slice(0, 3)} ${c1.slice(3)}` });

@@ -1,4 +1,4 @@
-// Kavana's living cats: the painted pictures bent live, so they breathe, blink, flick an ear, swish a
+// Chataltul's living cats: the painted pictures bent live, so they breathe, blink, flick an ear, swish a
 // tail, tilt their head, look at your finger and hop when you tap them. No new art: every picture gets a
 // rig (rig.json: eyes, head, neck, ears, tail, ground line, in the picture's 512 px) and a mesh that
 // moves. Every motion is a damped spring (damping ratio + settle time) or a fixed curve, so Android

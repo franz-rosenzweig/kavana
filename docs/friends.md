@@ -1,4 +1,4 @@
-<sub>[Kavana docs](README.md) › Using Kavana</sub>
+<sub>[Chataltul docs](README.md) › Using Chataltul</sub>
 
 # Focus with friends
 
@@ -6,10 +6,10 @@
 
 ## Adding a friend
 
-Make an account first (tap **Sign In** at the top of **Settings** and type your email, then the code Kavana sends you, see [Accounts and privacy](privacy.md)). Then open **Settings → Friends**:
+Make an account first (tap **Sign In** at the top of **Settings** and type your email, then the code Chataltul sends you, see [Accounts and privacy](privacy.md)). Then open **Settings → Friends**:
 
 1. **Your friend code** is a short code made of letters and digits. Press **Copy** and send it to your friend however you like.
-2. Your friend types it into **Add a friend's code** and presses **Add** (or you type theirs). You're now friends with each other, and Kavana says "Friend added. You see each other once you both share."
+2. Your friend types it into **Add a friend's code** and presses **Add** (or you type theirs). You're now friends with each other, and Chataltul says "Friend added. You see each other once you both share."
 
 You can have up to 20 friends, and **Remove** next to a name ends it for both of you.
 
@@ -41,7 +41,7 @@ Once you share, your friends show on the Focus tab, under the Start button, unde
 
 When a friend is focusing with more than a couple of minutes left, their name has a **Join** button. Press it, and under the Start button the Focus tab says "Napping with Dana. You'll finish together at 4:02 PM. If anyone leaves, every kitten wanders off." Add a title if you like (it doesn't have to be the same thing) and press **Start**. The length is set by their block, so there's no "How long" to pick, and **Cancel** goes back to a normal block.
 
-While you work, Dana's kitten grows up in your ring next to yours, and the block says "Napping with Dana" under your intention. That's napping together, and it has one rule: if anyone in the group leaves Kavana or stops, every kitten wanders off. If everybody stays, every kitten comes home with extra treats. The whole thing is in [Cats](cats.md#napping-together). With Cat mode off, joining is just focusing together: "Joining Dana. You'll both finish at 4:02 PM." and then "Focusing with Dana".
+While you work, Dana's kitten grows up in your ring next to yours, and the block says "Napping with Dana" under your intention. That's napping together, and it has one rule: if anyone in the group leaves Chataltul or stops, every kitten wanders off. If everybody stays, every kitten comes home with extra treats. The whole thing is in [Cats](cats.md#napping-together). With Cat mode off, joining is just focusing together: "Joining Dana. You'll both finish at 4:02 PM." and then "Focusing with Dana".
 
 In an ordinary block, if friends are focusing at the same time, it says so too ("Dana is focusing too").
 
@@ -53,7 +53,7 @@ If you want to try it with someone, the quickest way is to both make an account,
 
 ## Rankings
 
-Forest has rankings, so Kavana does too, and they're opt-in. **Rankings** is in the menu and behind the trophy on the Café tab. A round is one week, Monday to Sunday (UTC, so it's the same week for everybody), and what counts is the minutes of blocks whose kitten came home. The page says how long the round has left ("This round ends in 3 days 4 hours").
+Forest has rankings, so Chataltul does too, and they're opt-in. **Rankings** is in the menu and behind the trophy on the Café tab. A round is one week, Monday to Sunday (UTC, so it's the same week for everybody), and what counts is the minutes of blocks whose kitten came home. The page says how long the round has left ("This round ends in 3 days 4 hours").
 
 - **Friends** ranks you with your friends who are in the rankings too, by the names you already see.
 - **Worldwide** is everyone who chose to be in it, under a nickname they picked. It shows the top 50, and where you are if you're further down.

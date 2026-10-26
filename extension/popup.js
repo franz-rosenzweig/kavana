@@ -12,7 +12,7 @@ const $ = (s) => document.querySelector(s);
     $('#sub').textContent = `${block.intention ? `${block.intention}. ` : ''}Blocking ${n} for ${KX.left(block.end - Date.now())}, until ${KX.clock(block.end)}.`;
   } else {
     $('#title').textContent = 'No block running';
-    $('#sub').textContent = `Start one in Kavana, and ${n} show a cat until it ends.`;
+    $('#sub').textContent = `Start one in Chataltul, and ${n} show a cat until it ends.`;
   }
   const img = $('#pic');
   if (KX.picture(app, cat)) {

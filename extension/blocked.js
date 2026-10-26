@@ -9,7 +9,7 @@ const wanted = (() => {
 const host = wanted ? wanted.hostname.replace(/^www\./, '') : '';
 let st = null, over = false;
 
-// The kitten growing in this block, from Kavana's own pictures (the extension has Miso in case it can't load them).
+// The kitten growing in this block, from Chataltul's own pictures (the extension has Miso in case it can't load them).
 function picture(cat, app) {
   const img = $('#pic');
   const spare = cat && cat.kitten !== 'gone' ? 'icons/kitten.webp' : 'icons/icon-128.png';
@@ -47,7 +47,7 @@ async function done() {
   location.replace(wanted.href);
 }
 
-// Back to the Kavana tab if one is open, or open Kavana here.
+// Back to the Chataltul tab if one is open, or open Chataltul here.
 $('#back').addEventListener('click', async () => {
   const app = st ? st.app : KX.DEFAULT_APP;
   if (!(await KX.toKavana(app))) location.href = app;

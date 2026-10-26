@@ -1,8 +1,8 @@
-<sub>[Kavana docs](README.md) › Using Kavana</sub>
+<sub>[Chataltul docs](README.md) › Using Chataltul</sub>
 
 # The Café, goal and the daily reminder
 
-Every block you finish goes into your history, and this page is about what Kavana does with it: the Café tab, where the cats that came home hang out next to your focus time, tags, a daily goal, and a daily "Time to focus?" reminder. None of it is a score. It's there so you can see your days, and what pulls you away, without keeping a log yourself.
+Every block you finish goes into your history, and this page is about what Chataltul does with it: the Café tab, where the cats that came home hang out next to your focus time, tags, a daily goal, and a daily "Time to focus?" reminder. None of it is a score. It's there so you can see your days, and what pulls you away, without keeping a log yourself.
 
 ## The Café tab
 
@@ -12,7 +12,7 @@ Every block you finish goes into your history, and this page is about what Kavan
 
 *The café today, this month, and this week in dark mode.*
 
-**The room** is your Cat Café, and it's a little 3D room floating on the page, like Forest's patch of forest. Every cat that came home in that day, week, month or year is in it, so a good day looks like a busy café, and a week or a month gets a bigger room. Up to 60 fit, and past that a card says how many more there are. Drag it sideways and it turns, a quarter turn at a time, so you can see it from all four corners, and the cat tree, the counter, the bookshelf and the armchair turn with it. Tap a cat to see which block it was ("Pepper · Write the intro · 25 min"), and tap a thing for its name. A block under 25 minutes brought home a kitten, so it's a kitten in the room too.
+**The room** is your Cat Café, and it's a little 3D room floating on the page, like Forest's patch of forest. Every cat that came home in that day, week, month or year is in it, so a good day looks like a busy café, and a week or a month gets a bigger room. Up to 60 fit, and past that a card says how many more there are. Drag it sideways and it turns, a quarter turn at a time, so you can see it from all four corners, and the cat tree, the counter, the bookshelf and the armchair turn with it. Tap a cat to see which block it was ("Milo · Write the intro · 25 min"), and tap a thing for its name. A block under 25 minutes brought home a kitten, so it's a kitten in the room too.
 
 <p align="center"><img src="images/cafe-turned.png" alt="Two phones: the café for this week, and the same café after a quarter turn, with the counter, the cat tree and the bookshelf seen from the side and the label Earl Grey, Draft the newsletter, 40 min over one of the cats"></p>
 
@@ -29,7 +29,7 @@ Under the room are a few cards: how many **cats came home**, how long you **focu
 - **Your blocks** in that period (tap one to change what you worked on, its tag, or its note), newest first, grouped by day under "Today", "Yesterday" and then the date. Each one shows how it went as an emoji (🎉 Done, 🌗 Partly, 🌧️ Not really, or ⏹️ for no answer), what you worked on with its tag, the time you started, how long ("15 of 50 min" if you stopped early), how the check-ins went ("no drift", "drifted twice", or the number of nudges), the thoughts you parked, and on the right the cat that came home, or a paw print if it wandered off.
 - **Habits** are the numbers over everything, each on its own little card: minutes focused **today** and in the **last 7 days**, **blocks this week**, **days in a row** (a streak still counts until today is over), **check-ins on track** (the share of your "Ask me" answers that were Yes), and what **pulled you away most** this week. Under them, **Last 5 weeks** is a heatmap, one square per day from Sunday to Saturday, with today outlined. A darker square means more focus that day, and if you've set a daily goal, the darkest shade means you reached it.
 
-**Your oldest blocks.** Kavana keeps your last 2000 blocks, which is a year and more at four a day. Past that, the oldest ones get folded into each day's totals, and the café still counts them: the cats that came home and who they were, the minutes by tag, how many wandered off, and the bars for those days. So last year looks the same as it always did. What those days DON'T keep is the hours and the blocks themselves, which means they aren't in **When you focus** or in the list of blocks (a short note says so), and a period that reaches back there leaves out the **treats** card. The treats are still yours, they're in your balance, just not by day. Tap one of those cats and it tells you the day instead of the block. Basically, the numbers stay right, and only the details of the oldest blocks go.
+**Your oldest blocks.** Chataltul keeps your last 2000 blocks, which is a year and more at four a day. Past that, the oldest ones get folded into each day's totals, and the café still counts them: the cats that came home and who they were, the minutes by tag, how many wandered off, and the bars for those days. So last year looks the same as it always did. What those days DON'T keep is the hours and the blocks themselves, which means they aren't in **When you focus** or in the list of blocks (a short note says so), and a period that reaches back there leaves out the **treats** card. The treats are still yours, they're in your balance, just not by day. Tap one of those cats and it tells you the day instead of the block. Basically, the numbers stay right, and only the details of the oldest blocks go.
 
 **Clear My History** at the bottom removes every finished block, and the totals of the oldest ones, so the café empties too. It asks first, it can't be undone, and with an account it clears it on all your devices. You keep your treats (including what missions paid), what you bought, and the cats you've met. It does close today's and this week's missions, so they can't pay twice, and new ones come the next day.
 
@@ -49,7 +49,7 @@ Tags say what kind of work a block was, so the Café can show where your time go
 
 **Settings → Focus → Daily goal** can be **30 min**, **1 hour**, **1½ hours**, **2 hours** or **3 hours**. The menu has two small cards at the top. The first is today's minutes with a ring around it, like the rings on an Apple Watch, and with a goal set it says "1 h 15 min of 2 h today" and fills up as you go, until it says "Goal reached!". The second is your days in a row, with a paw on it ("6 days in a row", or "Start a streak today").
 
-<p align="center"><img src="images/menu.png" width="260" alt="The menu over the Focus tab: Kavana, 0 min of 2 h today with an empty ring, 4 days in a row with a paw, and the list of everything under it"></p>
+<p align="center"><img src="images/menu.png" width="260" alt="The menu over the Focus tab: Chataltul, 0 min of 2 h today with an empty ring, 4 days in a row with a paw, and the list of everything under it"></p>
 
 *The goal and the streak at the top of the menu.*
 

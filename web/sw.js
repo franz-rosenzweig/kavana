@@ -1,5 +1,5 @@
 'use strict';
-// Kavana's service worker: shows the pings, and records Yes / Drifted tapped on a notification.
+// Chataltul's service worker: shows the pings, and records Yes / Drifted tapped on a notification.
 // Answers go into IndexedDB ("inbox"); the app picks them up the next time it opens, because
 // the history lives in the browser, not on the server. iOS shows no notification buttons,
 // so there a tap just opens the app, which asks the same question.
@@ -41,7 +41,7 @@ self.addEventListener('push', (e) => {
   };
   if (d.actions) opts.actions = d.actions;
   if (d.cat && ['checkin', 'end', 'break-over', 'daily'].includes(d.kind)) opts.image = at('icons/cat-boo.png'); // Android shows it big
-  e.waitUntil(self.registration.showNotification(d.title || 'Kavana', opts).then(tellWindows));
+  e.waitUntil(self.registration.showNotification(d.title || 'Chataltul', opts).then(tellWindows));
 });
 
 self.addEventListener('notificationclick', (e) => {

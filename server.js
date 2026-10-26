@@ -1,5 +1,5 @@
 'use strict';
-// Kavana's server. The app itself runs in the browser (web/engine.js); this is the part that can't:
+// Chataltul's server. The app itself runs in the browser (web/engine.js); this is the part that can't:
 // - a mailbox that sends a device its check-in pings on time, so they arrive with the app closed;
 // - optional accounts, which back up and sync the browser's data between devices (a name and a
 //   password, or an email and a code we send it, through Proton Mail Bridge here);
@@ -302,7 +302,7 @@ function friendsView(name) {
 
 // ---------- napping together ----------
 // Friends' kittens grow in one ring: you join a friend's block (it ends when theirs does), and if
-// anyone leaves Kavana for longer than the grace or stops, every kitten in the group wanders off.
+// anyone leaves Chataltul for longer than the grace or stops, every kitten in the group wanders off.
 // The group lives here, in st.naps[id] (id = the first block's id). Pages tell it when they leave and
 // come back; their synced docs tell it about a stop. Each page asks for its group and sends its own
 // kitten off when the group breaks (E.napGone), so the server never edits anyone's doc.
@@ -485,7 +485,7 @@ const me = (name) => {
 // 'confirm' stands in for the password when an account without one is deleted.
 const codes = new Map(); // `${kind}:${email}` -> { hash, exp, tries, user }
 const emailOwner = (email) => Object.keys(st.accounts).find((n) => st.accounts[n].email === email) || null;
-const SUBJECTS = { in: 'signing in to Kavana', add: 'adding this address to your Kavana account', confirm: 'deleting your Kavana account' };
+const SUBJECTS = { in: 'signing in to Chataltul', add: 'adding this address to your Chataltul account', confirm: 'deleting your Chataltul account' };
 
 async function sendCode(kind, email, user, ip) {
   if (limited(`code:${ip}`, 6, 60 * MIN) || limited(`code:${email}`, 3, 15 * MIN) || limited(`codeday:${email}`, 8, DAY)
@@ -496,8 +496,8 @@ async function sendCode(kind, email, user, ip) {
   codes.set(`${kind}:${email}`, { hash: S.sha(`${email}:${code}`), exp: Date.now() + CODE_MS, tries: 0, user });
   const text = `Hi,\n\nYour code for ${SUBJECTS[kind]} is:\n\n    ${code.slice(0, 3)} ${code.slice(3)}\n\n`
     + "It works for 10 minutes. If you didn't ask for it, you can ignore this email: nobody gets in without the code.\n\n"
-    + `Kavana\n${PUBLIC_URL}\n`;
-  try { await mail.send(email, `${code} is your Kavana code`, text); } catch (e) {
+    + `Chataltul\n${PUBLIC_URL}\n`;
+  try { await mail.send(email, `${code} is your Chataltul code`, text); } catch (e) {
     console.log(`mail to ${email.split('@')[1]}: ${e.message}`);
     codes.delete(`${kind}:${email}`);
     return 'mail';
@@ -593,7 +593,7 @@ async function api(req, res, route) {
       if (!dev) return json(res, 401, { error: 'device' });
       if (limited(`test:${dev.id}`, 10, 60 * MIN)) return json(res, 429, { error: 'throttled' });
       hit(`test:${dev.id}`);
-      const r = await push.send(dev.d, { kind: 'test', tag: 'kavana-test', title: 'Kavana', body: 'Reminders are working.' }, sign).catch(() => ({ ok: false }));
+      const r = await push.send(dev.d, { kind: 'test', tag: 'kavana-test', title: 'Chataltul', body: 'Reminders are working.' }, sign).catch(() => ({ ok: false }));
       return json(res, 200, { sent: r.ok ? 1 : 0 });
     }
 
@@ -938,7 +938,7 @@ async function admin(req, res, route) {
     }
     case 'POST /admin/test-push': {
       if (!a) return json(res, 404, { error: 'no user' });
-      return json(res, 200, await notify(`a:${name}`, { kind: 'test', tag: 'kavana-test', title: 'Kavana', body: 'Reminders are working.' }));
+      return json(res, 200, await notify(`a:${name}`, { kind: 'test', tag: 'kavana-test', title: 'Chataltul', body: 'Reminders are working.' }));
     }
   }
   return json(res, 404, { error: 'not found' });

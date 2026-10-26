@@ -1,5 +1,5 @@
 'use strict';
-// Kavana's screens. The work happens in engine.js (on the doc in data.js); this draws it.
+// Chataltul's screens. The work happens in engine.js (on the doc in data.js); this draws it.
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 const E = window.Kavana;
@@ -72,7 +72,7 @@ const TEXT = {
     ? (standalone ? 'Reminders need iPadOS 16.4 or newer.' : 'Reminders work from the Home Screen app.')
     : "This browser can't show reminders.",
   denied: ios
-    ? 'Notifications are off for Kavana. Open the Settings app, tap Notifications, then Kavana, and turn on Allow Notifications.'
+    ? 'Notifications are off for Chataltul. Open the Settings app, tap Notifications, then Chataltul, and turn on Allow Notifications.'
     : "Notifications are blocked for this site. Allow them in the browser's site settings.",
 };
 
@@ -718,7 +718,7 @@ function renderHome() {
   const n = state.settings.interval;
   const tiny = minutes === 5 && !custom && !join;
   $('#start-hint').textContent = (m === 'stopwatch' && !join ? 'Counts up, for up to 3 hours. Tap Done when you are; after 10 minutes your kitten comes home. '
-    : tiny ? 'Just start. When it ends you can keep going. ' : '') + (!n || (tiny && m !== 'stopwatch') ? 'Kavana checks in once, at the end.'
+    : tiny ? 'Just start. When it ends you can keep going. ' : '') + (!n || (tiny && m !== 'stopwatch') ? 'Chataltul checks in once, at the end.'
     : s === 'nudge' ? `About every ${n} minutes it sends a short line to keep you going.`
     : `Every ${n} minutes it asks if you're still on it.`);
 
@@ -940,7 +940,7 @@ function renderRun() {
     stop.classList.toggle('cancel', grace > 0 && !a.nap);
     const parts = [];
     if (paused) parts.push(`Starts again by itself in ${fmtClock(a.pauseEnds - now())}`);
-    else if (a.over) parts.push('Kavana counts until you tap Done');
+    else if (a.over) parts.push('Chataltul counts until you tap Done');
     else if (!a.interval) parts.push('Check-in at the end');
     else if (a.style === 'nudge') parts.push(`Nudges about every ${a.interval} min`);
     else if (a.next && a.next > now()) parts.push(`Next check-in in ${minLeft(a.next - now())} min`);
@@ -996,7 +996,7 @@ function drawKitten(a, p, paused) {
     : paused ? `${c.name} waits for you. A pause lasts 5 minutes at most.`
     : a.mode === 'stopwatch' ? (now() - a.start - (a.end - a.start - a.total) < 600000 ? `Stay 10 minutes and ${c.name} can come home.` : `${c.name} can come home now. Tap Done when you're done.`)
     : stage === 'grown' ? `Almost there. ${c.name} is nearly grown up.`
-    : stage === 'nap' ? `${c.name} just arrived. Stay in Kavana and it grows.` : `${c.name} is growing. Stay with it.`;
+    : stage === 'nap' ? `${c.name} just arrived. Stay in Chataltul and it grows.` : `${c.name} is growing. Stay with it.`;
 }
 
 const growSize = (stage, p) => (stage === 'nap' ? 0.55 + 0.13 * (p / 0.25) : stage === 'kitten' ? 0.68 + 0.18 * ((p - 0.25) / 0.5)
@@ -1047,7 +1047,7 @@ async function askNap(block) {
     if (!b.gone && !(b.home && b.home <= g.broken.at) && D.act((doc, t) => E.napGone(doc, g.id, g.broken.at, g.broken.by, t))) {
       if (Sound.playing.includes('purr')) Sound.play(soundMix().filter((m) => m.id !== 'purr'));
       D.track('nap_gone', { why: g.broken.why });
-      toast(`${g.broken.by} ${g.broken.why === 'away' ? 'left Kavana' : 'stopped'}, so every kitten wandered off.`);
+      toast(`${g.broken.by} ${g.broken.why === 'away' ? 'left Chataltul' : 'stopped'}, so every kitten wandered off.`);
     }
   } else {
     if (b.nap !== g.id || (b.napN || 0) < others.length) {
@@ -1086,7 +1086,7 @@ async function joinNap(j) {
   refresh();
 }
 
-// Leaving Kavana in the middle of a block sends the kitten off, like Forest. A few seconds are
+// Leaving Chataltul in the middle of a block sends the kitten off, like Forest. A few seconds are
 // allowed (a glance at a notification). When you left is kept in the browser, in case the page was
 // closed by the time you come back.
 const AWAY_GRACE = 15000;
@@ -1097,10 +1097,10 @@ function leftKavana(e) {
     if (napBlock() === state.active.id) napSay('left', state.active.id);
     if (swReg && 'Notification' in window && Notification.permission === 'granted') {
       const c = K.byId(state.active.cat);
-      swReg.showNotification(`🐱 ${c.name} is waiting`, { body: `Come back to Kavana, or ${c.name} wanders off.`, tag: 'kavana-away', icon: 'icons/cat-boo.png', silent: true }).catch(() => {});
+      swReg.showNotification(`🐱 ${c.name} is waiting`, { body: `Come back to Chataltul, or ${c.name} wanders off.`, tag: 'kavana-away', icon: 'icons/cat-boo.png', silent: true }).catch(() => {});
     }
   }
-  if (e && e.type === 'pagehide') pref('leftHow', 'close'); // closing Kavana, not just switching away
+  if (e && e.type === 'pagehide') pref('leftHow', 'close'); // closing Chataltul, not just switching away
 }
 // A reload is never leaving, however long the page took to come back (a slow network, an update):
 // unfair losses are what upset people most in Forest.
@@ -1113,7 +1113,7 @@ function backInKavana(boot) {
   if (t && state && state.active && napBlock() === state.active.id) { const id = state.active.id; napSay('back', id).then(() => askNap(id)); }
   if (swReg && swReg.getNotifications) swReg.getNotifications({ tag: 'kavana-away' }).then((ns) => ns.forEach((x) => x.close())).catch(() => {});
   if (!t || now() - t <= AWAY_GRACE) return;
-  if (closed && D.doc.settings.closeCounts === false) return; // Settings: closing Kavana doesn't count
+  if (closed && D.doc.settings.closeCounts === false) return; // Settings: closing Chataltul doesn't count
   const gone = D.act((doc, n) => E.away(doc, t, n, AWAY_GRACE)); // a pause in between moves the start of the grace
   if (!gone) return;
   if (Sound.playing.includes('purr')) Sound.play(soundMix().filter((m) => m.id !== 'purr')); // the purring cat left too
@@ -1928,7 +1928,7 @@ async function turnOnReminders() {
   try { perm = await Notification.requestPermission(); } catch { perm = Notification.permission; }
   if (perm !== 'granted') {
     D.track('push_denied');
-    err.textContent = perm === 'denied' ? TEXT.denied : 'Kavana needs your OK to send reminders. Tap the button and choose Allow.';
+    err.textContent = perm === 'denied' ? TEXT.denied : 'Chataltul needs your OK to send reminders. Tap the button and choose Allow.';
     err.hidden = false;
     return;
   }
@@ -2044,8 +2044,8 @@ const accountTrouble = (ex, wrong) => {
     : why === 'taken' ? 'Another account has that email.'
     : why === 'mail' ? "Couldn't send the email just now. Try again in a minute."
     : why === 'password' ? 'Pick a password of at least 8 characters.'
-    : why === 'full' ? 'Kavana has all the accounts it can hold for now. Try again another day.'
-    : "Can't reach Kavana. Check your connection and try again.";
+    : why === 'full' ? 'Chataltul has all the accounts it can hold for now. Try again another day.'
+    : "Can't reach Chataltul. Check your connection and try again.";
 };
 $('#email-form').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -2311,9 +2311,9 @@ $('#room-share').addEventListener('click', async () => {
   const code = nap && nap.code;
   if (!code) return;
   const url = `${location.origin}${location.pathname}#room=${code}`;
-  const text = `Nap with me in Kavana: our kittens grow together. Room code ${code}`;
+  const text = `Nap with me in Chataltul: our kittens grow together. Room code ${code}`;
   try {
-    if (navigator.share) await navigator.share({ title: 'Kavana nap room', text, url });
+    if (navigator.share) await navigator.share({ title: 'Chataltul nap room', text, url });
     else { await navigator.clipboard.writeText(`${text}\n${url}`); toast('Copied. Send it to someone.'); }
   } catch {}
 });
@@ -2446,7 +2446,7 @@ $('#sounds').addEventListener('input', (e) => {
 $('#t-awake').addEventListener('click', async () => {
   if (Wake.on) { Wake.release(); pref('awake', '0'); }
   else if (await Wake.request()) { pref('awake', '1'); D.track('awake'); }
-  else toast("This device won't let Kavana keep the screen on.");
+  else toast("This device won't let Chataltul keep the screen on.");
   render();
 });
 $('#t-face').addEventListener('click', () => {
@@ -2664,7 +2664,7 @@ function saveDaily(change) {
   if (d.on && !d.days.length) d.days = [0, 1, 2, 3, 4, 5, 6]; // on with no days would never fire
   if (act((doc, t) => E.setSettings(doc, { daily: d }, t), "Couldn't save that.")) {
     D.track('daily', { on: d.on ? 1 : 0 });
-    toast(d.on ? `Kavana will remind you at ${d.time}.` : 'Daily reminder off.');
+    toast(d.on ? `Chataltul will remind you at ${d.time}.` : 'Daily reminder off.');
   }
 }
 $('#daily-on').addEventListener('change', (e) => saveDaily({ on: e.target.checked }));
@@ -2933,7 +2933,7 @@ async function shareCafe() {
   g.fillText(`My Cat Café · ${$('#cafe-now').textContent}`, pad, H + pad + 34 * scale);
   g.font = `400 ${15 * scale}px -apple-system, system-ui, sans-serif`;
   g.fillStyle = '#888';
-  g.fillText([...$$('#cafe-tiles > div')].slice(0, 3).map((t) => t.innerText.replace('\n', ' ')).join(' · ') + ' · Kavana', pad, H + pad + 58 * scale);
+  g.fillText([...$$('#cafe-tiles > div')].slice(0, 3).map((t) => t.innerText.replace('\n', ' ')).join(' · ') + ' · Chataltul', pad, H + pad + 58 * scale);
   const blob = await new Promise((ok) => canvas.toBlob(ok, 'image/png'));
   if (!blob) { toast("Couldn't make the picture."); return; }
   const file = new File([blob], 'my-cat-cafe.png', { type: 'image/png' });

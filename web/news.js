@@ -1,4 +1,4 @@
-// What's new in Kavana, newest first. `date` is when it shows up (an event's post shows from a week
+// What's new in Chataltul, newest first. `date` is when it shows up (an event's post shows from a week
 // before it starts); `go` is where "Take me there" goes.
 (function (root) {
 'use strict';
@@ -7,6 +7,11 @@ const NEWS = [
     id: 'winter-2026', date: '2026-12-08', title: 'Winter is coming to the café',
     body: 'From December 15 to January 5, Flurry the winter cat and four cozy things are in the shop: a fireplace, a snowman, a snow globe and a sled. What you get, you keep.',
     go: 'shop',
+  },
+  {
+    id: 'name-2026-10', date: '2026-10-25', title: 'Kavana is now Chataltul',
+    body: 'Chataltul (חתלתול) is Hebrew for kitten, the one that grows up while you focus. Same app, same café, and everything you had is still here. Pepper has a new name too: say hi to Milo, a black cat with gold eyes.',
+    go: 'cats',
   },
   {
     id: 'sounds-2026-10', date: '2026-10-25', title: 'Real sounds, and lots more of them',

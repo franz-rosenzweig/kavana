@@ -1,9 +1,9 @@
-// Runs on the Kavana page. The page sends a "kavana-block" event when a block starts, pauses, stops or
+// Runs on the Chataltul page. The page sends a "kavana-block" event when a block starts, pauses, stops or
 // ends; this keeps the latest one in the extension's storage, and background.js does the rest.
 'use strict';
 (() => {
   const api = globalThis.browser || globalThis.chrome;
-  const app = location.origin + location.pathname.replace(/[^/]*$/, ''); // the folder Kavana is in
+  const app = location.origin + location.pathname.replace(/[^/]*$/, ''); // the folder Chataltul is in
   const text = (v, n) => String(v == null ? '' : v).slice(0, n);
 
   window.addEventListener('kavana-block', (e) => {

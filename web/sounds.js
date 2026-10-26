@@ -1,4 +1,4 @@
-// Kavana's background sounds. Up to two play at once, each with its own volume, like Forest's ambient
+// Chataltul's background sounds. Up to two play at once, each with its own volume, like Forest's ambient
 // sounds. They're in groups, with at least one free in each; the others are in the shop
 // (E.SHOP 'sound-<id>'). All but brown and white noise are real recordings (web/audio/, CC0 from
 // Freesound; docs/sounds.md says where each one is from, and tools/fetch-sounds.py makes them),

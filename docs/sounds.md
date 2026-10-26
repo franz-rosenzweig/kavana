@@ -1,8 +1,8 @@
-<sub>[Kavana docs](README.md) › Using Kavana</sub>
+<sub>[Chataltul docs](README.md) › Using Chataltul</sub>
 
 # Sounds
 
-Kavana has 39 background sounds in seven groups: cats, rain and water, fire, outside, places, music and noise. One in each group is free (Purring, Rain, Sauna stove, Spring birds, Campus cafeteria, Wandering, and both noises), and the others are in the shop. All of them except brown noise and white noise are real recordings, and they all come from [Freesound](https://freesound.org). Every one is CC0, which means the people who recorded them gave them away to everyone, no strings attached. Nobody has to credit them for that, but I want to, so here's whose each one is.
+Chataltul has 39 background sounds in seven groups: cats, rain and water, fire, outside, places, music and noise. One in each group is free (Purring, Rain, Sauna stove, Spring birds, Campus cafeteria, Wandering, and both noises), and the others are in the shop. All of them except brown noise and white noise are real recordings, and they all come from [Freesound](https://freesound.org). Every one is CC0, which means the people who recorded them gave them away to everyone, no strings attached. Nobody has to credit them for that, but I want to, so here's whose each one is.
 
 ### Cats
 
@@ -85,8 +85,8 @@ For Birds I wanted a quiet garden in the morning, but every garden recording I t
 
 ## How they're made
 
-Each one is a stretch of the recording, from 9 seconds (Tomasina) to two minutes (the music), with its end blended into its start so it loops without a seam. For the purrs, the blend sits in the little pause between two breaths. They're all set to about the same loudness (the fires with lots of loud pops a bit quieter), so switching sounds doesn't make you jump. They're MP3s, from a fifth of a megabyte to two, and one only downloads the first time you pick it. Until it's there, or if you're offline, Kavana plays a version of something like it that it makes on the device, and the recording fades in once it arrives. The music has nothing like it, so it just starts when it's there.
+Each one is a stretch of the recording, from 9 seconds (Tomasina) to two minutes (the music), with its end blended into its start so it loops without a seam. For the purrs, the blend sits in the little pause between two breaths. They're all set to about the same loudness (the fires with lots of loud pops a bit quieter), so switching sounds doesn't make you jump. They're MP3s, from a fifth of a megabyte to two, and one only downloads the first time you pick it. Until it's there, or if you're offline, Chataltul plays a version of something like it that it makes on the device, and the recording fades in once it arrives. The music has nothing like it, so it just starts when it's there.
 
-`tools/fetch-sounds.py` makes them, and the picks are listed in it: which recording, where in it the loop starts and how long it is. So anyone can make them again, or swap one for another recording. [Developing Kavana](DEVELOPING.md) has the rest of how the code works.
+`tools/fetch-sounds.py` makes them, and the picks are listed in it: which recording, where in it the loop starts and how long it is. So anyone can make them again, or swap one for another recording. [Developing Chataltul](DEVELOPING.md) has the rest of how the code works.
 
 <sub>Back to [A focus block](focus-blocks.md)</sub>

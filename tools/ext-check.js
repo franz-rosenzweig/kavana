@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 'use strict';
-// Load the browser extension (extension/) unpacked in headless Chromium and try it against a Kavana:
+// Load the browser extension (extension/) unpacked in headless Chromium and try it against a Chataltul:
 // the welcome list on install, the Settings row, a block that turns the list on, the cat page on a
 // site on the list (and its subdomains), a site off the list left alone, adding to the list, the
-// toolbar popup, a pause moving the end, "Back to Kavana", stopping (the blocked tab opens its site),
-// and a block that ends while Kavana is closed. Screenshots of each go to the out dir.
-//   node tools/ext-check.js <Kavana on localhost, like http://localhost:8462/> <out dir>
+// toolbar popup, a pause moving the end, "Back to Chataltul", stopping (the blocked tab opens its site),
+// and a block that ends while Chataltul is closed. Screenshots of each go to the out dir.
+//   node tools/ext-check.js <Chataltul on localhost, like http://localhost:8462/> <out dir>
 // It runs its own Chromium in Docker (zenika/alpine-chrome, on the host network so localhost is the
 // sandbox) and removes it at the end. The page posts usage counts, so never point it at the live site.
 // EXT_DEVTOOLS=http://127.0.0.1:<port> drives a Chromium you started yourself instead, with a fresh
@@ -125,7 +125,7 @@ async function until(fn, ms = 5000) {
   const rules = () => list.js('return chrome.declarativeNetRequest.getDynamicRules()');
   const badgeText = () => list.js('return chrome.action.getBadgeText({})');
 
-  // 2. Kavana knows the extension is there.
+  // 2. Chataltul knows the extension is there.
   const k = await tab(APP, { width: 1280, height: 860 });
   await sleep(800);
   await k.js(`document.querySelector('#welcome-start')?.click(); await wait(300); if (!document.querySelector('#v-remind').hidden) document.querySelector('#remind-later').click(); await wait(300);`);
@@ -140,7 +140,7 @@ async function until(fn, ms = 5000) {
   const active = await k.js('return state.active && { end: state.active.end, id: state.active.cat, cat: K.byId(state.active.cat).name }');
   const st = await store();
   check('the page told the extension about the block', st.block && st.block.running && st.block.intention === 'Write the chapter' && st.block.end === active.end && st.block.cat.name === active.cat && st.block.cat.kitten === 'growing', st.block);
-  check('it remembers where Kavana is', st.app === `${app.origin}/`, st.app);
+  check('it remembers where Chataltul is', st.app === `${app.origin}/`, st.app);
   const r1 = await rules();
   check('one redirect rule for the default list', r1.length === 1 && r1[0].action.type === 'redirect' && r1[0].condition.requestDomains.length === 7, r1);
   check('the toolbar badge shows the minutes left', /^\d+$/.test(await badgeText()), await badgeText());
@@ -151,7 +151,7 @@ async function until(fn, ms = 5000) {
   await sleep(600);
   const boo = await yt.js(`return [document.querySelector('#title').textContent, document.querySelector('#site').textContent, document.querySelector('#intention').textContent, document.querySelector('#left').textContent]`);
   check('the cat page says who is growing', boo[0] === `Boo! ${active.cat} is growing.` && /^youtube\.com is on your list until /.test(boo[1]) && boo[2] === 'Write the chapter' && /min left$/.test(boo[3]), boo);
-  check('the kitten picture comes from Kavana', await yt.js(`await wait(300); const i = document.querySelector('#pic'); return i.complete && i.naturalWidth > 0 && i.src`) === `${app.origin}/cats/${active.id}-kitten-1.webp`);
+  check('the kitten picture comes from Chataltul', await yt.js(`await wait(300); const i = document.querySelector('#pic'); return i.complete && i.naturalWidth > 0 && i.src`) === `${app.origin}/cats/${active.id}-kitten-1.webp`);
   await yt.shot('ext-blocked');
   await yt.dark(true); await sleep(400); await yt.shot('ext-blocked-dark'); await yt.dark(false);
   const rd = await tab('https://old.reddit.com/r/all');
@@ -163,7 +163,7 @@ async function until(fn, ms = 5000) {
   // 5. The list: adding works during a block, removing waits.
   const add = (text) => list.js(`const i = document.querySelector('#site'); i.value = ${JSON.stringify(text)}; document.querySelector('#add').requestSubmit(); await wait(500); return document.querySelector('#err').textContent`);
   check('a bad site is refused', /doesn't look like a site/.test(await add('not a site')));
-  check('Kavana itself is refused', /Kavana itself/.test(await add(app.origin)));
+  check('Chataltul itself is refused', /Chataltul itself/.test(await add(app.origin)));
   check('a pasted address is added as its site', (await add('https://news.ycombinator.com/item?id=1')) === '' && (await store()).sites.includes('news.ycombinator.com'));
   check('the rule picks up the new site', (await until(async () => (await rules())[0]?.condition.requestDomains.includes('news.ycombinator.com'))) === true);
   check('Remove waits for the end of the block', await list.js(`return [...document.querySelectorAll('#sites button.x')].every(b => b.disabled) && document.querySelector('#status').textContent`).then((s) => /^A block is running until/.test(s)));
@@ -184,13 +184,13 @@ async function until(fn, ms = 5000) {
   await k.js(`D.act((doc, t) => E.resume(doc, t)); refresh(); await wait(500);`);
   check('resuming brings it back', (await store()).block.end === await k.js('return state.active.end'));
 
-  // 8. "Back to Kavana" switches to the Kavana tab.
+  // 8. "Back to Chataltul" switches to the Chataltul tab.
   const activeTabs = () => list.js(`return (await chrome.tabs.query({ active: true })).map(t => String(t.url))`);
   await yt.shot('ext-blocked'); // brings it to the front
   const before = await activeTabs();
   await yt.js(`document.querySelector('#back').click(); await wait(800);`);
   const after = await activeTabs();
-  check('"Back to Kavana" switches to the Kavana tab', !before.some((u) => u.includes(app.origin)) && after.some((u) => u.includes(app.origin)), { before, after });
+  check('"Back to Chataltul" switches to the Chataltul tab', !before.some((u) => u.includes(app.origin)) && after.some((u) => u.includes(app.origin)), { before, after });
   check('and leaves the cat page where it was', (await yt.url()).startsWith(`${EXTURL}blocked.html`));
   await yt.close();
 
@@ -205,16 +205,16 @@ async function until(fn, ms = 5000) {
   check('Remove works again', await list.js(`await wait(300); const b = [...document.querySelectorAll('#sites .row')].find(r => r.textContent.startsWith('127.0.0.1')).querySelector('button'); if (b.disabled) return false; b.click(); await wait(500); return !(await chrome.storage.local.get('sites')).sites.includes('127.0.0.1')`) === true);
   await other.close();
 
-  // 10. A block that ends while Kavana is closed: the extension's own alarm turns the list off.
+  // 10. A block that ends while Chataltul is closed: the extension's own alarm turns the list off.
   await k.js(`D.act((doc, t) => { const b = E.awaiting(doc); if (b) E.outcome(doc, b.id, null, t); }); refresh(); await wait(300);
     D.act((doc, t) => E.start(doc, { intention: 'Short one', minutes: 5 }, t - 5 * 60000 + 4000)); refresh(); await wait(500);`);
   check('a short block turns the list on', (await rules()).length === 1);
   await k.close();
-  check('the list goes off at its end with Kavana closed', await until(async () => (await rules()).length === 0 && (await badgeText()) === '', 12000) === true);
+  check('the list goes off at its end with Chataltul closed', await until(async () => (await rules()).length === 0 && (await badgeText()) === '', 12000) === true);
 
   const errors = [...list.errors, ...yt.errors, ...rd.errors, ...pop.errors, ...other.errors];
   check('no errors on the extension pages', errors.length === 0, errors);
-  check('no errors on the Kavana page', k.errors.length === 0, k.errors);
+  check('no errors on the Chataltul page', k.errors.length === 0, k.errors);
   ws.close();
   const failed = results.filter((x) => !x).length;
   console.log(`\n${results.length - failed} passed, ${failed} failed. Screenshots in ${OUT}`);

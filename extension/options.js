@@ -10,7 +10,7 @@ function draw() {
   $('#welcome').hidden = !location.search.includes('welcome');
   $('#status').textContent = on
     ? `A block is running until ${KX.clock(block.end)}${block.intention ? `: ${block.intention}` : ''}. Sites can come off the list when it's over.`
-    : 'No block running right now. Start one in Kavana, and these sites show a cat until it ends.';
+    : 'No block running right now. Start one in Chataltul, and these sites show a cat until it ends.';
   $('#open').href = app;
   const list = $('#sites');
   list.replaceChildren();
@@ -47,7 +47,7 @@ $('#add').addEventListener('submit', async (e) => {
   const s = KX.site($('#site').value);
   const err = $('#err');
   if (!s) { err.textContent = "That doesn't look like a site. Try something like reddit.com."; return; }
-  if (s === new URL(st.app).hostname) { err.textContent = "That's Kavana itself, which never gets blocked."; return; }
+  if (s === new URL(st.app).hostname) { err.textContent = "That's Chataltul itself, which never gets blocked."; return; }
   if (st.sites.includes(s)) { err.textContent = `${s} is on the list already.`; return; }
   if (st.sites.length >= KX.MAX_SITES) { err.textContent = `The list holds ${KX.MAX_SITES} sites at most.`; return; }
   err.textContent = '';

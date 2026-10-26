@@ -164,7 +164,7 @@ async function makePal() {
     { name: '15-signed-in', js: `{ const f = document.querySelector('#account-form'); f.name.value = ${JSON.stringify(me)}; f.password.value = 'walker password'; f.requestSubmit(); } await wait(2500); if (!document.querySelector('#v-remind').hidden) ${click('#remind-later')} ${click('[data-tab="settings"]')} await wait(700); return document.querySelector('#acct-title').textContent`, wait: 1200 },
   ]);
 
-  // 2. A finished block, Done, confetti, and meeting Pepper (first finished block).
+  // 2. A finished block, Done, confetti, and meeting Milo (first finished block).
   await device('meet', { ...ipad, standalone: true }, [
     { name: '1-outcome', js: `${skipIntro} ${finished('Read chapter 3')} ${visible}` },
     { name: '2-confetti', js: `${click('[data-out="done"]')} await wait(450); ${visible}`, wait: 150 },
@@ -377,7 +377,7 @@ async function makePal() {
   ]);
 
   // 4e. Napping together. You join Mira's block: her kitten grows in your ring. Then she leaves
-  // Kavana, and after the grace every kitten wanders off. And the other way: Ana joins yours, and you
+  // Chataltul, and after the grace every kitten wanders off. And the other way: Ana joins yours, and you
   // both make it to the end.
   const napOn = !ONLY || ONLY.some((x) => x.startsWith('nap'));
   if (napOn) {

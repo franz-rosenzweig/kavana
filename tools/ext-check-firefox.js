@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 'use strict';
 // The same idea as ext-check.js, in Firefox: install extension/ as a temporary add-on in headless
-// Firefox and try it against a Kavana on localhost (the welcome tab, the Settings row, the cat page,
+// Firefox and try it against a Chataltul on localhost (the welcome tab, the Settings row, the cat page,
 // adding to the list, and a stop opening the blocked site again). Screenshots go to the out dir.
-//   node tools/ext-check-firefox.js <Kavana on localhost, like http://localhost:8462/> <out dir>
+//   node tools/ext-check-firefox.js <Chataltul on localhost, like http://localhost:8462/> <out dir>
 // It runs geckodriver from the selenium/standalone-firefox image (about 1.5 GB) on the host network
 // and removes it at the end. System access is on so WebDriver can look inside the extension's pages.
 // Never point it at the live site.
@@ -66,7 +66,7 @@ function check(name, ok, got) {
   const base = u.replace(/blocked\.html.*/, '');
   await front();
   const boo = await js(`done([document.querySelector('#title').textContent, document.querySelector('#intention').textContent, document.querySelector('#pic').naturalWidth > 0 && document.querySelector('#pic').src])`);
-  check('the cat page says who is growing, with Kavana\'s picture', /^Boo! \w+ is growing\.$/.test(boo[0]) && boo[1] === 'Write the chapter' && boo[2].startsWith(`${app.origin}/cats/`), boo);
+  check('the cat page says who is growing, with Chataltul\'s picture', /^Boo! \w+ is growing\.$/.test(boo[0]) && boo[1] === 'Write the chapter' && boo[2].startsWith(`${app.origin}/cats/`), boo);
   await shot('ff-blocked');
 
   await go(`${base}options.html`);

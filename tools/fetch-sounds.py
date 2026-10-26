@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Make Kavana's recorded background sounds, web/audio/<id>-<n>.mp3, from CC0 recordings on Freesound.
+"""Make Chataltul's recorded background sounds, web/audio/<id>-<n>.mp3, from CC0 recordings on Freesound.
 
 Each pick in PICKS is one Freesound sound, where in it to start, and how long a loop to make. For each
 one this downloads the original (or Freesound's high-quality preview, without a sign-in), cuts the

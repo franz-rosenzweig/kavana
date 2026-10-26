@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Kavana",
-  "version": "0.1.1",
-  "description": "While a Kavana focus block runs, the sites on your list show a cat instead.",
+  "name": "Chataltul",
+  "version": "0.1.2",
+  "description": "While a Chataltul focus block runs, the sites on your list show a cat instead.",
   "homepage_url": "https://github.com/franz-rosenzweig/kavana/blob/master/docs/extension.md",
   "icons": { "16": "icons/icon-16.png", "32": "icons/icon-32.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
   "action": {
-    "default_title": "Kavana",
+    "default_title": "Chataltul",
     "default_popup": "popup.html",
     "default_icon": { "16": "icons/icon-16.png", "32": "icons/icon-32.png" }
   },
