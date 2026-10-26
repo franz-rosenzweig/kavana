@@ -9,6 +9,14 @@ const E = {};
 E.config = { MIN: 60000, KEEP: 2000, BYTES: 800000 };
 const M = () => E.config.MIN;
 const LINES = typeof module !== 'undefined' ? require('./lines.js') : root.KavanaLines;
+// A cat's name for the pings, from cats.js (looked up when it's needed: the page loads cats.js after this).
+// Without cats.js, the id with a capital.
+function catName(id) {
+  let K = null;
+  try { K = typeof module !== 'undefined' ? require('./cats.js') : root.KavanaCats; } catch {}
+  const c = K && K.CATS && K.CATS.find((x) => x.id === id);
+  return c ? c.name : id.charAt(0).toUpperCase() + id.slice(1);
+}
 
 const uid = () => {
   const b = new Uint8Array(9);
@@ -955,7 +963,7 @@ E.pings = (doc, now) => {
           actions: [{ action: 'yes', title: 'Yes' }, { action: 'drifted', title: 'Drifted' }],
         });
     }
-    const name = cat && b.cat ? b.cat.charAt(0).toUpperCase() + b.cat.slice(1) : 'Your kitten';
+    const name = cat && b.cat ? catName(b.cat) : 'Your kitten';
     const home = cat && !b.gone; // a kitten that already wandered off doesn't come home at the end
     if (b.overtime && !b.over) {
       out.push({ at: b.end, kind: 'end', tag: `kavana-${b.id}`, block: b.id, title: home ? `🐱 Time's up, and ${name} came home` : cat ? "🐱 Time's up" : "Time's up", body: `${said(b)}Chataltul keeps counting until you stop.` });

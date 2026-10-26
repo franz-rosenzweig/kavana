@@ -976,4 +976,14 @@ test('things and rewards a newer version added survive normalize and merge, and 
   assert.ok(E.owns(out, 'sound-from-the-future'));
 });
 
+test("the end ping uses the cat's own name, not its id", () => {
+  const t = Date.now();
+  for (const [cat, name] of [['pepper', 'Milo'], ['earl', 'Earl Grey'], ['miso', 'Miso']]) {
+    const doc = E.empty();
+    E.start(doc, { intention: 'Sketch', mode: 'stopwatch', cat }, t);
+    const end = E.pings(doc, t).find((p) => p.kind === 'end');
+    assert.equal(end.title, `🐱 Three hours! ${name} came home`);
+  }
+});
+
 console.log(`\n${n} passed`);
