@@ -18,7 +18,7 @@ The kitten arrives napping, curled up on its cushion in the middle of the ring. 
 
 **Stopwatch** works a bit differently, because there's no end set. The clock counts up (for up to three hours), and you tap **Done** when you're done. The kitten naps for the first 10 minutes, and that's the one rule: stop before 10 minutes and it wanders off, stop after and it comes home, with a treat for every minute. Forest's stopwatch works the same way.
 
-<p align="center"><img src="images/stopwatch.png" width="260" alt="A stopwatch block on a phone: Stopwatch, Sketch the logo, a painted kitten in the ring, 18:00 counting up, Started 8:05 PM, and Miso can come home now. Tap Done when you're done."></p>
+<p align="center"><img src="images/stopwatch.png" width="260" alt="A stopwatch block on a phone: Stopwatch, Sketch the logo, a painted kitten in the ring, 18:03 counting up, Started 1:34 PM, and Miso can come home now. Tap Done when you're done."></p>
 
 *A stopwatch block, past the 10 minutes.*
 
@@ -142,7 +142,7 @@ The page counts them like Forest counts its trees: how many you sponsored, how m
 
 All of these are under **Cats → Goals**, and **Goals** in the menu tells you how many of today's missions you've done ("1 of 3").
 
-<p align="center"><img src="images/goals.png" width="260" alt="Cats with Goals picked: the Starter Challenge with its steps and a Collect button, and this month's Focus Challenge, Bring kittens home on 20 days of the month"> <img src="images/achievements.png" width="260" alt="Achievements: gold medals for the collected ones and grey ones with progress bars, like Ten Hours In, 7 Days in a Row and The Long Haul"></p>
+<p align="center"><img src="images/goals.png" width="260" alt="Cats with Goals picked: the Starter Challenge with its steps and a Collect button, and this month's Focus Challenge, Bring kittens home on 20 days of the month"> <img src="images/achievements.png" width="260" alt="Achievements, 13 of 27: medals for the ones you've earned, each with a Collect button and its treats, like Open-Ended, Night Owl, A Friend and On a Mission"></p>
 
 *The Starter Challenge and this month's challenge, and the achievements.*
 
@@ -152,7 +152,7 @@ Missions are small goals that pay extra treats.
 
 Every day there are three new ones, and every week (starting Sunday) there's one bigger one. They change every day, but everybody gets the same ones on the same day, so you can race a friend if you want. Only blocks whose kitten came home count, on the day the block started. When you finish one, Chataltul says so ("Mission done: Bring 3 kittens home. 🐟 +15") and the treats are yours right away. One you don't finish just goes away at midnight, or on Sunday for the weekly one. No penalty.
 
-<p align="center"><img src="images/missions.png" width="260" alt="Cats with Missions picked: Today, Bring 3 kittens home with 2 of 3 and a progress bar, Finish a 50-minute block Done, Focus on 2 different tags Done, each with its treats, and This week, Bring kittens home on 4 days this week, 1 of 4"></p>
+<p align="center"><img src="images/missions.png" width="260" alt="Cats with Goals picked, scrolled to the missions: Today, Bring 2 kittens home and Finish a 50-minute block both Done, Park a thought in a block 0 of 1, each with its treats, and This week, Bring 12 kittens home this week, 5 of 12"></p>
 
 *Today's missions and this week's, two of them done.*
 

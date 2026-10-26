@@ -60,7 +60,7 @@ Forest has rankings, so Chataltul does too, and they're opt-in. **Rankings** is 
 
 Nobody's in either list until they say so: turn on **Be in the rankings** at the bottom of the page, and **Worldwide too** if you want, with a nickname. The worldwide list only ever shows the nickname, the minutes and the number of kittens, never your account name or what you worked on. Rankings need an account.
 
-<p align="center"><img src="images/rankings.png" width="260" alt="Rankings with Worldwide picked: This round ends in 3 days, a list with gold, silver and bronze medals, nicknames, kittens home and hours, and Be in the rankings and Worldwide too switched on"></p>
+<p align="center"><img src="images/rankings.png" width="260" alt="Rankings with Worldwide picked: This round ends in 6 days 19 hours, a list with gold, silver and bronze medals, nicknames, kittens home and hours, and Be in the rankings and Worldwide too switched on"></p>
 
 *The worldwide rankings.*
 

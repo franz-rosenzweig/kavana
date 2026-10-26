@@ -23,7 +23,7 @@ How often it asks is **Settings → Focus → Check in every**: 10, 15, 20, 30, 
 
 "Nudge me" doesn't ask anything. It sends a short line now and then, like "One thing at a time.", "Close the tab you just opened." or a quote ("If not now, when?" Hillel), at an uneven gap of roughly the same interval, so it doesn't feel like a metronome. In the app the line shows under the ring, and with Cat mode on, the cat pops up from the bottom of the screen and says it too. The quotes are only ones with a solid source, and the whole list is in `web/lines.js`.
 
-<p align="center"><img src="images/nudge.png" width="300" alt="A Nudge me block, Practice scales, with 15:56 in the ring, the line Bring it back, gently. under it, Nudges about every 15 min, and the cat peeking up from the bottom of the screen saying Bring it back, gently."></p>
+<p align="center"><img src="images/nudge.png" width="300" alt="A Nudge me block, Practice scales, with 15:57 in the ring, the line Stay with it a little longer. under it, Nudges about every 15 min, and the cat peeking up from the bottom of the screen saying Stay with it a little longer."></p>
 
 *A nudge, with Cat mode on.*
 

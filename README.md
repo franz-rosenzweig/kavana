@@ -101,15 +101,15 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 
 *A kitten nearly grown, the café over a month, and the shop.*
 
-<p align="center"><img src="docs/images/nudge.png" width="260" alt="A Nudge me block with the line Bring it back, gently. under the ring, and the cat peeking up from the bottom of the screen saying it too"> <img src="docs/images/park.png" width="260" alt="The Park a Thought sheet over a running block, with Find the photos from March typed in"> <img src="docs/images/disk.png" width="260" alt="The disk timer, a teal disk that shrinks as the time runs out, with the tools below it"></p>
+<p align="center"><img src="docs/images/nudge.png" width="260" alt="A Nudge me block, Practice scales, with 15:57 in the ring, the line Stay with it a little longer. under it, Nudges about every 15 min, and the cat peeking up from the bottom of the screen saying Stay with it a little longer."> <img src="docs/images/park.png" width="260" alt="The Park a Thought sheet over a running block, with Find the photos from March typed in"> <img src="docs/images/disk.png" width="260" alt="The disk timer, a teal disk with the kitten on it and 35:58 under it, Stop and Pause, and the tools: Park a thought, Sound, Screen on and Ring"></p>
 
 *A nudge, parking a thought, and the disk timer.*
 
-<p align="center"><img src="docs/images/outcome.png" width="260" alt="How did it go? under the café where Miso just came home, Done, Partly and Not really, +5 min and +10 min, Add a Note, Skip and Again"> <img src="docs/images/break.png" width="260" alt="The break screen: Stand up, stretch, get some water, with 07:59 in a mint ring and Miso sitting"> <img src="docs/images/breathe.png" width="260" alt="The breathing screen with a flower of overlapping circles and Breathe in"></p>
+<p align="center"><img src="docs/images/outcome.png" width="260" alt="How did it go? under the café where Miso just came home, Done, Partly and Not really, +5 min and +10 min, Add a Note, Skip and Again"> <img src="docs/images/break.png" width="260" alt="The break screen: Break, Stand up, stretch, get some water, 07:58 in a mint ring, and End"> <img src="docs/images/breathe.png" width="260" alt="The breathing screen: 1, 3 or 5 min, a flower of overlapping teal circles, Breathe in, Four seconds in, hold, out, hold. 4 rounds., and Leave and Sound"></p>
 
 *The end of a block, a break, and a minute of breathing.*
 
-<p align="center"><img src="docs/images/cats.png" width="260" alt="The Cats tab: You've met all 8 and adopted 1, painted portraits of the cats with Miso picked, and Milo, black with gold eyes"> <img src="docs/images/meet.png" width="260" alt="You met Biscuit! with a painted Siamese cat holding a cookie, Invite Biscuit Next and Nice!"> <img src="docs/images/confetti.png" width="260" alt="Paw-print confetti over the Focus tab right after Done, with Nice! 50 min of focus"></p>
+<p align="center"><img src="docs/images/cats.png" width="260" alt="The Cats tab: You've met all 8 and adopted 1, painted portraits of the cats with Miso picked, and Milo, black with gold eyes"> <img src="docs/images/meet.png" width="260" alt="You met Biscuit! with a painted Siamese cat holding a cookie, Invite Biscuit Next and Nice!"> <img src="docs/images/confetti.png" width="260" alt="Paw-print confetti over the Focus tab right after Done, with Nice! 25 min of focus."></p>
 
 *The Cats tab, meeting a new cat, and the paw confetti after Done.*
 

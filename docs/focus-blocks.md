@@ -52,11 +52,11 @@ Leaving Chataltul for more than about 15 seconds in the middle of a block (anoth
 
 *Afternoon, sunset, and stars at the end.*
 
-<p align="center"><img src="images/park.png" width="260" alt="The Park a Thought sheet over the running block, with Cancel and Park and Find the photos from March typed in"> <img src="images/disk.png" width="260" alt="The disk timer, a teal disk with the kitten on it and 35:48 under it, Stop and Pause, and the tools: Parked (1), Sound, Screen on and Ring"></p>
+<p align="center"><img src="images/park.png" width="260" alt="The Park a Thought sheet over the running block, with Cancel and Park and Find the photos from March typed in"> <img src="images/disk.png" width="260" alt="The disk timer, a teal disk with the kitten on it and 35:58 under it, Stop and Pause, and the tools: Park a thought, Sound, Screen on and Ring"></p>
 
 *Parking a thought, and the disk timer.*
 
-<p align="center"><img src="images/sounds.png" width="260" alt="The Sounds card over a running block: Pick up to two, Purring and Fireplace checked with a volume slider each, Rain, Brown noise and White noise free, Café and Fireplace from the shop, and Waves, Birds, Night and Wind with their prices"> <img src="images/paused.png" width="260" alt="A paused block, Read chapter 3, the ring in orange, Starts again by itself in 4:59, and Miso waits for you. A pause lasts 5 minutes at most."> <img src="images/extra.png" width="260" alt="Extra time: Write the intro, the grown cat in the ring, +03:33, Ended 1:18 PM, and a Done button"></p>
+<p align="center"><img src="images/sounds.png" width="260" alt="The Sounds card over a running block: Pick up to two, the sounds in groups, Cats with Purring checked and its volume slider, Slow purr, Deep purr, Sleepy purr and Tomasina from the shop, then Rain and water with Rain free and Light rain, Heavy rain and Thunderstorm from the shop"> <img src="images/paused.png" width="260" alt="A paused block, Read chapter 3, the ring in orange, 27:59, Paused, Miso waits for you. A pause lasts 5 minutes at most., and Starts again by itself in 04:58"> <img src="images/extra.png" width="260" alt="Extra time: Write the intro, the grown cat in the ring, +03:33, Ended 1:18 PM, and a Done button"></p>
 
 *Two sounds at once, a pause counting down, and extra time.*
 
@@ -66,7 +66,7 @@ Forest has a setting that keeps counting after the timer ends, and so does Chata
 
 You don't have to stay on the block. The menu is there while it runs too, so you can look at Later, the Café or Settings, and a little pill at the top of the screen, like a Live Activity, shows what you're working on and the time left. Tap it to go back to the block. And when Chataltul asks you something, like "Stop This Block?", it's a small alert in the middle of the screen, the same kind your phone or Mac shows.
 
-<p align="center"><img src="images/live.png" width="260" alt="The Later tab while a block runs, with a dark pill at the top: Draft the newsletter 35:46"> <img src="images/stop.png" width="260" alt="The alert Stop This Block? You can still say how it went, with Cancel and Stop, over the running block"></p>
+<p align="center"><img src="images/live.png" width="260" alt="The Later tab while a block runs, with a dark pill at the top: Draft the newsletter 35:50"> <img src="images/stop.png" width="260" alt="The alert Stop This Block? Miso will wander off. You can still say how it went., with Cancel and Stop, over the running block"></p>
 
 *The pill on another tab, and stopping a block early.*
 
@@ -90,7 +90,7 @@ After a block of ten minutes or more, the Focus tab offers one: "Nice work. Take
 
 **A mindful minute** (in the menu) is box breathing: four seconds in, hold, out, hold, with a flower that opens and closes, like the one on an Apple Watch. Pick **1 min**, **3 min** or **5 min** at the top, and **Sound** plays whatever you picked for your blocks, if you like. At the end it asks "Do you feel calmer?", and **Start Focusing** takes you straight to the Focus tab. **Leave** gets you out whenever you want.
 
-<p align="center"><img src="images/break.png" width="260" alt="The break screen: Break, Stand up, stretch, get some water, 07:59 in a mint ring, Miso sitting, and End"> <img src="images/breathe.png" width="260" alt="The breathing screen: a flower of overlapping teal circles, Breathe in, Four seconds in, hold, out, hold, and Leave and Sound"> <img src="images/mindful.png" width="260" alt="The end of a mindful minute: Do you feel calmer? What's next? Start Focusing and Home"></p>
+<p align="center"><img src="images/break.png" width="260" alt="The break screen: Break, Stand up, stretch, get some water, 07:58 in a mint ring, and End"> <img src="images/breathe.png" width="260" alt="The breathing screen: 1, 3 or 5 min, a flower of overlapping teal circles, Breathe in, Four seconds in, hold, out, hold. 4 rounds., and Leave and Sound"> <img src="images/mindful.png" width="260" alt="The end of a mindful minute: Do you feel calmer? What's next? Start Focusing and Home"></p>
 
 *A break, a mindful minute, and how it ends.*
 
