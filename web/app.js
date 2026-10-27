@@ -316,7 +316,7 @@ const Warp = window.KavanaWarp;
 let RIG = null;
 if (Warp) fetch('rig.json').then((r) => r.json()).then((j) => { RIG = j; if (state) render(); }).catch(() => {});
 const WARP_FILE = { portrait: '-1', kitten: '-kitten-1', nap: '-nap-1' };
-const canLive = (c, which) => Boolean(Warp && RIG && RIG[`${c.id}${WARP_FILE[which]}`]);
+const canLive = (c, which) => Boolean(Warp && RIG && RIG[`${c.id}${WARP_FILE[which]}`] && Warp.renderer().gl);
 // A living cat in a square box the size the painting would have (its canvas reaches past the box, for
 // room to hop). It starts once the box is on the page, so a sheet it sits in can count as on screen.
 function livingCat(c, which = 'portrait', o = {}) {

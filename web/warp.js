@@ -143,7 +143,7 @@ function renderer() {
   if (R) return R;
   const c = document.createElement('canvas'); c.width = c.height = 1024;
   const gl = c.getContext('webgl', { premultipliedAlpha: true, preserveDrawingBuffer: true, antialias: true });
-  if (!gl) return (R = { gl: null });
+  if (!gl) return (R = { gl: null, tex: new Map() }); // no WebGL: a cat draws its flat picture on the canvas
   const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; };
   const p = gl.createProgram();
   gl.attachShader(p, sh(gl.VERTEX_SHADER, 'attribute vec2 p;attribute vec2 uv;varying vec2 v;void main(){gl_Position=vec4(p,0.,1.);v=uv;}'));
