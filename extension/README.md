@@ -1,8 +1,8 @@
 <p align="center"><img src="icons/icon-128.png" width="72" alt=""></p>
 <h1 align="center">Chataltul for Chrome and Firefox</h1>
-<p align="center">While a Chataltul focus block runs, the sites on your list show a cat instead.</p>
+<p align="center">While a Chataltul focus block runs, the sites on your list show a cat instead, or every site but the ones you keep.</p>
 
-This is Chataltul's browser extension, the cat version of Forest's. Start a block in Chataltul, and YouTube, Reddit, X and the rest of your list show "Boo! Miso is growing." with what you're working on, how long is left, and a button back to Chataltul. When the block's over, the list switches itself off and the page you wanted opens by itself.
+This is Chataltul's browser extension, the cat version of Forest's. Start a block in Chataltul, and YouTube, Reddit, X and the rest of your list show "Boo! Miso is growing." with what you're working on, how long is left, and a button back to Chataltul. When the block's over, the list switches itself off and the page you wanted opens by itself. Or turn it around with **Every site except these**, and only the sites you keep open during a block.
 
 It doesn't need an account and it doesn't talk to any server. It hears about your blocks from the Chataltul page itself, so there's nothing to set up: install it, and the next block you start turns the list on.
 
@@ -22,7 +22,7 @@ The whole guide, with the list, the toolbar button, how it fits with the kitten 
 - `manifest.json`: Manifest V3, the same file for Chromium and Firefox.
 - `kavana.js` runs on the Chataltul page and keeps the latest `kavana-block` event in the extension's storage.
 - `background.js` turns the `declarativeNetRequest` redirect rule on and off, sets the alarm for the end of the block, and keeps the minutes left on the toolbar button. `common.js` is shared by it and the pages.
-- `blocked.html` is the cat page, `options.html` the list ("Sites to block") and `popup.html` the toolbar button, with `style.css` in Chataltul's colors.
+- `blocked.html` is the cat page, `options.html` the list ("Sites to block", or "Sites to keep") and `popup.html` the toolbar button, with `style.css` in Chataltul's colors.
 - `icons/` are drawn by `tools/make-icons.py`, and `icons/kitten.webp` is Miso's kitten painting from `web/cats/`, for when the cat page can't reach Chataltul.
 
 To check it in a real browser, run `node tools/ext-check.js http://localhost:<port>/ <out dir>` (headless Chromium) or `node tools/ext-check-firefox.js` (headless Firefox) against a sandbox Chataltul, never the live site.

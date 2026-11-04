@@ -55,7 +55,7 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 - **Napping together.** Join a friend's block, or anyone's with a room code, and your kittens grow up side by side in the same ring. If anyone leaves Chataltul or stops, every kitten wanders off, and if everybody stays, every kitten brings extra treats.
 - **Goals.** Three missions a day and one a week, a monthly focus challenge, a starter challenge for new people, and 27 achievements, all paying extra treats.
 - **Events.** Halloween week (October 25 to November 1) with a pumpkin cat, and winter (December 15 to January 5) with Flurry, each with things for the café, only in the shop that week.
-- **A browser extension.** While a block runs, the sites you drift to (YouTube, Reddit, X and the rest of your list) show a cat instead, "Boo! Miso is growing.", in Chrome, Edge, Brave or Firefox on a computer. See [The browser extension](docs/extension.md).
+- **A browser extension.** While a block runs, the sites you drift to (YouTube, Reddit, X and the rest of your list) show a cat instead, "Boo! Miso is growing.", in Chrome, Edge, Brave or Firefox on a computer. Or turn it around, and every site but the ones you keep shows the cat. See [The browser extension](docs/extension.md).
 - **Sixteen cats,** each painted: Miso, Milo, Mochi, Pickles, Noodle, Earl Grey, Biscuit and Boo you meet by focusing (your first block, an hour in all, three days in a row...), and Luna, Cocoa, Olive, Dumpling, Maple, Ziggy, Pumpkin and Flurry you adopt. [Cats](docs/cats.md) has all of them. Cat mode is on unless you turn it off, and the notifications get a 🐱 too.
 
 ### Around it

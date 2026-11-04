@@ -4,7 +4,8 @@
 // the welcome list on install, the Settings row, a block that turns the list on, the cat page on a
 // site on the list (and its subdomains), a site off the list left alone, adding to the list, the
 // toolbar popup, a pause moving the end, "Back to Chataltul", stopping (the blocked tab opens its site),
-// and a block that ends while Chataltul is closed. Screenshots of each go to the out dir.
+// a block that ends while Chataltul is closed, and "Every site except these" (the sites you keep).
+// Screenshots of each go to the out dir.
 //   node tools/ext-check.js <Chataltul on localhost, like http://localhost:8462/> <out dir>
 // It runs its own Chromium in Docker (zenika/alpine-chrome, on the host network so localhost is the
 // sandbox) and removes it at the end. The page posts usage counts, so never point it at the live site.
@@ -212,9 +213,48 @@ async function until(fn, ms = 5000) {
   await k.close();
   check('the list goes off at its end with Chataltul closed', await until(async () => (await rules()).length === 0 && (await badgeText()) === '', 12000) === true);
 
-  const errors = [...list.errors, ...yt.errors, ...rd.errors, ...pop.errors, ...other.errors];
+  // 11. "Every site except these": only the sites you keep (and Chataltul) open during a block.
+  // The list page notices the end of a block within 5 seconds (it checks that often).
+  await until(() => list.js(`return !document.querySelector('#mode button').disabled`), 8000);
+  const pick = (mode) => list.js(`const b = document.querySelector('#mode [data-mode="${mode}"]'); if (b.disabled) return 'disabled'; b.click(); await wait(500); return document.querySelector('#h1').textContent`);
+  check('switching to "Every site except these" shows the sites to keep', (await pick('except')) === 'Sites to keep' && (await store()).mode === 'except');
+  check('the keep list starts empty, and the block list is still there', await list.js(`return document.querySelector('#sites .empty')?.textContent`) === 'Nothing on the list yet.' && (await store()).sites.includes('news.ycombinator.com'));
+  check('with nothing kept, every site shows the cat', /every site shows a cat/.test(await list.js(`return document.querySelector('#status').textContent`)));
+  check('a site to keep is added', (await add('127.0.0.1')) === '' && (await store()).keep.join() === '127.0.0.1');
+  const k2 = await tab(APP, { width: 1280, height: 860 });
+  await sleep(800);
+  await k2.js(`D.act((doc, t) => { const b = E.awaiting(doc); if (b) E.outcome(doc, b.id, null, t); }); refresh(); await wait(300);
+    D.act((doc, t) => E.start(doc, { intention: 'Write the chapter', minutes: 25 }, t)); refresh(); await wait(800);`);
+  check('Chataltul itself still opens', (await k2.url()).startsWith(app.origin) && await k2.js('return Boolean(state.active)'));
+  const r2 = await until(async () => (await rules())[0]);
+  check('one rule for every site, without the kept ones', r2 && !r2.condition.requestDomains && r2.condition.excludedRequestDomains.join() === `${app.hostname},127.0.0.1`, r2);
+  const ex = await tab('https://example.org/news');
+  check('a site that isn\'t kept shows the cat page', await until(async () => (await ex.url()) === `${EXTURL}blocked.html#https://example.org/news`), await ex.url());
+  await sleep(600);
+  check('the cat page says only your sites open', /^Only the sites on your list open until /.test(await ex.js(`return document.querySelector('#site').textContent`)));
+  await ex.shot('ext-blocked-keep');
+  const kept = await tab(OTHER);
+  check('a kept site opens as usual', (await kept.url()) === OTHER, await kept.url());
+  check('during a block the choice waits, Add waits and Remove works', await list.js(`await wait(300); return [...document.querySelectorAll('#mode button')].every(b => b.disabled) && document.querySelector('#site').disabled && [...document.querySelectorAll('#sites button.x')].every(b => !b.disabled) && document.querySelector('#status').textContent`).then((x) => /can go on the list when it's over\.$/.test(x)));
+  check('the switch back is refused during a block', (await pick('only')) === 'disabled');
+  await list.js('window.scrollTo(0, 0)');
+  await list.shot('ext-list-keep');
+  await list.dark(true); await sleep(400); await list.shot('ext-list-keep-dark'); await list.dark(false);
+  const pop2 = await tab(`${EXTURL}popup.html`, { width: 320, height: 210 });
+  check('the popup counts the sites you keep', /Only 1 site open for \d+ min, until /.test(await pop2.js(`return document.querySelector('#sub').textContent`)), await pop2.js(`return document.querySelector('#sub').textContent`));
+  await pop2.close();
+  check('taking a site off the keep list closes it too', await list.js(`const b = document.querySelector('#sites button.x'); b.click(); await wait(500); return (await chrome.storage.local.get('keep')).keep.length === 0`) === true
+    && (await until(async () => (await rules())[0]?.condition.excludedRequestDomains.join() === app.hostname)) === true);
+  await kept.go(OTHER);
+  check('…so it shows the cat now', (await kept.url()).startsWith(`${EXTURL}blocked.html#`), await kept.url());
+  await k2.js(`D.act((doc, t) => E.stop(doc, t)); refresh(); await wait(300);`);
+  check('the stop turns it off and opens the page again', await until(async () => (await rules()).length === 0 && (await kept.url()) === OTHER) === true, await kept.url());
+  check('switching back to "Only these sites" keeps the block list', (await pick('only')) === 'Sites to block' && (await store()).sites.includes('news.ycombinator.com') && (await store()).mode === 'only');
+  await kept.close(); await ex.close();
+
+  const errors = [...list.errors, ...yt.errors, ...rd.errors, ...pop.errors, ...other.errors, ...ex.errors, ...kept.errors, ...pop2.errors];
   check('no errors on the extension pages', errors.length === 0, errors);
-  check('no errors on the Chataltul page', k.errors.length === 0, k.errors);
+  check('no errors on the Chataltul page', k.errors.length === 0 && k2.errors.length === 0, [...k.errors, ...k2.errors]);
   ws.close();
   const failed = results.filter((x) => !x).length;
   console.log(`\n${results.length - failed} passed, ${failed} failed. Screenshots in ${OUT}`);

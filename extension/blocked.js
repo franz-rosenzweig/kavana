@@ -28,7 +28,9 @@ function draw() {
     : cat.kitten === 'home' ? `Boo! ${cat.name} is home, and you're still going.`
       : cat.kitten === 'gone' ? 'Boo! Your block is still going.'
         : `Boo! ${cat.name} is growing.`;
-  $('#site').textContent = `${host || 'This site'} is on your list until ${KX.clock(block.end)}.`;
+  $('#site').textContent = st.mode === 'except'
+    ? `Only the sites on your list open until ${KX.clock(block.end)}.`
+    : `${host || 'This site'} is on your list until ${KX.clock(block.end)}.`;
   $('#on').hidden = !block.intention;
   $('#intention').textContent = block.intention;
   $('#left').textContent = `${KX.left(block.end - Date.now())} left`;

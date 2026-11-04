@@ -2,7 +2,7 @@
 :root {
   --tint: #2c8a7e; --tint-ink: #fff; --tint-soft: rgba(44, 138, 126, .14);
   --bg: #f2f2f7; --cell: #fff; --label: #000; --label2: rgba(60, 60, 67, .6); --sep: rgba(60, 60, 67, .2);
-  --fill: rgba(120, 120, 128, .12); --red: #ff3b30;
+  --fill: rgba(120, 120, 128, .12); --red: #ff3b30; --seg-on: #fff;
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color-scheme: light;
@@ -11,7 +11,7 @@
   :root {
     --tint: #5fd0c0; --tint-ink: #04201c; --tint-soft: rgba(95, 208, 192, .18);
     --bg: #000; --cell: #1c1c1e; --label: #fff; --label2: rgba(235, 235, 245, .6); --sep: rgba(84, 84, 88, .65);
-    --fill: rgba(120, 120, 128, .24); --red: #ff453a;
+    --fill: rgba(120, 120, 128, .24); --red: #ff453a; --seg-on: #636366;
     color-scheme: dark;
   }
 }
@@ -49,6 +49,11 @@ a { color: var(--tint); }
 .ghead { margin: 22px 16px 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .02em; color: var(--label2); }
 .gfoot { margin: 6px 16px 0; font-size: 13px; color: var(--label2); }
 .group { background: var(--cell); border-radius: 12px; overflow: hidden; }
+.seg { display: flex; gap: 2px; padding: 2px; border-radius: 10px; background: var(--fill); }
+.seg button { flex: 1; border: 0; border-radius: 8px; padding: 7px 10px; background: none; font-size: 14px; font-weight: 500; }
+.seg button[aria-checked="true"] { background: var(--seg-on); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); font-weight: 600; }
+.seg button:disabled { cursor: default; }
+.seg button:disabled:not([aria-checked="true"]) { opacity: .45; }
 .row { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 8px 6px 16px; }
 .row + .row, #sites + .row { border-top: .5px solid var(--sep); }
 .row .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
@@ -56,6 +61,7 @@ a { color: var(--tint); }
 .row button.x:disabled { color: var(--label2); opacity: .5; cursor: default; }
 .row input { flex: 1; border: 0; background: none; outline: none; min-width: 0; padding: 6px 0; }
 .row .add { border: 0; background: none; color: var(--tint); font-weight: 600; padding: 6px 10px; }
+.row .add:disabled, .row input:disabled { opacity: .45; cursor: default; }
 .empty { padding: 14px 16px; color: var(--label2); }
 .warn { margin: 14px 0; padding: 12px 14px; border-radius: 12px; background: rgba(255, 59, 48, .12); }
 .err { color: var(--red); min-height: 1.4em; margin: 6px 16px 0; font-size: 13px; }

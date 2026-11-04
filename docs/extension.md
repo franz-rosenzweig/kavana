@@ -4,6 +4,8 @@
 
 Forest has a browser extension that keeps you off the sites you drift to while a tree grows, and this is the cat version of it. While a focus block runs in Chataltul, the sites on your list show a cat instead: "Boo! Miso is growing.", with what you're working on, how long is left, and a button back to Chataltul. When the block's over, the list switches itself off, and any page the cat was standing in for opens by itself, so you can pick up where you left off.
 
+You can also turn it around: instead of a list of sites to block, a list of sites to keep, and the cat stands in for every other site. That's the way to say "only my work sites."
+
 It works on a computer in Chrome, Edge, Brave and the other Chromium browsers, and in Firefox 140 or newer and the browsers built on it, like Zen. It doesn't need an account and it doesn't talk to any server. It hears about your blocks from the Chataltul page itself, which means it works with my copy at stuffs.tiresia.xyz/kavana, and with a Chataltul on localhost while you work on the code.
 
 <p align="center"><img src="images/extension-blocked.png" width="330" alt="The cat page: a painted orange kitten, Boo! Miso is growing., youtube.com is on your list until 1:50 PM., a card with Write the chapter and 25 min left, and the buttons Back to Chataltul and Edit the list"> <img src="images/extension-blocked-dark.png" width="330" alt="The same cat page in dark mode"></p>
@@ -35,13 +37,27 @@ If Chataltul was already open in a tab, you don't have to reload it, the extensi
 
 Basically, you don't do anything different. Start a block in Chataltul the way you always do, and the list turns on until the block ends. Once the extension is there, Chataltul's **Settings** has a row, **Block sites while you focus**, that says **On**.
 
+At the top of the list, **The cat comes for** has two choices: **Only these sites**, the sites you block, which is how it starts, and **Every site except these**, the sites you keep (more on that one [below](#every-site-except-these)).
+
 The list starts with YouTube, Reddit, X, Twitter, Facebook, Instagram and TikTok. To change it, click **Edit the list** on the cat page or in the toolbar button. Type a site and press **Add**, like "news.ycombinator.com", or paste a whole address and it keeps just the site. A site covers its subdomains too, so reddit.com also blocks old.reddit.com and www.reddit.com. During a block you can ADD sites but you can't take any off, which is kind of the point. **Remove** comes back as soon as the block's over, and **Back to the default list** puts the starting list back.
 
-<p align="center"><img src="images/extension-list.png" width="420" alt="Sites to block: A block is running until 1:50 PM: Write the chapter. Sites can come off the list when it's over. The list youtube.com, reddit.com, x.com, twitter.com, facebook.com, instagram.com, tiktok.com and news.ycombinator.com, each with a grayed-out Remove, a field Add a site, like news.ycombinator.com, and Open Chataltul"> <img src="images/extension-popup.png" width="320" alt="The toolbar button's popup: Chataltul, the kitten, Miso is growing, Write the chapter. Blocking 8 sites for 25 min, until 1:50 PM., and the buttons Open Chataltul and Edit the list"></p>
+<p align="center"><img src="images/extension-list.png" width="420" alt="Sites to block: A block is running until 1:50 PM: Write the chapter. Sites can come off the list when it's over. The cat comes for, with Only these sites picked over Every site except these. The list youtube.com, reddit.com, x.com, twitter.com, facebook.com, instagram.com, tiktok.com and news.ycombinator.com, each with a grayed-out Remove, a field Add a site, like news.ycombinator.com, and Open Chataltul"> <img src="images/extension-popup.png" width="320" alt="The toolbar button's popup: Chataltul, the kitten, Miso is growing, Write the chapter. Blocking 8 sites for 25 min, until 1:50 PM., and the buttons Open Chataltul and Edit the list"></p>
 
 *The list during a block, and the toolbar button.*
 
 The toolbar button shows the minutes left during a block, and clicking it shows the kitten, what you're on and how long is left, with **Open Chataltul** and **Edit the list**. **Back to Chataltul** on the cat page switches to your Chataltul tab if one's open, or opens Chataltul right there.
+
+### Every site except these
+
+Pick **Every site except these** and the list becomes **Sites to keep**: the sites that stay open during a block, like docs.google.com, github.com or a dictionary. Every other site shows the cat, with "Only the sites on your list open until 1:50 PM." Chataltul itself always stays open. A site covers its subdomains here too, so keeping google.com keeps docs.google.com and mail.google.com.
+
+It works the other way around during a block, so it can only get stricter: you can take a site off the list, but you can't add one until the block's over. You also can't switch between the two choices in the middle of a block. So put your work sites on the list before you start. With nothing on the list, every site shows the cat.
+
+The two lists are kept apart, so switching back to **Only these sites** finds your block list the way you left it.
+
+<p align="center"><img src="images/extension-keep.png" width="380" alt="Sites to keep: A block is running until 1:50 PM: Write the chapter. Sites can go on the list when it's over. The cat comes for, with Every site except these picked. Open during a block: docs.google.com, github.com, wikipedia.org and dictionary.com, each with a red Remove, and a grayed-out field Add a site, like docs.google.com"> <img src="images/extension-keep-dark.png" width="380" alt="The same list of sites to keep in dark mode"></p>
+
+*Sites to keep during a block, in light and dark mode.*
 
 ## How it fits with the kitten
 
@@ -60,11 +76,11 @@ Opening a blocked site doesn't send the kitten off. You see the cat, you go back
 
 ## What it can see and keep
 
-It asks for access to all sites, which sounds like a lot, so here's why. Your list can be any site, and a browser only lets an extension put its own page in place of a site it has access to. It never reads the pages you visit. The only page it reads is Chataltul's, and only the little message Chataltul sends when a block starts, pauses, stops or ends: whether a block is running, when it ends, what you're working on, and the kitten. That, your list and Chataltul's address are kept in the browser's storage for the extension, on your computer. Nothing is sent anywhere. The kitten picture on the cat page comes from the Chataltul you use, and removing the extension removes everything it kept.
+It asks for access to all sites, which sounds like a lot, so here's why. Your list can be any site, and a browser only lets an extension put its own page in place of a site it has access to. It never reads the pages you visit. The only page it reads is Chataltul's, and only the little message Chataltul sends when a block starts, pauses, stops or ends: whether a block is running, when it ends, what you're working on, and the kitten. That, your two lists, which of them is in use, and Chataltul's address are kept in the browser's storage for the extension, on your computer. Nothing is sent anywhere. The kitten picture on the cat page comes from the Chataltul you use, and removing the extension removes everything it kept.
 
 ## For developers
 
-The extension is plain Manifest V3 with no build step, in [`extension/`](../extension/). The same folder loads in Chromium and Firefox: Chromium runs `background.js` as a service worker, and Firefox runs `common.js` and `background.js` as a background page. The Chataltul page sends a `kavana-block` event on `window` (in `tellExtension()` in `web/app.js`) with `{ running, end, intention, cat: { id, name, kitten } }`, and the extension's script on the page (`kavana.js`) keeps it in `storage.local`. Then `background.js` turns one `declarativeNetRequest` redirect rule on or off, for whole pages on the listed domains, with the address you wanted after the `#` of `blocked.html`. The script on the page says `kavana-extension` when it starts, and Chataltul answers with the block again, which is also how Settings knows the extension is there.
+The extension is plain Manifest V3 with no build step, in [`extension/`](../extension/). The same folder loads in Chromium and Firefox: Chromium runs `background.js` as a service worker, and Firefox runs `common.js` and `background.js` as a background page. The Chataltul page sends a `kavana-block` event on `window` (in `tellExtension()` in `web/app.js`) with `{ running, end, intention, cat: { id, name, kitten } }`, and the extension's script on the page (`kavana.js`) keeps it in `storage.local`. Then `background.js` turns one `declarativeNetRequest` redirect rule on or off, for whole pages on the listed domains (`requestDomains`), or with **Every site except these** for every whole page but the kept domains and Chataltul's (`excludedRequestDomains`), with the address you wanted after the `#` of `blocked.html`. The script on the page says `kavana-extension` when it starts, and Chataltul answers with the block again, which is also how Settings knows the extension is there.
 
 To run it with your own server, add your Chataltul's address to `content_scripts.matches` in `manifest.json` (and to `DEFAULT_APP` in `common.js` if you want **Open Chataltul** to go there before Chataltul was ever opened).
 
