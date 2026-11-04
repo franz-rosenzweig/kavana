@@ -10,19 +10,19 @@ let queue = Promise.resolve();
 const apply = () => (queue = queue.catch(() => {}).then(update));
 
 async function update() {
-  const { block, app, sites } = await KX.load();
-  const on = KX.running(block) && sites.length > 0;
+  const { block, app, sites, mode, keep } = await KX.load();
+  const except = mode === 'except';
+  const own = new URL(app).hostname; // never Chataltul itself
+  const on = KX.running(block) && (except || sites.length > 0);
   const rules = on ? [{
     id: RULE,
     priority: 1,
     // The address you wanted goes after the #, so the cat page can open it when the block is over.
     action: { type: 'redirect', redirect: { regexSubstitution: `${api.runtime.getURL('blocked.html')}#\\1` } },
-    condition: {
-      regexFilter: '^(.+)$',
-      requestDomains: sites,
-      excludedRequestDomains: [new URL(app).hostname], // never Chataltul itself
-      resourceTypes: ['main_frame'],
-    },
+    // 'only': the sites on the block list. 'except': every site, but the ones you keep.
+    condition: except
+      ? { regexFilter: '^(.+)$', excludedRequestDomains: [own, ...keep], resourceTypes: ['main_frame'] }
+      : { regexFilter: '^(.+)$', requestDomains: sites, excludedRequestDomains: [own], resourceTypes: ['main_frame'] },
   }] : [];
   await api.declarativeNetRequest.updateDynamicRules({ removeRuleIds: [RULE], addRules: rules });
   await api.alarms.clear('end');
@@ -49,7 +49,7 @@ async function inject() {
 }
 
 api.storage.onChanged.addListener((changes, area) => {
-  if (area === 'local' && (changes.block || changes.sites || changes.app)) apply();
+  if (area === 'local' && (changes.block || changes.sites || changes.app || changes.mode || changes.keep)) apply();
 });
 api.alarms.onAlarm.addListener(async (a) => {
   if (a.name === 'end') apply();

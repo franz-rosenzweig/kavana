@@ -28,13 +28,23 @@ const KX = {
   //   block  what the Chataltul page last said: { running, end, intention, cat, at }
   //   app    the Chataltul page that said it, for "Back to Chataltul"
   //   sites  the block list (missing until you change it, then the defaults are copied in)
+  //   mode   who the cat comes for: 'only' the sites on the block list (the default), or 'except', every
+  //          site but the ones in keep
+  //   keep   the sites that stay open in 'except' mode (empty: every site shows the cat)
   async load() {
-    const got = await api.storage.local.get(['block', 'app', 'sites']);
+    const got = await api.storage.local.get(['block', 'app', 'sites', 'mode', 'keep']);
     return {
       block: got.block || null,
       app: got.app || KX.DEFAULT_APP,
       sites: Array.isArray(got.sites) ? got.sites : KX.DEFAULT_SITES.slice(),
+      mode: got.mode === 'except' ? 'except' : 'only',
+      keep: Array.isArray(got.keep) ? got.keep : [],
     };
+  },
+
+  // "3 sites"
+  count(n) {
+    return `${n} site${n === 1 ? '' : 's'}`;
   },
 
   // A block counts while Chataltul says it runs and its end hasn't passed.

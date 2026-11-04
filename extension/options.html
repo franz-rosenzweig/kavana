@@ -11,12 +11,18 @@
 </head>
 <body>
 <main class="page">
-  <div class="head"><img src="icons/icon-128.png" alt=""><h1>Sites to block</h1></div>
+  <div class="head"><img src="icons/icon-128.png" alt=""><h1 id="h1">Sites to block</h1></div>
   <p id="welcome" hidden>The Chataltul extension is on. While a focus block runs in Chataltul, the sites below show a cat instead. Edit the list any time.</p>
   <p class="status" id="status"></p>
   <div class="warn" id="access" hidden>The extension can't reach the sites on your list right now. <button class="btn plain" id="allow">Allow</button></div>
 
-  <p class="ghead">Blocked during a block</p>
+  <p class="ghead">The cat comes for</p>
+  <div class="seg" id="mode" role="radiogroup" aria-label="The cat comes for">
+    <button type="button" role="radio" data-mode="only">Only these sites</button>
+    <button type="button" role="radio" data-mode="except">Every site except these</button>
+  </div>
+
+  <p class="ghead" id="ghead">Blocked during a block</p>
   <div class="group">
     <div id="sites"></div>
     <form class="row" id="add">

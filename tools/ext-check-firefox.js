@@ -2,7 +2,8 @@
 'use strict';
 // The same idea as ext-check.js, in Firefox: install extension/ as a temporary add-on in headless
 // Firefox and try it against a Chataltul on localhost (the welcome tab, the Settings row, the cat page,
-// adding to the list, and a stop opening the blocked site again). Screenshots go to the out dir.
+// adding to the list, a stop opening the blocked site again, and "Every site except these").
+// Screenshots go to the out dir.
 //   node tools/ext-check-firefox.js <Chataltul on localhost, like http://localhost:8462/> <out dir>
 // It runs geckodriver from the selenium/standalone-firefox image (about 1.5 GB) on the host network
 // and removes it at the end. System access is on so WebDriver can look inside the extension's pages.
@@ -88,6 +89,25 @@ function check(name, ok, got) {
   let back = '';
   for (let i = 0; i < 20 && back !== OTHER; i++) { await sleep(300); back = await url(); }
   check('the cat page opens its site by itself after the stop', back === OTHER, back);
+
+  // "Every site except these": only the kept sites (and Chataltul) open during a block.
+  await go(`${base}options.html`);
+  const keep = await js(`await wait(5500); document.querySelector('#mode [data-mode="except"]').click(); await wait(500);
+    const i = document.querySelector('#site'); i.value = '127.0.0.1'; document.querySelector('#add').requestSubmit(); await wait(700);
+    done([document.querySelector('#h1').textContent, (await browser.storage.local.get('keep')).keep.join()])`);
+  check('the list switches to the sites to keep, and keeps one', keep[0] === 'Sites to keep' && keep[1] === '127.0.0.1', keep);
+  await wd('POST', '/session/:s/window', { handle: kavana });
+  await go(APP);
+  check('a block starts with Chataltul open', await js(`location.hash = ''; await wait(600); const f = document.querySelector('#start'); f.intention.value = 'Write the chapter'; f.requestSubmit(); await wait(1500); done(${views})`) === 'v-run');
+  await wd('POST', '/session/:s/window', { handle: other });
+  await go('https://example.org/news');
+  check('a site that isn\'t kept shows the cat page', (await url()) === `${base}blocked.html#https://example.org/news`, await url());
+  await go(OTHER);
+  check('a kept site opens', (await url()) === OTHER, await url());
+  await wd('POST', '/session/:s/window', { handle: kavana });
+  check('the block stops', await js(`await wait(9000); document.querySelector('#stop').click(); await wait(500); if (!document.querySelector('#alert').hidden) document.querySelector('#alert [data-alert="1"]').click(); await wait(1500); done(${views})`) !== 'v-run');
+  await go(`${base}options.html`);
+  check('and the list goes back to "Only these sites"', await js(`await wait(700); document.querySelector('#mode [data-mode="only"]').click(); await wait(500); done(document.querySelector('#h1').textContent)`) === 'Sites to block');
 
   await wd('DELETE', '/session/:s');
   const failed = results.filter((x) => !x).length;
