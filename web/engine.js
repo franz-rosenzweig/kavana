@@ -28,6 +28,7 @@ E.clean = clean;
 E.STYLES = ['ask', 'nudge'];
 E.INTERVALS = [0, 10, 15, 20, 30, 45, 60];
 E.GOALS = [0, 30, 60, 90, 120, 180];
+E.POSTURE = [0, 10, 15, 20, 30, 45, 60]; // minutes between "Sit up straight" during a block; 0 is off
 E.MORE = [5, 10, 15, 20];
 E.BREAKS = [5, 10, 15];
 E.OUTCOMES = ['done', 'partly', 'notreally'];
@@ -94,7 +95,7 @@ E.empty = () => ({
   later: [],
   brk: null, brkU: 0,
   settings: {
-    interval: 15, style: 'ask', goal: 0, daily: { on: false, time: '09:00', days: [0, 1, 2, 3, 4, 5, 6] },
+    interval: 15, style: 'ask', goal: 0, posture: 0, daily: { on: false, time: '09:00', days: [0, 1, 2, 3, 4, 5, 6] },
     tz: '', share: 'off', friendPings: true, name: '', cat: true, companion: 'miso', catsSeen: null,
     tags: E.TAGS.slice(), tag: '', mode: 'timer',
     pause: 'five', overtime: false, closeCounts: true, lines: [], theme: 'classic',
@@ -898,6 +899,10 @@ E.setSettings = (doc, patch, now) => {
     if (!E.GOALS.includes(Number(patch.goal))) bad('goal');
     s.goal = Number(patch.goal);
   }
+  if ('posture' in patch) {
+    if (!E.POSTURE.includes(Number(patch.posture))) bad('posture');
+    s.posture = Number(patch.posture);
+  }
   if ('daily' in patch) {
     const d = patch.daily || {};
     if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(String(d.time))) bad('time');
@@ -945,6 +950,22 @@ E.setSettings = (doc, patch, now) => {
 };
 
 // ---------- what the server should send, and when ----------
+// "Sit up straight" during a block (settings.posture, in minutes; 0 is off): counted from the start and
+// moved back by pauses, like the check-ins. One that would come within 90 seconds of a check-in or a
+// nudge waits until 2 minutes after it, and none comes in the last minute of a block.
+E.postureTimes = (doc) => {
+  const every = Number(doc.settings.posture) || 0;
+  const b = E.running(doc);
+  if (!every || !b || b.paused) return [];
+  const asks = b.plan.map((p) => p.at).concat(b.checkins.map((c) => c.at));
+  const out = [];
+  for (let t = b.start + (b.pausedTotal || 0) + every * M(); t < b.end - M(); t += every * M()) {
+    const near = asks.find((a) => Math.abs(a - t) < 1.5 * M());
+    const at = near ? near + 2 * M() : t;
+    if (at < b.end - M()) out.push(Math.round(at));
+  }
+  return out;
+};
 // Cat mode (on unless turned off) gives the pings a cat and a "Boo!".
 // A block's title at the start of a notification's line, if it has one (the title is optional).
 const said = (b) => (b.intention ? `${b.intention}. ` : '');
@@ -962,6 +983,11 @@ E.pings = (doc, now) => {
           title: `${cat ? '🐱 Boo! ' : ''}${b.intention ? `Still on: ${b.intention}?` : 'Still focusing?'}`, body: `${Math.max(1, Math.round((b.end - p.at) / M()))} min left. Tap to answer.`,
           actions: [{ action: 'yes', title: 'Yes' }, { action: 'drifted', title: 'Drifted' }],
         });
+    }
+    const sitter = cat && b.cat ? catName(b.cat) : null;
+    for (const at of E.postureTimes(doc)) {
+      if (at <= now) continue;
+      out.push({ at, kind: 'posture', tag: 'kavana-posture', block: b.id, title: cat ? '🐱 Sit up straight' : 'Sit up straight', body: sitter ? `${sitter} is sitting up tall. Your turn.` : 'Shoulders back, feet on the floor.' });
     }
     const name = cat && b.cat ? catName(b.cat) : 'Your kitten';
     const home = cat && !b.gone; // a kitten that already wandered off doesn't come home at the end

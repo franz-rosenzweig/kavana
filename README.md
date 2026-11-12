@@ -41,6 +41,7 @@ I wanted it on an iPad without going through the App Store, which is why it's a 
 - **Reminders with the app closed.** The check-ins arrive as notifications, on an iPhone or iPad from the Home Screen app, on Android, and in browsers on a computer. On Android the notification has **Yes** and **Drifted** buttons.
 ### While you work
 - **A sky that goes by with you.** Start dives into the window, and the block fills the screen with a sky that goes from afternoon to sunset to stars as the time runs out, the kitten growing in the ring in the middle, with round **Stop** and **Pause** buttons. Open the menu for anything else, and a little pill at the top keeps the block in view, like a Live Activity.
+- **Sit up straight.** Every 20 minutes, or however often you pick, the cat reminds you to sit up during a block (Settings → Focus → Sit up straight; it's off until you turn it on).
 - **Pause, and park a thought.** A pause holds the clock and the check-ins for up to 5 minutes, like Forest's (or turn pausing off). A thought you park is written down so it stops pulling at you, and it waits for you on your Later list.
 - **Count extra time** if you like: when the time is up the block keeps counting until you tap Done.
 - **Background sound.** A purring cat, rain, brown noise and white noise, plus a café, a fireplace, waves, birds, crickets and wind from the shop, two at a time with their own volumes. All made on the device, so there's nothing to download.
