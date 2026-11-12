@@ -27,6 +27,10 @@ How often it asks is **Settings → Focus → Check in every**: 10, 15, 20, 30, 
 
 *A nudge, with Cat mode on.*
 
+## Sit up straight
+
+The cat can remind me to sit up straight while I work. **Settings → Focus → Sit up straight** sets how often during a block: every 10, 15, 20, 30, 45 or 60 minutes, or Off, which is how it starts. It comes as a notification, "🐱 Sit up straight" ("Miso is sitting up tall. Your turn."), and when Chataltul is in front, the cat pops up from the bottom of the screen and says it. It's counted from the start of the block and held by a pause like the check-ins. If one would land on a check-in, it waits two minutes so the two don't come at once, and none comes in the last minute of a block.
+
 ## The notifications
 
 The check-ins arrive as notifications, so they reach you while Chataltul is closed or you're in another app, as long as reminders are on for that device (see [Install](install.md#turn-on-reminders)). A check-in says "Still on: Draft the newsletter?" with how many minutes are left, and the end of a block says "How did it go?".

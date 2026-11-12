@@ -986,4 +986,33 @@ test("the end ping uses the cat's own name, not its id", () => {
   }
 });
 
+test('"Sit up straight": off unless chosen, out of the way of check-ins, held by a pause, sent as pings', () => {
+  const d = E.empty();
+  assert.equal(d.settings.posture, 0);
+  E.start(d, { intention: 'Write', minutes: 50, style: 'ask' }, t); // check-ins at 15, 30 and 45
+  assert.deepEqual(E.postureTimes(d), []);
+  assert.throws(() => E.setSettings(d, { posture: 7 }, t));
+  E.setSettings(d, { posture: 20 }, t);
+  assert.deepEqual(E.postureTimes(d).map((x) => (x - t) / MIN), [20, 40]);
+  E.setSettings(d, { posture: 15 }, t); // each one lands on a check-in, so it waits 2 minutes
+  assert.deepEqual(E.postureTimes(d).map((x) => (x - t) / MIN), [17, 32, 47]);
+  const sit = E.pings(d, at(1)).filter((p) => p.kind === 'posture');
+  assert.equal(sit.length, 3);
+  assert.equal(sit[0].title, '🐱 Sit up straight');
+  assert.equal(sit[0].body, `${require('../web/cats.js').CATS.find((c) => c.id === E.running(d).cat).name} is sitting up tall. Your turn.`);
+  assert.equal(E.pings(d, at(18)).filter((p) => p.kind === 'posture').length, 2);
+  E.setSettings(d, { cat: false }, at(1));
+  assert.deepEqual(E.pings(d, at(1)).filter((p) => p.kind === 'posture').map((p) => [p.title, p.body])[0], ['Sit up straight', 'Shoulders back, feet on the floor.']);
+
+  const e = E.empty();
+  E.setSettings(e, { posture: 20, interval: 0 }, t);
+  E.start(e, { intention: 'x', minutes: 41, style: 'ask' }, t);
+  assert.deepEqual(E.postureTimes(e).map((x) => (x - t) / MIN), [20]); // 40 is in the last minute
+  E.pause(e, at(10));
+  assert.deepEqual(E.postureTimes(e), []);
+  E.resume(e, at(13));
+  assert.deepEqual(E.postureTimes(e).map((x) => (x - t) / MIN), [23]); // the end moved to 44, so 43 is in the last minute again
+  assert.equal(E.normalize(JSON.parse(JSON.stringify(e))).settings.posture, 20); // it syncs
+});
+
 console.log(`\n${n} passed`);

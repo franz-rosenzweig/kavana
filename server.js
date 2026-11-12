@@ -186,7 +186,7 @@ async function notify(owner, payload) {
 }
 
 // Pings from a browser (no account): checked and trimmed, kept only until they're sent.
-const KINDS = ['checkin', 'nudge', 'end', 'break-over'];
+const KINDS = ['checkin', 'nudge', 'posture', 'end', 'break-over'];
 function cleanPings(list, now) {
   return (Array.isArray(list) ? list : []).filter((p) => p && KINDS.includes(p.kind) && p.at > now - MIN && p.at < now + 8 * 60 * MIN)
     .slice(0, LIMITS.pings).map((p) => {

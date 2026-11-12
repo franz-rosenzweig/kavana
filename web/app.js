@@ -1681,6 +1681,7 @@ function renderSettings() {
   show('settings');
   const s = state.settings;
   $('#interval').value = String(s.interval);
+  $('#posture-select').value = String(s.posture || 0);
   $('#goal-select').value = String(s.goal || 0);
   $('#cat-on').checked = s.cat !== false;
   $('#companion-name').textContent = catsOn() ? companion().name : 'Off';
@@ -2621,6 +2622,7 @@ function setting(patch, track, quiet) {
   if (!quiet) toast('Saved.');
 }
 $('#interval').addEventListener('change', (e) => setting({ interval: Number(e.target.value) }));
+$('#posture-select').addEventListener('change', (e) => setting({ posture: Number(e.target.value) }));
 $('#tag-add').addEventListener('submit', (e) => {
   e.preventDefault();
   const v = e.target.text.value.trim();
@@ -3069,8 +3071,21 @@ D.onChange(() => {
   if (D.syncTrouble && D.syncTrouble !== syncTroubleSaid) toast("Couldn't sync: this device's history is too big for the server.");
   syncTroubleSaid = D.syncTrouble;
 });
+// "Sit up straight" while Chataltul is in front: the cat pops up and says it (a notification covers the rest).
+// Only for one that just came due, not ones that went by while the page was closed.
+let postureSeen = null;
+function postureCheck() {
+  const t = now();
+  const due = E.postureTimes(D.doc).filter((x) => x <= t).pop() || 0;
+  if (postureSeen === null || due < postureSeen) { postureSeen = due; return; }
+  if (due === postureSeen) return;
+  postureSeen = due;
+  if (t - due > 30000 || document.hidden) return;
+  chime(true);
+  if (catsOn()) cat('Sit up straight.'); else toast('Sit up straight.');
+}
 // Once a second: check-ins coming due, the end of a block, the Live Activity clock.
-setInterval(() => { if (D.tick()) refresh(); else paintLive(); }, 1000);
+setInterval(() => { if (D.tick()) refresh(); else paintLive(); postureCheck(); }, 1000);
 setInterval(() => { if (!document.hidden && D.account) D.pull(); }, 30000);
 // Napping together: every 5 s while a block runs, every 30 s for one that just ended.
 let napLast = 0;
